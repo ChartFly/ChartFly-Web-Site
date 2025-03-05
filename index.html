@@ -23,24 +23,16 @@
         }
         .container {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            justify-content: center;
             width: 90%;
-            gap: 40px;
+            gap: 20px;
         }
-        .table-container, .glossary-container {
+        .table-container {
             padding: 15px;
             background: white;
             border: 1px solid #ddd;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            min-width: 300px;
-        }
-        .table-container {
-            width: 35%;
-        }
-        .glossary-container {
-            width: 60%;
+            width: 80%;
         }
         table {
             width: 100%;
@@ -57,25 +49,13 @@
             background: #333;
             color: white;
         }
-        dl {
-            text-align: left;
+        .reason-column {
+            width: 10%; /* Keep the original size */
+            word-wrap: break-word;
         }
-        dt {
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        dd {
-            margin-left: 15px;
-            margin-bottom: 5px;
-        }
-        @media (max-width: 900px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .table-container, .glossary-container {
-                width: 90%;
-            }
+        .definition-column {
+            width: 60%; /* Increase the width for better readability */
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -88,44 +68,43 @@
                 <thead>
                     <tr>
                         <th>Stock</th>
-                        <th>Reason</th>
+                        <th class="reason-column">Reason</th>
+                        <th class="definition-column">Definition</th>
                         <th>Time Halted</th>
                     </tr>
                 </thead>
                 <tbody id="halted-stocks">
-                    <tr><td colspan="3">Loading halted stocks...</td></tr>
+                    <tr><td colspan="4">Loading halted stocks...</td></tr>
                 </tbody>
             </table>
         </div>
-        <div class="glossary-container">
-            <h2>Glossary of Reason Codes</h2>
-            <dl>
-                <dt>T1</dt><dd>Trading halted pending the release of significant (or material) news.</dd>
-                <dt>T2</dt><dd>Trading halted to allow investors to assimilate news released.</dd>
-                <dt>T3</dt><dd>News and resumption times; trading set to resume at specified times.</dd>
-                <dt>T5</dt><dd>Single stock trading pause due to rapid price movement.</dd>
-                <dt>T6</dt><dd>Extraordinary market activity likely caused by system misuse or malfunction.</dd>
-                <dt>T8</dt><dd>Trading halted in an ETF due to underlying security issues.</dd>
-                <dt>T12</dt><dd>Trading halted pending receipt of additional information requested by NASDAQ.</dd>
-                <dt>H4</dt><dd>Trading halted due to non-compliance with listing requirements.</dd>
-                <dt>H9</dt><dd>Trading halted because the company is not current in its required filings.</dd>
-                <dt>H10</dt><dd>Trading halted due to non-compliance with listing requirements.</dd>
-                <dt>H11</dt><dd>Trading halted in conjunction with another exchange for regulatory reasons.</dd>
-                <dt>LUDP</dt><dd>Volatility trading pause.</dd>
-                <dt>LUDS</dt><dd>Volatility trading pause - straddle condition.</dd>
-                <dt>MWC0</dt><dd>Market-wide circuit breaker halt - carry over from previous day.</dd>
-                <dt>MWC1</dt><dd>Market-wide circuit breaker halt - Level 1.</dd>
-                <dt>MWC2</dt><dd>Market-wide circuit breaker halt - Level 2.</dd>
-                <dt>MWC3</dt><dd>Market-wide circuit breaker halt - Level 3.</dd>
-                <dt>O1</dt><dd>Operations halt; contact market operations.</dd>
-                <dt>IPO1</dt><dd>Initial Public Offering (IPO) issue not yet trading.</dd>
-                <dt>M</dt><dd>Volatility trading pause due to rapid price movement beyond acceptable limits.</dd>
-                <dt>M1</dt><dd>Trading halted due to a corporate action.</dd>
-                <dt>M2</dt><dd>Quotation not available.</dd>
-            </dl>
-        </div>
     </div>
     <script>
+        const reasonDefinitions = {
+            "T1": "Trading halted pending the release of significant (or material) news.",
+            "T2": "Trading halted to allow investors to assimilate news released.",
+            "T3": "News and resumption times; trading set to resume at specified times.",
+            "T5": "Single stock trading pause due to rapid price movement.",
+            "T6": "Extraordinary market activity likely caused by system misuse or malfunction.",
+            "T8": "Trading halted in an ETF due to underlying security issues.",
+            "T12": "Trading halted pending receipt of additional information requested by NASDAQ.",
+            "H4": "Trading halted due to non-compliance with listing requirements.",
+            "H9": "Trading halted because the company is not current in its required filings.",
+            "H10": "Trading halted due to non-compliance with listing requirements.",
+            "H11": "Trading halted in conjunction with another exchange for regulatory reasons.",
+            "LUDP": "Volatility trading pause.",
+            "LUDS": "Volatility trading pause - straddle condition.",
+            "MWC0": "Market-wide circuit breaker halt - carry over from previous day.",
+            "MWC1": "Market-wide circuit breaker halt - Level 1.",
+            "MWC2": "Market-wide circuit breaker halt - Level 2.",
+            "MWC3": "Market-wide circuit breaker halt - Level 3.",
+            "O1": "Operations halt; contact market operations.",
+            "IPO1": "Initial Public Offering (IPO) issue not yet trading.",
+            "M": "Volatility trading pause due to rapid price movement beyond acceptable limits.",
+            "M1": "Trading halted due to a corporate action.",
+            "M2": "Quotation not available."
+        };
+
         async function fetchHaltedStocks() {
             try {
                 let response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts"));
@@ -140,7 +119,7 @@
                 tableBody.innerHTML = ""; 
                 
                 if (items.length === 0) {
-                    tableBody.innerHTML = "<tr><td colspan='3'>No active trading halts.</td></tr>";
+                    tableBody.innerHTML = "<tr><td colspan='4'>No active trading halts.</td></tr>";
                     return;
                 }
                 
@@ -149,12 +128,20 @@
                     let description = item.getElementsByTagName("description")[0]?.textContent || "N/A";
                     let pubDate = item.getElementsByTagName("pubDate")[0]?.textContent || "N/A";
                     
-                    let row = `<tr><td>${title}</td><td>${description}</td><td>${pubDate}</td></tr>`;
+                    let reasonCode = description.split(' ')[0].trim();
+                    let reasonDefinition = reasonDefinitions[reasonCode] || "Definition not available";
+                    
+                    let row = `<tr>
+                        <td>${title}</td>
+                        <td>${reasonCode}</td>
+                        <td>${reasonDefinition}</td>
+                        <td>${pubDate}</td>
+                    </tr>`;
                     tableBody.innerHTML += row;
                 }
             } catch (error) {
                 console.error("Error fetching halted stocks:", error);
-                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='3'>Failed to load data.</td></tr>";
+                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='4'>Failed to load data.</td></tr>";
             }
         }
         
