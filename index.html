@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halted Stocks Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Halted Stocks Tracker</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Stock</th>
+                <th>Reason</th>
+                <th>Time Halted</th>
+            </tr>
+        </thead>
+        <tbody id="halted-stocks">
+            <tr>
+                <td>ABC</td>
+                <td>Volatility Halt</td>
+                <td>09:30 AM</td>
+            </tr>
+            <tr>
+                <td>XYZ</td>
+                <td>News Pending</td>
+                <td>10:15 AM</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function refreshData() {
+            // Placeholder function for future real data fetching
+            console.log("Refreshing halted stocks...");
+        }
+        setInterval(refreshData, 60000); // Refresh every 60 seconds
+    </script>
+</body>
+</html>
