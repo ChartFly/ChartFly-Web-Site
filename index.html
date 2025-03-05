@@ -47,8 +47,9 @@
     <script>
         async function fetchHaltedStocks() {
             try {
-                let response = await fetch("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts");
-                let text = await response.text();
+                let response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts"));
+                let data = await response.json();
+                let text = data.contents;
                 
                 let parser = new DOMParser();
                 let xml = parser.parseFromString(text, "text/xml");
@@ -57,16 +58,22 @@
                 let tableBody = document.getElementById("halted-stocks");
                 tableBody.innerHTML = ""; // Clear previous data
                 
+                if (items.length === 0) {
+                    tableBody.innerHTML = "<tr><td colspan='3'>No active trading halts.</td></tr>";
+                    return;
+                }
+                
                 for (let item of items) {
-                    let title = item.getElementsByTagName("title")[0].textContent;
-                    let description = item.getElementsByTagName("description")[0].textContent;
-                    let pubDate = item.getElementsByTagName("pubDate")[0].textContent;
+                    let title = item.getElementsByTagName("title")[0]?.textContent || "N/A";
+                    let description = item.getElementsByTagName("description")[0]?.textContent || "N/A";
+                    let pubDate = item.getElementsByTagName("pubDate")[0]?.textContent || "N/A";
                     
                     let row = `<tr><td>${title}</td><td>${description}</td><td>${pubDate}</td></tr>`;
                     tableBody.innerHTML += row;
                 }
             } catch (error) {
                 console.error("Error fetching halted stocks:", error);
+                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='3'>Failed to load data.</td></tr>";
             }
         }
         
