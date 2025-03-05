@@ -25,13 +25,19 @@
             display: flex;
             justify-content: flex-start;
             width: 90%;
-            gap: 40px; /* Added spacing between sections */
+            gap: 40px;
+        }
+        .table-container, .glossary-container {
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         }
         .table-container {
-            width: 25%; /* Further reduced size */
+            width: 30%;
         }
         .glossary-container {
-            width: 65%;
+            width: 60%;
         }
         table {
             width: 100%;
@@ -42,7 +48,7 @@
             border: 1px solid #ddd;
             padding: 6px;
             text-align: left;
-            font-size: 12px; /* Ensures no less than 12px */
+            font-size: 12px;
         }
         th {
             background: #333;
@@ -119,7 +125,7 @@
                 let items = xml.getElementsByTagName("item");
                 
                 let tableBody = document.getElementById("halted-stocks");
-                tableBody.innerHTML = ""; // Clear previous data
+                tableBody.innerHTML = ""; 
                 
                 if (items.length === 0) {
                     tableBody.innerHTML = "<tr><td colspan='3'>No active trading halts.</td></tr>";
@@ -140,8 +146,8 @@
             }
         }
         
-        fetchHaltedStocks(); // Initial fetch
-        setInterval(fetchHaltedStocks, 60000); // Refresh every 60 seconds
+        fetchHaltedStocks();
+        setInterval(fetchHaltedStocks, 60000);
     </script>
 </body>
 </html>
