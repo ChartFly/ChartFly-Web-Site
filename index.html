@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,86 +7,106 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        h1 {
-            color: #333;
+        .header {
+            width: 100%;
+            text-align: center;
+            background: #333;
+            color: white;
+            padding: 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            width: 90%;
+        }
+        .table-container {
+            width: 25%; /* Further reduced size */
+            margin-right: 20px;
+        }
+        .glossary-container {
+            width: 65%;
         }
         table {
-            width: 50%; /* Adjusted for a more compact look */
-            margin: 20px auto;
+            width: 100%;
             border-collapse: collapse;
             background: white;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px; /* Reduced padding for compact size */
+            padding: 6px;
             text-align: left;
-            font-size: 0.9em; /* Smaller font size */
+            font-size: 12px; /* Ensures no less than 12px */
         }
         th {
             background: #333;
             color: white;
         }
         dl {
-            width: 50%;
-            margin: 20px auto;
             text-align: left;
         }
         dt {
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         dd {
-            margin-left: 20px;
-            margin-bottom: 10px;
+            margin-left: 15px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Halted Stocks Tracker</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Stock</th>
-                <th>Reason</th>
-                <th>Time Halted</th>
-            </tr>
-        </thead>
-        <tbody id="halted-stocks">
-            <tr><td colspan="3">Loading halted stocks...</td></tr>
-        </tbody>
-    </table>
-    
-    <h2>Glossary of Reason Codes</h2>
-    <dl>
-        <dt>T1</dt>
-        <dd>Trading halted pending the release of significant (or material) news.</dd>
-        <dt>T2</dt>
-        <dd>Trading halted to allow investors to assimilate news released.</dd>
-        <dt>T5</dt>
-        <dd>Single stock trading pause due to a 10% or more price change in a security within a five-minute period.</dd>
-        <dt>H10</dt>
-        <dd>Trading halted due to the company's non-compliance with NASDAQ listing requirements.</dd>
-        <dt>H9</dt>
-        <dd>Trading halted because the company is not current in its required filings.</dd>
-        <dt>H11</dt>
-        <dd>Trading halted in conjunction with another exchange or market for regulatory reasons.</dd>
-        <dt>T12</dt>
-        <dd>Trading halted pending receipt of additional information requested by NASDAQ.</dd>
-        <dt>LUDP</dt>
-        <dd>Volatility trading pause.</dd>
-        <dt>LUDS</dt>
-        <dd>Volatility trading pause - straddle condition.</dd>
-        <dt>MWC1</dt>
-        <dd>Market-wide circuit breaker halt - Level 1.</dd>
-        <dt>MWC2</dt>
-        <dd>Market-wide circuit breaker halt - Level 2.</dd>
-        <dt>MWC3</dt>
-        <dd>Market-wide circuit breaker halt - Level 3.</dd>
-    </dl>
-    
+    <div class="header">ChartFly - Educational tools and information for active day traders</div>
+    <div class="container">
+        <div class="table-container">
+            <h2>Halted Stocks Tracker</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stock</th>
+                        <th>Reason</th>
+                        <th>Time Halted</th>
+                    </tr>
+                </thead>
+                <tbody id="halted-stocks">
+                    <tr><td colspan="3">Loading halted stocks...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="glossary-container">
+            <h2>Glossary of Reason Codes</h2>
+            <dl>
+                <dt>T1</dt><dd>Trading halted pending the release of significant (or material) news.</dd>
+                <dt>T2</dt><dd>Trading halted to allow investors to assimilate news released.</dd>
+                <dt>T3</dt><dd>News and resumption times; trading set to resume at specified times.</dd>
+                <dt>T5</dt><dd>Single stock trading pause due to rapid price movement.</dd>
+                <dt>T6</dt><dd>Extraordinary market activity likely caused by system misuse or malfunction.</dd>
+                <dt>T8</dt><dd>Trading halted in an ETF due to underlying security issues.</dd>
+                <dt>T12</dt><dd>Trading halted pending receipt of additional information requested by NASDAQ.</dd>
+                <dt>H4</dt><dd>Trading halted due to non-compliance with listing requirements.</dd>
+                <dt>H9</dt><dd>Trading halted because the company is not current in its required filings.</dd>
+                <dt>H10</dt><dd>Trading halted due to non-compliance with listing requirements.</dd>
+                <dt>H11</dt><dd>Trading halted in conjunction with another exchange for regulatory reasons.</dd>
+                <dt>LUDP</dt><dd>Volatility trading pause.</dd>
+                <dt>LUDS</dt><dd>Volatility trading pause - straddle condition.</dd>
+                <dt>MWC0</dt><dd>Market-wide circuit breaker halt - carry over from previous day.</dd>
+                <dt>MWC1</dt><dd>Market-wide circuit breaker halt - Level 1.</dd>
+                <dt>MWC2</dt><dd>Market-wide circuit breaker halt - Level 2.</dd>
+                <dt>MWC3</dt><dd>Market-wide circuit breaker halt - Level 3.</dd>
+                <dt>O1</dt><dd>Operations halt; contact market operations.</dd>
+                <dt>IPO1</dt><dd>Initial Public Offering (IPO) issue not yet trading.</dd>
+                <dt>M</dt><dd>Volatility trading pause due to rapid price movement beyond acceptable limits.</dd>
+                <dt>M1</dt><dd>Trading halted due to a corporate action.</dd>
+                <dt>M2</dt><dd>Quotation not available.</dd>
+            </dl>
+        </div>
+    </div>
     <script>
         async function fetchHaltedStocks() {
             try {
