@@ -32,7 +32,7 @@
             background: white;
             border: 1px solid #ddd;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            width: 90%;
         }
         table {
             width: 100%;
@@ -50,11 +50,11 @@
             color: white;
         }
         .reason-column {
-            width: 10%; /* Keep the original size */
+            width: 10%;
             word-wrap: break-word;
         }
         .definition-column {
-            width: 60%; /* Increase the width for better readability */
+            width: 60%;
             word-wrap: break-word;
         }
     </style>
@@ -67,14 +67,21 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Stock</th>
-                        <th class="reason-column">Reason</th>
+                        <th>Halt Date</th>
+                        <th>Halt Time</th>
+                        <th>Issue Symbol</th>
+                        <th>Issue Name</th>
+                        <th>Market</th>
+                        <th class="reason-column">Reason Code</th>
                         <th class="definition-column">Definition</th>
-                        <th>Time Halted</th>
+                        <th>Pause Threshold Price</th>
+                        <th>Resumption Date</th>
+                        <th>Resumption Quote Time</th>
+                        <th>Resumption Trade Time</th>
                     </tr>
                 </thead>
                 <tbody id="halted-stocks">
-                    <tr><td colspan="4">Loading halted stocks...</td></tr>
+                    <tr><td colspan="11">Loading halted stocks...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -119,29 +126,39 @@
                 tableBody.innerHTML = ""; 
                 
                 if (items.length === 0) {
-                    tableBody.innerHTML = "<tr><td colspan='4'>No active trading halts.</td></tr>";
+                    tableBody.innerHTML = "<tr><td colspan='11'>No active trading halts.</td></tr>";
                     return;
                 }
                 
                 for (let item of items) {
-                    let title = item.getElementsByTagName("title")[0]?.textContent || "N/A";
-                    let description = item.getElementsByTagName("description")[0]?.textContent || "N/A";
-                    let pubDate = item.getElementsByTagName("pubDate")[0]?.textContent || "N/A";
+                    let desc = item.getElementsByTagName("description")[0]?.textContent || "N/A";
+                    let fields = {};
+                    desc.split(/<br\s*\/?>/i).forEach(line => {
+                        let [key, value] = line.split(':');
+                        if (key) fields[key.trim()] = (value || '').trim();
+                    });
                     
-                    let reasonCode = description.split(' ')[0].trim();
+                    let reasonCode = fields["Reason Code"] || "N/A";
                     let reasonDefinition = reasonDefinitions[reasonCode] || "Definition not available";
                     
                     let row = `<tr>
-                        <td>${title}</td>
+                        <td>${fields["Halt Date"] || ""}</td>
+                        <td>${fields["Halt Time"] || ""}</td>
+                        <td>${fields["Issue Symbol"] || ""}</td>
+                        <td>${fields["Issue Name"] || ""}</td>
+                        <td>${fields["Market"] || ""}</td>
                         <td>${reasonCode}</td>
                         <td>${reasonDefinition}</td>
-                        <td>${pubDate}</td>
+                        <td>${fields["Pause Threshold Price"] || ""}</td>
+                        <td>${fields["Resumption Date"] || ""}</td>
+                        <td>${fields["Resumption Quote Time"] || ""}</td>
+                        <td>${fields["Resumption Trade Time"] || ""}</td>
                     </tr>`;
                     tableBody.innerHTML += row;
                 }
             } catch (error) {
                 console.error("Error fetching halted stocks:", error);
-                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='4'>Failed to load data.</td></tr>";
+                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='11'>Failed to load data.</td></tr>";
             }
         }
         
