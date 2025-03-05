@@ -14,19 +14,33 @@
             color: #333;
         }
         table {
-            width: 80%;
+            width: 50%; /* Adjusted for a more compact look */
             margin: 20px auto;
             border-collapse: collapse;
             background: white;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px; /* Reduced padding for compact size */
             text-align: left;
+            font-size: 0.9em; /* Smaller font size */
         }
         th {
             background: #333;
             color: white;
+        }
+        dl {
+            width: 50%;
+            margin: 20px auto;
+            text-align: left;
+        }
+        dt {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        dd {
+            margin-left: 20px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -44,6 +58,35 @@
             <tr><td colspan="3">Loading halted stocks...</td></tr>
         </tbody>
     </table>
+    
+    <h2>Glossary of Reason Codes</h2>
+    <dl>
+        <dt>T1</dt>
+        <dd>Trading halted pending the release of significant (or material) news.</dd>
+        <dt>T2</dt>
+        <dd>Trading halted to allow investors to assimilate news released.</dd>
+        <dt>T5</dt>
+        <dd>Single stock trading pause due to a 10% or more price change in a security within a five-minute period.</dd>
+        <dt>H10</dt>
+        <dd>Trading halted due to the company's non-compliance with NASDAQ listing requirements.</dd>
+        <dt>H9</dt>
+        <dd>Trading halted because the company is not current in its required filings.</dd>
+        <dt>H11</dt>
+        <dd>Trading halted in conjunction with another exchange or market for regulatory reasons.</dd>
+        <dt>T12</dt>
+        <dd>Trading halted pending receipt of additional information requested by NASDAQ.</dd>
+        <dt>LUDP</dt>
+        <dd>Volatility trading pause.</dd>
+        <dt>LUDS</dt>
+        <dd>Volatility trading pause - straddle condition.</dd>
+        <dt>MWC1</dt>
+        <dd>Market-wide circuit breaker halt - Level 1.</dd>
+        <dt>MWC2</dt>
+        <dd>Market-wide circuit breaker halt - Level 2.</dd>
+        <dt>MWC3</dt>
+        <dd>Market-wide circuit breaker halt - Level 3.</dd>
+    </dl>
+    
     <script>
         async function fetchHaltedStocks() {
             try {
