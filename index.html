@@ -32,23 +32,22 @@
         .market-open { background-color: green; }
         .market-closed { background-color: red; }
         .holidays {
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 10px;
             background: #fff8e1;
             border: 1px solid #ffd54f;
             width: 90%;
             text-align: center;
+            font-size: 10px;
         }
-        .holidays h3 {
-            margin: 0 0 10px 0;
+        .holidays table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
         }
-        .holidays ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .holidays li {
-            margin: 5px 0;
+        .holidays td {
+            padding: 5px;
+            border: 1px solid #ffd54f;
         }
         .container {
             display: flex;
@@ -90,17 +89,24 @@
     <div id="market-status" class="market-status">Checking market status...</div>
     <div class="holidays">
         <h3>Upcoming U.S. Stock Market Holidays</h3>
-        <ul id="holiday-list">
-            <li>New Year's Day - January 1</li>
-            <li>Martin Luther King Jr. Day - January 20</li>
-            <li>Presidents' Day - February 17</li>
-            <li>Good Friday - April 18</li>
-            <li>Memorial Day - May 26</li>
-            <li>Independence Day - July 4</li>
-            <li>Labor Day - September 1</li>
-            <li>Thanksgiving Day - November 27</li>
-            <li>Christmas Day - December 25</li>
-        </ul>
+        <table>
+            <tr>
+                <td>January 1 (New Year’s Day)</td>
+                <td>February 17 (Presidents' Day)</td>
+                <td>April 18 (Good Friday)</td>
+                <td>May 26 (Memorial Day)</td>
+                <td>July 4 (Independence Day)</td>
+                <td>September 1 (Labor Day)</td>
+            </tr>
+            <tr>
+                <td>November 27 (Thanksgiving)</td>
+                <td>December 25 (Christmas)</td>
+                <td>October - No Holiday</td>
+                <td>March - No Holiday</td>
+                <td>June - No Holiday</td>
+                <td>August - No Holiday</td>
+            </tr>
+        </table>
     </div>
     <div class="container">
         <div class="table-container">
@@ -129,57 +135,49 @@
         </div>
     </div>
     <script>
-        function checkMarketStatus() {
-            const now = new Date();
-            const options = { timeZone: 'America/New_York', hour12: false, hour: 'numeric', minute: 'numeric' };
-            const estTime = now.toLocaleString('en-US', options).split(/:|,/);
-            const estHour = parseInt(estTime[0], 10);
-            const estMinute = parseInt(estTime[1], 10);
-            const marketStatus = document.getElementById("market-status");
-
-            if (
-                (estHour > 9 || (estHour === 9 && estMinute >= 30)) &&
-                (estHour < 16 || (estHour === 16 && estMinute === 0))
-            ) {
-                marketStatus.innerText = "Market Open";
-                marketStatus.classList.add("market-open");
-                marketStatus.classList.remove("market-closed");
-                fetchHaltedStocks();
-            } else {
-                marketStatus.innerText = "Market Closed";
-                marketStatus.classList.add("market-closed");
-                marketStatus.classList.remove("market-open");
-                loadSavedHaltedStocks();
-            }
-        }
-
-        function saveHaltedStocks(data) {
-            localStorage.setItem("haltedStocks", JSON.stringify(data));
-            localStorage.setItem("lastUpdate", new Date().toLocaleString());
-        }
-
-        function loadSavedHaltedStocks() {
-            const savedData = localStorage.getItem("haltedStocks");
-            const lastUpdate = localStorage.getItem("lastUpdate");
-            if (savedData) {
-                document.getElementById("halted-stocks").innerHTML = savedData;
-                document.getElementById("last-update").innerText = `Last updated: ${lastUpdate}`;
-            }
-        }
+        const API_KEY = "YOUR_API_KEY_HERE";
+        const NASDAQ_API_URL = `https://data.nasdaq.com/api/v3/datatables/your_endpoint?api_key=${API_KEY}`;
 
         async function fetchHaltedStocks() {
             try {
-                let response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts"));
+                let response = await fetch(NASDAQ_API_URL);
                 let data = await response.json();
-                document.getElementById("halted-stocks").innerHTML = data.contents;
-                saveHaltedStocks(data.contents);
-            } catch {
-                loadSavedHaltedStocks();
+                
+                let tableBody = document.getElementById("halted-stocks");
+                tableBody.innerHTML = ""; 
+                
+                if (!data || !data.datatable || !data.datatable.data.length) {
+                    tableBody.innerHTML = "<tr><td colspan='11'>No active trading halts.</td></tr>";
+                    return;
+                }
+                
+                for (let row of data.datatable.data) {
+                    let [haltDate, haltTime, symbol, name, market, reasonCode, thresholdPrice, resumptionDate, quoteTime, tradeTime] = row;
+                    let reasonDefinition = reasonDefinitions[reasonCode] || "Definition not available";
+                    
+                    let rowHTML = `<tr>
+                        <td>${haltDate || ""}</td>
+                        <td>${haltTime || ""}</td>
+                        <td>${symbol || ""}</td>
+                        <td>${name || ""}</td>
+                        <td>${market || ""}</td>
+                        <td>${reasonCode || ""}</td>
+                        <td>${reasonDefinition}</td>
+                        <td>${thresholdPrice || ""}</td>
+                        <td>${resumptionDate || ""}</td>
+                        <td>${quoteTime || ""}</td>
+                        <td>${tradeTime || ""}</td>
+                    </tr>`;
+                    tableBody.innerHTML += rowHTML;
+                }
+            } catch (error) {
+                console.error("Error fetching halted stocks:", error);
+                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='11'>Failed to load data.</td></tr>";
             }
         }
-
-        checkMarketStatus();
-        setInterval(checkMarketStatus, 60000);
+        
+        fetchHaltedStocks();
+        setInterval(fetchHaltedStocks, 60000);
     </script>
 </body>
 </html>
