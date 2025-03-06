@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,305 +7,193 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
             background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-        .header {
-            width: 100%;
-            background: #333;
-            color: white;
-            padding: 15px 0;
-            font-size: 22px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding-left: 20px;
-        }
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .logo-container img {
-            width: 108px;
-            height: 108px;
-        }
-        .logo-text {
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-        }
-        .market-status {
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 5px 15px;
-            border-radius: 5px;
-            color: white;
-            text-align: center;
-            width: auto;
-            display: inline-block;
-        }
-        .market-open { background-color: green; }
-        .market-closed { background-color: red; }
-        .table-container {
-            padding: 15px;
+        .container {
+            max-width: 800px;
+            margin: auto;
             background: white;
-            border: 1px solid #ddd;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            margin-top: 20px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            margin-top: 10px;
         }
         th, td {
+            padding: 10px;
             border: 1px solid #ddd;
-            padding: 6px;
             text-align: left;
-            font-size: 12px;
         }
         th {
-            background: #333;
+            background-color: #333;
             color: white;
         }
-        th:nth-child(7) { min-width: 300px; }
+        .stock-input {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: calc(100% - 12px);
+            display: block;
+        }
+        .news-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo-container">
-            <img src="image.png" alt="ChartFly Logo">
-            <div class="logo-text">ChartFly</div>
-        </div>
-        <p>Educational tools and information for active day traders</p>
-    </div>
-    <div id="market-status" class="market-status">Checking market status...</div>
-    
-    <div class="table-container">
-        <h2>Halted Stocks Tracker</h2>
-        <table>
+    <div class="container">
+        <h1>Halted Stocks Tracker</h1>
+        <table id="halted-stocks">
             <thead>
                 <tr>
-                    <th>Halt Date</th>
+                    <th>Stock</th>
+                    <th>Reason</th>
                     <th>Halt Time</th>
-                    <th>Issue Symbol</th>
-                    <th>Issue Name</th>
-                    <th>Market</th>
-                    <th>Reason Code</th>
-                    <th>Definition</th>
-                    <th>Halt Price</th>
-                    <th>Res Date</th>
-                    <th>Res Time</th>
-                    <th>Trade Time</th>
                 </tr>
             </thead>
-            <tbody id="halted-stocks">
-                <tr><td colspan="11">Loading halted stocks...</td></tr>
+            <tbody>
+                <tr><td colspan="3">Loading halted stocks...</td></tr>
             </tbody>
         </table>
+        <h2>Stock Watchlist</h2>
+        <input type="text" id="tickerInput" class="stock-input" placeholder="Enter Stock Symbol">
+        <button onclick="addTicker()">Add to Watchlist</button>
+        <table id="watchlist">
+            <thead>
+                <tr>
+                    <th>Stock</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="2">No stocks added yet.</td></tr>
+            </tbody>
+        </table>
+        <h2>Stock News</h2>
+        <div id="news" class="news-container">No news available.</div>
     </div>
-<script>
-    const haltDefinitions = {
-        "T1": "Halt - News Pending (Indefinite Halt Time)",
-        "T2": "Halt - News Released (Indefinite Halt Time)",
-        "T5": "Single Stock Trading Pause in Effect (Generally 5 Minutes, but may be longer)",
-        "T6": "Halt - Extraordinary Market Activity (Indefinite Halt Time)",
-        "T12": "Halt - Additional Information Requested by NASDAQ (Indefinite Halt Time)",
-        "H10": "Halt - SEC Trading Suspension (Indefinite Halt Time)",
-        "LUDP": "Volatility Trading Pause (Generally 5 Minutes, but may be longer)",
-        "MWC1": "Market Wide Circuit Breaker Halt - Level 1 (Generally 15 Minutes, but may be longer)",
-        "MWC3": "Market Wide Circuit Breaker Halt - Level 3 (Indefinite Halt Time)"
-    };
-const nasdaqApiKey = "1p8f1Jzx8f3qZfnnbeJA"; // 🔹 Replace with your actual API key
 
-    async function fetchHaltedStocks() {
-      try {
-    let response = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.nasdaq.com/api/trade-halts'));
-    let data = await response.json();
+    <script>
+        const NASDAQ_API_KEY = "YOUR_NASDAQ_API_KEY";
+        const HALTED_STOCKS_URL = `https://corsproxy.io/?https://api.nasdaq.com/api/marketmovers/halted`;
 
-    if (!data.contents || data.contents.trim() === "") {
-        throw new Error("Invalid API response format or empty data");
-    }
-
-    let parsedData = JSON.parse(data.contents);
-    if (!parsedData.data || !parsedData.data.halts) throw new Error("Unexpected API response structure");
-
-    let tableBody = document.getElementById("halted-stocks");
-    tableBody.innerHTML = "";
-
-    if (!parsedData.halts || !Array.isArray(parsedData.halts) || parsedData.halts.length === 0) {
-        tableBody.innerHTML = "<tr><td colspan='11'>No halted stocks currently available.</td></tr>";
-        return;
-    }
-
-    parsedData.halts.forEach(row => {
-        let definition = haltDefinitions[row.reasonCode] || "Unknown Halt Reason";
-        let rowHTML = `<tr>
-            <td>${row.haltDate ?? "N/A"}</td>
-            <td>${row.haltTime ?? "N/A"}</td>
-            <td>${row.symbol ?? "N/A"}</td>
-            <td>${row.name ?? "N/A"}</td>
-            <td>${row.market ?? "N/A"}</td>
-            <td>${row.reasonCode ?? "N/A"}</td>
-            <td>${definition}</td>
-            <td>${row.haltPrice ?? "N/A"}</td>
-            <td>${row.resumptionDate ?? "N/A"}</td>
-            <td>${row.resumptionQuoteTime ?? "N/A"}</td>
-            <td>${row.resumptionTradeTime ?? "N/A"}</td>
-        </tr>`;
-        tableBody.innerHTML += rowHTML;
-    });
-} catch (error) {
-    console.error("Error fetching halted stocks:", error);
-    document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='11'>Failed to load data. Please try again later.</td></tr>";
-}
-
-    fetchHaltedStocks();
-</script>
-</body>
-</html>
-  <style>
-    .watchlist-container {
-        width: 100%;
-        max-width: 800px;
-        text-align: left;
-        margin-left: 0;
-        padding: 15px;
-    }
-    .watchlist-input {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-    .watchlist-tickers {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 5px;
-        margin-top: 10px;
-        padding: 5px;
-        border: 1px solid #ddd;
-        background: white;
-    }
-    .watchlist-ticker {
-        background: #eee;
-        padding: 5px;
-        cursor: pointer;
-        text-align: center;
-        border-radius: 5px;
-    }
-    .active-ticker {
-        background: #007bff;
-        color: white;
-    }
-    .metrics-container {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-        margin-top: 15px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        background: white;
-    }
-    .metric {
-        padding: 5px;
-        background: #f8f8f8;
-        border-radius: 5px;
-        text-align: center;
-        font-weight: bold;
-    }
-    .news-container {
-        margin-top: 15px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        background: white;
-    }
-    .news-title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-</style>
-
-<script>
-    let watchlist = [];
-
-    function addTicker() {
-        let input = document.getElementById("ticker-input").value.toUpperCase();
-        if (input && watchlist.length < 10 && !watchlist.includes(input)) {
-            watchlist.push(input);
-            updateWatchlist();
+        async function fetchHaltedStocks() {
+            try {
+                const response = await fetch(HALTED_STOCKS_URL);
+                if (!response.ok) throw new Error("Failed to fetch halted stocks");
+                const data = await response.json();
+                displayHaltedStocks(data);
+            } catch (error) {
+                console.error("Error fetching halted stocks:", error);
+            }
         }
-        document.getElementById("ticker-input").value = "";
-    }
 
-    function updateWatchlist() {
-        let watchlistDiv = document.getElementById("watchlist");
-        watchlistDiv.innerHTML = "";
-        watchlist.forEach(ticker => {
-            let tickerDiv = document.createElement("div");
-            tickerDiv.classList.add("watchlist-ticker");
-            tickerDiv.textContent = ticker;
-            tickerDiv.onclick = () => fetchStockData(ticker);
-            watchlistDiv.appendChild(tickerDiv);
-        });
-    }
+        function displayHaltedStocks(data) {
+            const tableBody = document.querySelector("#halted-stocks tbody");
+            tableBody.innerHTML = "";
 
- function fetchStockData(ticker) {
-    document.getElementById("metrics").innerHTML = `<div class="metric">Fetching data for ${ticker}...</div>`;
-    let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
-
-    fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-        document.getElementById("metrics").innerHTML = `
-        <div class="metric">Ticker: ${ticker}</div>
-        <div class="metric">Current Price: $${data.c ?? "N/A"}</div>
-        <div class="metric">Open: $${data.o ?? "N/A"}</div>
-        <div class="metric">High: $${data.h ?? "N/A"}</div>
-        <div class="metric">Low: $${data.l ?? "N/A"}</div>
-        <div class="metric">Previous Close: $${data.pc ?? "N/A"}</div>
-        <div class="metric">Change: ${data.dp ?? "N/A"}%</div>
-        <div class="metric">Volume: ${data.v ?? "N/A"}</div>
-        <div class="metric">52W High: --</div>
-        <div class="metric">52W Low: --</div>
-        <div class="metric">Market Cap: --</div>
-        <div class="metric">PE Ratio: --</div>
-        <div class="metric">Dividend Yield: --</div>
-        <div class="metric">Earnings Date: --</div>
-`;
-
-            fetchStockNews(ticker);
-        })
-        .catch(error => {
-            document.getElementById("metrics").innerHTML = `<div class="metric">Failed to fetch data.</div>`;
-        });
-}
-
-function fetchStockNews(ticker) {
-    document.getElementById("news").innerHTML = `<div>Loading news for ${ticker}...</div>`;
-    let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
-
-    fetch(`https://finnhub.io/api/v1/news?category=general&token=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            let newsHTML = "";
-            if (Array.isArray(data) && data.length > 0) {
-                data.slice(0, 5).forEach(newsItem => {
-                    newsHTML += `<div>- ${newsItem.headline}</div>`;
+            if (data && data.data && Array.isArray(data.data.halts)) {
+                data.data.halts.forEach(stock => {
+                    const row = `<tr>
+                        <td>${stock.symbol || "N/A"}</td>
+                        <td>${stock.reason || "N/A"}</td>
+                        <td>${stock.haltTime || "N/A"}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
                 });
             } else {
-                newsHTML = "<div>No news available.</div>";
+                tableBody.innerHTML = "<tr><td colspan='3'>No halted stocks found</td></tr>";
             }
-            document.getElementById("news").innerHTML = newsHTML;
-        })
-        .catch(error => {
-            document.getElementById("news").innerHTML = "<div>Failed to fetch news.</div>";
-        });
-}
+        }
 
+        fetchHaltedStocks();
+
+        const FINNHUB_API_KEY = "YOUR_FINNHUB_API_KEY";
+        const watchlist = [];
+
+        function addTicker() {
+            const tickerInput = document.getElementById("tickerInput");
+            const ticker = tickerInput.value.trim().toUpperCase();
+
+            if (ticker && !watchlist.includes(ticker)) {
+                watchlist.push(ticker);
+                fetchStockData(ticker);
+            }
+            tickerInput.value = "";
+        }
+
+        async function fetchStockData(ticker) {
+            if (!ticker) return; // Prevent invalid fetch requests
+            
+            const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+            
+            try {
+                const response = await fetch(STOCK_API_URL);
+                if (!response.ok) throw new Error("Network response was not ok");
+                const data = await response.json();
+                if (data && data.c) {
+                    updateWatchlist(ticker, data);
+                } else {
+                    console.error("Invalid data received for", ticker, data);
+                }
+            } catch (error) {
+                console.error("Error fetching stock data:", error);
+            }
+        }
+
+        function updateWatchlist(ticker, data) {
+            const tableBody = document.querySelector("#watchlist tbody");
+
+            // Prevent duplicate rows by checking if ticker exists
+            const existingRow = tableBody.querySelector(`tr[data-ticker='${ticker}']`);
+            if (existingRow) {
+                existingRow.innerHTML = `<td>${ticker}</td><td>${data.c ? `$${data.c.toFixed(2)}` : "N/A"}</td>`;
+                return;
+            }
+            
+            const row = document.createElement("tr");
+            row.setAttribute("data-ticker", ticker);
+            row.innerHTML = `<td>${ticker}</td><td>${data.c ? `$${data.c.toFixed(2)}` : "N/A"}</td>`;
+            tableBody.appendChild(row);
+        }
+
+        async function fetchStockNews(ticker) {
+            if (!ticker) return; // Prevent fetching if no ticker is provided
+            
+            const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=2024-03-01&to=2024-03-06&token=${FINNHUB_API_KEY}`;
+            
+            try {
+                const response = await fetch(NEWS_API_URL);
+                if (!response.ok) throw new Error("Network response was not ok");
+                const articles = await response.json();
+                displayStockNews(articles, ticker);
+            } catch (error) {
+                console.error("Error fetching stock news:", error);
+            }
+        }
+
+        function displayStockNews(articles, ticker) {
+            const newsContainer = document.getElementById("news");
+            newsContainer.innerHTML = `<h3>Latest News for ${ticker}</h3>`;
+            
+            if (!articles || articles.length === 0) {
+                newsContainer.innerHTML += "<p>No relevant news found.</p>";
+                return;
+            }
+            
+            articles.slice(0, 5).forEach(article => {
+                const newsItem = `<p><strong>${article.headline}</strong><br>${article.summary}</p>`;
+                newsContainer.innerHTML += newsItem;
+            });
+        }
+    </script>
+</body>
+</html>
