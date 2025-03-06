@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -102,7 +102,7 @@
                     <th>Halt Price</th>
                     <th>Res Date</th>
                     <th>Res Time</th>
-                    <th>Res Time</th>
+                    <th>Trade Time</th>
                 </tr>
             </thead>
             <tbody id="halted-stocks">
@@ -110,66 +110,66 @@
             </tbody>
         </table>
     </div>
-    
-    <div class="watchlist-container">
-        <h2>📈 Stock Watchlist & Live Lookup</h2>
-        <p>Enter up to 10 tickers to track their metrics and real-time price updates.</p>
-        <input type="text" id="ticker-input" placeholder="Enter a ticker (e.g., AAPL)">
-        <button onclick="addTicker()">Add</button>
-        <div id="watchlist"></div>
-        <h3>Stock Details</h3>
-        <div id="stock-details">Select a ticker to view details.</div>
-    </div>
+<script>
+    const haltDefinitions = {
+        "T1": "Halt - News Pending (Indefinite Halt Time)",
+        "T2": "Halt - News Released (Indefinite Halt Time)",
+        "T5": "Single Stock Trading Pause in Effect (Generally 5 Minutes, but may be longer)",
+        "T6": "Halt - Extraordinary Market Activity (Indefinite Halt Time)",
+        "T12": "Halt - Additional Information Requested by NASDAQ (Indefinite Halt Time)",
+        "H10": "Halt - SEC Trading Suspension (Indefinite Halt Time)",
+        "LUDP": "Volatility Trading Pause (Generally 5 Minutes, but may be longer)",
+        "MWC1": "Market Wide Circuit Breaker Halt - Level 1 (Generally 15 Minutes, but may be longer)",
+        "MWC3": "Market Wide Circuit Breaker Halt - Level 3 (Indefinite Halt Time)"
+    };
 
-    <script>
-        const haltDefinitions = {
-            "T1": "Halt - News Pending (Indefinite Halt Time)",
-            "T2": "Halt - News Released (Indefinite Halt Time)",
-            "T5": "Single Stock Trading Pause in Effect (Generally 5 Minutes, but may be longer)",
-            "T6": "Halt - Extraordinary Market Activity (Indefinite Halt Time)",
-            "T12": "Halt - Additional Information Requested by NASDAQ (Indefinite Halt Time)",
-            "H10": "Halt - SEC Trading Suspension (Indefinite Halt Time)",
-            "LUDP": "Volatility Trading Pause (Generally 5 Minutes, but may be longer)",
-            "MWC1": "Market Wide Circuit Breaker Halt - Level 1 (Generally 15 Minutes, but may be longer)",
-            "MWC3": "Market Wide Circuit Breaker Halt - Level 3 (Indefinite Halt Time)"
-        };
-        
-        async function fetchHaltedStocks() {
-            try {
-                let response = await fetch('https://api.nasdaq.com/api/trade-halts');
-                let data = await response.json();
-                let tableBody = document.getElementById("halted-stocks");
-                tableBody.innerHTML = "";
-                
-                data.halts.forEach(row => {
-                    let definition = haltDefinitions[row.reasonCode] || "Unknown Halt Reason";
-                    let rowHTML = `<tr>
-                        <td>${row.haltDate}</td>
-                        <td>${row.haltTime}</td>
-                        <td>${row.symbol}</td>
-                        <td>${row.name}</td>
-                        <td>${row.market}</td>
-                        <td>${row.reasonCode}</td>
-                        <td>${definition}</td>
-                        <td>${row.haltPrice || "N/A"}</td>
-                        <td>${row.resumptionDate || "N/A"}</td>
-                        <td>${row.resumptionQuoteTime || "N/A"}</td>
-                        <td>${row.resumptionTradeTime || "N/A"}</td>
-                    </tr>`;
-                    tableBody.innerHTML += rowHTML;
-                });
-            } catch (error) {
-                console.error("Error fetching halted stocks:", error);
-            }
-        }
-        fetchHaltedStocks();
-    </script>
+    async function fetchHaltedStocks() {
+      try {
+    let response = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.nasdaq.com/api/trade-halts'));
+    let data = await response.json();
+
+    if (!data.contents || data.contents.trim() === "") {
+        throw new Error("Invalid API response format or empty data");
+    }
+
+    let parsedData = JSON.parse(data.contents);
+    if (!parsedData.data || !parsedData.data.halts) throw new Error("Unexpected API response structure");
+
+    let tableBody = document.getElementById("halted-stocks");
+    tableBody.innerHTML = "";
+
+    if (!parsedData.halts || !Array.isArray(parsedData.halts) || parsedData.halts.length === 0) {
+        tableBody.innerHTML = "<tr><td colspan='11'>No halted stocks currently available.</td></tr>";
+        return;
+    }
+
+    parsedData.halts.forEach(row => {
+        let definition = haltDefinitions[row.reasonCode] || "Unknown Halt Reason";
+        let rowHTML = `<tr>
+            <td>${row.haltDate ?? "N/A"}</td>
+            <td>${row.haltTime ?? "N/A"}</td>
+            <td>${row.symbol ?? "N/A"}</td>
+            <td>${row.name ?? "N/A"}</td>
+            <td>${row.market ?? "N/A"}</td>
+            <td>${row.reasonCode ?? "N/A"}</td>
+            <td>${definition}</td>
+            <td>${row.haltPrice ?? "N/A"}</td>
+            <td>${row.resumptionDate ?? "N/A"}</td>
+            <td>${row.resumptionQuoteTime ?? "N/A"}</td>
+            <td>${row.resumptionTradeTime ?? "N/A"}</td>
+        </tr>`;
+        tableBody.innerHTML += rowHTML;
+    });
+} catch (error) {
+    console.error("Error fetching halted stocks:", error);
+    document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='11'>Failed to load data. Please try again later.</td></tr>";
+}
+
+    fetchHaltedStocks();
+</script>
 </body>
 </html>
-
-
-
-   <style>
+  <style>
     .watchlist-container {
         width: 100%;
         max-width: 800px;
@@ -231,24 +231,6 @@
     }
 </style>
 
-<div class="watchlist-container">
-    <h2>📈 Stock Watchlist & Live Lookup</h2>
-    <p>Enter up to 10 tickers to track their metrics and real-time price updates.</p>
-    <div class="watchlist-input">
-        <input type="text" id="ticker-input" placeholder="Enter a ticker (e.g., AAPL)">
-        <button onclick="addTicker()">Add</button>
-    </div>
-
-    <h3>Watchlist - Click on a ticker to display information</h3>
-    <div class="watchlist-tickers" id="watchlist"></div>
-
-    <h3>Stock Metrics</h3>
-    <div class="metrics-container" id="metrics"></div>
-
-    <h3 class="news-title">News</h3>
-    <div class="news-container" id="news"></div>
-</div>
-
 <script>
     let watchlist = [];
 
@@ -273,51 +255,56 @@
         });
     }
 
-    function fetchStockData(ticker) {
-        document.getElementById("metrics").innerHTML = `<div class="metric">Fetching data for ${ticker}...</div>`;
-        let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
+ function fetchStockData(ticker) {
+    document.getElementById("metrics").innerHTML = `<div class="metric">Fetching data for ${ticker}...</div>`;
+    let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
 
-        fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("metrics").innerHTML = `
-                    <div class="metric">Ticker: ${ticker}</div>
-                    <div class="metric">Current Price: $${data.c}</div>
-                    <div class="metric">Open: $${data.o}</div>
-                    <div class="metric">High: $${data.h}</div>
-                    <div class="metric">Low: $${data.l}</div>
-                    <div class="metric">Previous Close: $${data.pc}</div>
-                    <div class="metric">Change: ${data.dp}%</div>
-                    <div class="metric">Volume: ${data.v}</div>
-                    <div class="metric">52W High: --</div>
-                    <div class="metric">52W Low: --</div>
-                    <div class="metric">Market Cap: --</div>
-                    <div class="metric">PE Ratio: --</div>
-                    <div class="metric">Dividend Yield: --</div>
-                    <div class="metric">Earnings Date: --</div>
-                `;
-                fetchStockNews(ticker);
-            })
-            .catch(error => {
-                document.getElementById("metrics").innerHTML = `<div class="metric">Failed to fetch data.</div>`;
-            });
-    }
+    fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+        document.getElementById("metrics").innerHTML = `
+        <div class="metric">Ticker: ${ticker}</div>
+        <div class="metric">Current Price: $${data.c ?? "N/A"}</div>
+        <div class="metric">Open: $${data.o ?? "N/A"}</div>
+        <div class="metric">High: $${data.h ?? "N/A"}</div>
+        <div class="metric">Low: $${data.l ?? "N/A"}</div>
+        <div class="metric">Previous Close: $${data.pc ?? "N/A"}</div>
+        <div class="metric">Change: ${data.dp ?? "N/A"}%</div>
+        <div class="metric">Volume: ${data.v ?? "N/A"}</div>
+        <div class="metric">52W High: --</div>
+        <div class="metric">52W Low: --</div>
+        <div class="metric">Market Cap: --</div>
+        <div class="metric">PE Ratio: --</div>
+        <div class="metric">Dividend Yield: --</div>
+        <div class="metric">Earnings Date: --</div>
+`;
 
-    function fetchStockNews(ticker) {
-        document.getElementById("news").innerHTML = `<div>Loading news for ${ticker}...</div>`;
-        let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
+            fetchStockNews(ticker);
+        })
+        .catch(error => {
+            document.getElementById("metrics").innerHTML = `<div class="metric">Failed to fetch data.</div>`;
+        });
+}
 
-        fetch(`https://finnhub.io/api/v1/news?category=general&token=${apiKey}`)
-            .then(response => response.json())
-            .then(data => {
-                let newsHTML = "";
+function fetchStockNews(ticker) {
+    document.getElementById("news").innerHTML = `<div>Loading news for ${ticker}...</div>`;
+    let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
+
+    fetch(`https://finnhub.io/api/v1/news?category=general&token=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            let newsHTML = "";
+            if (Array.isArray(data) && data.length > 0) {
                 data.slice(0, 5).forEach(newsItem => {
                     newsHTML += `<div>- ${newsItem.headline}</div>`;
                 });
-                document.getElementById("news").innerHTML = newsHTML || "<div>No news available.</div>";
-            })
-            .catch(error => {
-                document.getElementById("news").innerHTML = "<div>Failed to fetch news.</div>";
-            });
-    }
-</script>
+            } else {
+                newsHTML = "<div>No news available.</div>";
+            }
+            document.getElementById("news").innerHTML = newsHTML;
+        })
+        .catch(error => {
+            document.getElementById("news").innerHTML = "<div>Failed to fetch news.</div>";
+        });
+}
+
