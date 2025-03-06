@@ -14,28 +14,29 @@
         }
         .header {
             width: 100%;
-            text-align: center;
             background: #333;
             color: white;
-            padding: 10px 0;
-            font-size: 20px;
+            padding: 15px 0;
+            font-size: 22px;
             font-weight: bold;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 20px;
         }
         .logo-container {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .logo-container img {
-            width: 50px;
-            height: 50px;
+            width: 72px;
+            height: 72px;
         }
         .logo-text {
-            font-size: 12px;
-            color: white;
+            font-size: 18px;
             font-weight: bold;
+            color: white;
         }
         .market-status {
             margin-top: 10px;
@@ -44,6 +45,9 @@
             padding: 5px 15px;
             border-radius: 5px;
             color: white;
+            text-align: center;
+            width: auto;
+            display: inline-block;
         }
         .market-open { background-color: green; }
         .market-closed { background-color: red; }
@@ -54,16 +58,7 @@
             border: 1px solid #ffd54f;
             width: 90%;
             text-align: center;
-            font-size: 10px;
-        }
-        .holidays table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        .holidays td {
-            padding: 5px;
-            border: 1px solid #ffd54f;
+            font-size: 12px;
         }
         .container {
             display: flex;
@@ -93,113 +88,99 @@
             background: #333;
             color: white;
         }
-        .last-update {
-            text-align: center;
-            font-size: 12px;
-            margin-top: 10px;
-        }
+        th:nth-child(7) { min-width: 300px; } /* Expanding Definition Column */
     </style>
+    <script>
+        const haltDefinitions = {
+            "T1": "Halt - News Pending (Indefinite Halt Time)",
+            "T2": "Halt - News Released (Indefinite Halt Time)",
+            "T3": "News and Resumption Times (Indefinite Halt Time)",
+            "T5": "Single Stock Trading Pause in Effect (Generally 5 Minutes, but may be longer)",
+            "T6": "Halt - Extraordinary Market Activity (Indefinite Halt Time)",
+            "T7": "Single Stock Trading Pause/Quotation-Only Period (Generally 5 Minutes, but may be longer)",
+            "T8": "Halt - Exchange-Traded Fund (ETF) (Indefinite Halt Time)",
+            "T12": "Halt - Additional Information Requested by NASDAQ (Indefinite Halt Time)",
+            "H4": "Halt - Non-Compliance (Indefinite Halt Time)",
+            "H9": "Halt - Not Current (Indefinite Halt Time)",
+            "H10": "Halt - SEC Trading Suspension (Indefinite Halt Time)",
+            "H11": "Halt - Regulatory Concern (Indefinite Halt Time)",
+            "O1": "Operations Halt, Contact Market Operations (Indefinite Halt Time)",
+            "IPO1": "IPO Issue not yet Trading (Indefinite Halt Time)",
+            "M1": "Corporate Action (Indefinite Halt Time)",
+            "M2": "Quotation Not Available (Indefinite Halt Time)",
+            "LUDP": "Volatility Trading Pause (Generally 5 Minutes, but may be longer)",
+            "LUDS": "Volatility Trading Pause - Straddle Condition (Generally 5 Minutes, but may be longer)",
+            "MWC0": "Market Wide Circuit Breaker Halt - Carry over from previous day (Indefinite Halt Time)",
+            "MWC1": "Market Wide Circuit Breaker Halt - Level 1 (Generally 15 Minutes, but may be longer)",
+            "MWC2": "Market Wide Circuit Breaker Halt - Level 2 (Generally 15 Minutes, but may be longer)",
+            "MWC3": "Market Wide Circuit Breaker Halt - Level 3 (Indefinite Halt Time)"
+        };
+
+        function updateMarketStatus() {
+            let now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let marketStatusElement = document.getElementById("market-status");
+            
+            if ((hours > 9 || (hours === 9 && minutes >= 30)) && hours < 16) {
+                marketStatusElement.textContent = "Market Open";
+                marketStatusElement.className = "market-status market-open";
+            } else {
+                marketStatusElement.textContent = "Market Closed";
+                marketStatusElement.className = "market-status market-closed";
+            }
+        }
+        
+        function removeLoadingMessage() {
+            setTimeout(() => {
+                let loadingMessage = document.getElementById("last-update");
+                if (loadingMessage) {
+                    loadingMessage.style.display = "none";
+                }
+                let tableBody = document.getElementById("halted-stocks");
+                if (tableBody.innerHTML.includes("Loading") || tableBody.innerHTML.includes("Failed to load data")) {
+                    tableBody.innerHTML = "<tr><td colspan='11'>No data available.</td></tr>";
+                }
+            }, 30000);
+        }
+        
+        window.onload = function() {
+            updateMarketStatus();
+            removeLoadingMessage();
+        };
+    </script>
 </head>
 <body>
     <div class="header">
-        ChartFly - Educational tools and information for active day traders
         <div class="logo-container">
             <img src="image.png" alt="ChartFly Logo">
             <div class="logo-text">ChartFly</div>
         </div>
     </div>
     <div id="market-status" class="market-status">Checking market status...</div>
-    <div class="holidays">
-        <h3>Upcoming U.S. Stock Market Holidays</h3>
+    <div class="table-container">
+        <h2>Halted Stocks Tracker</h2>
+        <p id="last-update" class="last-update">Loading...</p>
         <table>
-            <tr>
-                <td>January 1 (New Year’s Day)</td>
-                <td>February 17 (Presidents' Day)</td>
-                <td>April 18 (Good Friday)</td>
-                <td>May 26 (Memorial Day)</td>
-                <td>July 4 (Independence Day)</td>
-                <td>September 1 (Labor Day)</td>
-            </tr>
-            <tr>
-                <td>November 27 (Thanksgiving)</td>
-                <td>December 25 (Christmas)</td>
-                <td>October - No Holiday</td>
-                <td>March - No Holiday</td>
-                <td>June - No Holiday</td>
-                <td>August - No Holiday</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Halt Date</th>
+                    <th>Halt Time</th>
+                    <th>Issue Symbol</th>
+                    <th>Issue Name</th>
+                    <th>Market</th>
+                    <th>Reason Code</th>
+                    <th>Definition</th>
+                    <th>Halt Price</th>
+                    <th>Res Date</th>
+                    <th>Res Time</th>
+                    <th>Res Time</th>
+                </tr>
+            </thead>
+            <tbody id="halted-stocks">
+                <tr><td colspan="11">Loading halted stocks...</td></tr>
+            </tbody>
         </table>
     </div>
-    <div class="container">
-        <div class="table-container">
-            <h2>Halted Stocks Tracker</h2>
-            <p id="last-update" class="last-update">Loading...</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Halt Date</th>
-                        <th>Halt Time</th>
-                        <th>Issue Symbol</th>
-                        <th>Issue Name</th>
-                        <th>Market</th>
-                        <th>Reason Code</th>
-                        <th>Definition</th>
-                        <th>Pause Threshold Price</th>
-                        <th>Resumption Date</th>
-                        <th>Resumption Quote Time</th>
-                        <th>Resumption Trade Time</th>
-                    </tr>
-                </thead>
-                <tbody id="halted-stocks">
-                    <tr><td colspan="11">Loading halted stocks...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script>
-        const API_KEY = "YOUR_API_KEY_HERE";
-        const NASDAQ_API_URL = `https://data.nasdaq.com/api/v3/datatables/your_endpoint?api_key=${API_KEY}`;
-
-        async function fetchHaltedStocks() {
-            try {
-                let response = await fetch(NASDAQ_API_URL);
-                let data = await response.json();
-                
-                let tableBody = document.getElementById("halted-stocks");
-                tableBody.innerHTML = ""; 
-                
-                if (!data || !data.datatable || !data.datatable.data.length) {
-                    tableBody.innerHTML = "<tr><td colspan='11'>No active trading halts.</td></tr>";
-                    return;
-                }
-                
-                for (let row of data.datatable.data) {
-                    let [haltDate, haltTime, symbol, name, market, reasonCode, thresholdPrice, resumptionDate, quoteTime, tradeTime] = row;
-                    let reasonDefinition = reasonDefinitions[reasonCode] || "Definition not available";
-                    
-                    let rowHTML = `<tr>
-                        <td>${haltDate || ""}</td>
-                        <td>${haltTime || ""}</td>
-                        <td>${symbol || ""}</td>
-                        <td>${name || ""}</td>
-                        <td>${market || ""}</td>
-                        <td>${reasonCode || ""}</td>
-                        <td>${reasonDefinition}</td>
-                        <td>${thresholdPrice || ""}</td>
-                        <td>${resumptionDate || ""}</td>
-                        <td>${quoteTime || ""}</td>
-                        <td>${tradeTime || ""}</td>
-                    </tr>`;
-                    tableBody.innerHTML += rowHTML;
-                }
-            } catch (error) {
-                console.error("Error fetching halted stocks:", error);
-                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='11'>Failed to load data.</td></tr>";
-            }
-        }
-        
-        fetchHaltedStocks();
-        setInterval(fetchHaltedStocks, 60000);
-    </script>
 </body>
 </html>
