@@ -21,142 +21,71 @@
             font-weight: bold;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            padding-left: 20px;
         }
-        .header h1 {
+        .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
-        .header img {
+        .logo-container img {
             width: 108px;
             height: 108px;
         }
-        .tagline {
-            font-size: 14px;
-            text-align: center;
-            color: #ddd;
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
         }
-.market-status {
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
-    width: fit-content;
-    display: inline-block;
-}
-
-/* Default Hidden Status */
-#market-status {
-    display: none;
-}
-
-/* When Market is Open */
-.market-open {
-    background-color: green;
-    display: inline-block;
-}
-
-/* When Market is Closed */
-.market-closed {
-    background-color: red;
-    display: inline-block;
-}
-
-.table-container {
-    padding: 15px;
-    background: white;
-    border: 1px solid #ddd;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 6px;
-    text-align: left;
-    font-size: 12px;
-}
-
-th {
-    background: #333;
-    color: white;
-}
-
-        .holiday-schedule {
-            width: 90%;
-            margin-top: 20px;
-            background: white;
+        .market-status {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            width: auto;
+            display: inline-block;
+        }
+        .market-open { background-color: green; }
+        .market-closed { background-color: red; }
+        .table-container {
             padding: 15px;
+            background: white;
             border: 1px solid #ddd;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            margin-top: 20px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            font-size: 12px;
+        }
+        th {
+            background: #333;
+            color: white;
+        }
+        th:nth-child(7) { min-width: 300px; }
     </style>
 </head>
 <body>
-   <header class="header">
-    <h1>
-        <img src="image.png" alt="ChartFly">
-    </h1>
-</header>
-
-        <p class="tagline">Educational tools and information for active day traders</p>
-    </header>
-    
-    <section id="market-status">
-        <h2>Market Status</h2>
-        <div class="market-status">Checking market status...</div>
-     <h3>Upcoming Market Holidays</h3>
-<table class="holiday-schedule">
-    <thead>
-        <tr>
-            <th>January</th>
-            <th>February</th>
-            <th>March</th>
-            <th>April</th>
-            <th>May</th>
-            <th>June</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>New Year's Day<br>Jan 1 (Closed)</td>
-            <td>Presidents' Day<br>Feb 19 (Closed)</td>
-            <td>No Holiday</td>
-            <td>Good Friday<br>Mar 29 (Closed)</td>
-            <td>Memorial Day<br>May 27 (Closed)</td>
-            <td>No Holiday</td>
-        </tr>
-        <tr>
-            <th>July</th>
-            <th>August</th>
-            <th>September</th>
-            <th>October</th>
-            <th>November</th>
-            <th>December</th>
-        </tr>
-        <tr>
-            <td>Independence Day<br>Jul 4 (Closed)</td>
-            <td>No Holiday</td>
-            <td>Labor Day<br>Sep 2 (Closed)</td>
-            <td>No Holiday</td>
-            <td>Thanksgiving<br>Nov 28 (Closed)</td>
-            <td>Christmas<br>Dec 25 (Closed)</td>
-        </tr>
-    </tbody>
-</table>
-
-    </section>
+    <div class="header">
+        <div class="logo-container">
+            <img src="image.png" alt="ChartFly Logo">
+            <div class="logo-text">ChartFly</div>
+        </div>
+        <p>Educational tools and information for active day traders</p>
+    </div>
+    <div id="market-status" class="market-status">Checking market status...</div>
     
     <div class="table-container">
         <h2>Halted Stocks Tracker</h2>
@@ -173,77 +102,71 @@ th {
                     <th>Halt Price</th>
                     <th>Res Date</th>
                     <th>Res Time</th>
+                    <th>Res Time</th>
                 </tr>
             </thead>
             <tbody id="halted-stocks">
-                <tr><td colspan="10">Loading halted stocks...</td></tr>
+                <tr><td colspan="11">Loading halted stocks...</td></tr>
             </tbody>
         </table>
     </div>
+    
+    <div class="watchlist-container">
+        <h2>📈 Stock Watchlist & Live Lookup</h2>
+        <p>Enter up to 10 tickers to track their metrics and real-time price updates.</p>
+        <input type="text" id="ticker-input" placeholder="Enter a ticker (e.g., AAPL)">
+        <button onclick="addTicker()">Add</button>
+        <div id="watchlist"></div>
+        <h3>Stock Details</h3>
+        <div id="stock-details">Select a ticker to view details.</div>
+    </div>
 
     <script>
-<script>
-async function fetchHaltedStocks() {
-    try {
-        const apiKey = "an7CsBq5zkurz3n9fz92"; // Replace with your actual API key
-        const endpoint = "https://api.nasdaq.com/api/trade-halts"; // Example: Confirm the real Nasdaq API endpoint
-
-        const response = await fetch(`${endpoint}?apiKey=${apiKey}`);
+        const haltDefinitions = {
+            "T1": "Halt - News Pending (Indefinite Halt Time)",
+            "T2": "Halt - News Released (Indefinite Halt Time)",
+            "T5": "Single Stock Trading Pause in Effect (Generally 5 Minutes, but may be longer)",
+            "T6": "Halt - Extraordinary Market Activity (Indefinite Halt Time)",
+            "T12": "Halt - Additional Information Requested by NASDAQ (Indefinite Halt Time)",
+            "H10": "Halt - SEC Trading Suspension (Indefinite Halt Time)",
+            "LUDP": "Volatility Trading Pause (Generally 5 Minutes, but may be longer)",
+            "MWC1": "Market Wide Circuit Breaker Halt - Level 1 (Generally 15 Minutes, but may be longer)",
+            "MWC3": "Market Wide Circuit Breaker Halt - Level 3 (Indefinite Halt Time)"
+        };
         
-        // Debugging: If response is not OK, log the error status
-        if (!response.ok) {
-            console.error(`HTTP error! Status: ${response.status}`);
-            document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Error: Unable to fetch halted stocks. Check API key and endpoint.</td></tr>";
-            return;
+        async function fetchHaltedStocks() {
+            try {
+                let response = await fetch('https://api.nasdaq.com/api/trade-halts');
+                let data = await response.json();
+                let tableBody = document.getElementById("halted-stocks");
+                tableBody.innerHTML = "";
+                
+                data.halts.forEach(row => {
+                    let definition = haltDefinitions[row.reasonCode] || "Unknown Halt Reason";
+                    let rowHTML = `<tr>
+                        <td>${row.haltDate}</td>
+                        <td>${row.haltTime}</td>
+                        <td>${row.symbol}</td>
+                        <td>${row.name}</td>
+                        <td>${row.market}</td>
+                        <td>${row.reasonCode}</td>
+                        <td>${definition}</td>
+                        <td>${row.haltPrice || "N/A"}</td>
+                        <td>${row.resumptionDate || "N/A"}</td>
+                        <td>${row.resumptionQuoteTime || "N/A"}</td>
+                        <td>${row.resumptionTradeTime || "N/A"}</td>
+                    </tr>`;
+                    tableBody.innerHTML += rowHTML;
+                });
+            } catch (error) {
+                console.error("Error fetching halted stocks:", error);
+            }
         }
+        fetchHaltedStocks();
+    </script>
+</body>
+</html>
 
-        const data = await response.json();
-        
-        // Debugging: Log the full API response to check structure
-        console.log("API Response:", data);
-
-        // Verify if data structure is correct
-        if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
-            console.error("Error: Unexpected API response format or no halted stocks available.");
-            document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>No halted stocks available.</td></tr>";
-            return;
-        }
-
-        let tableBody = document.getElementById("halted-stocks");
-        tableBody.innerHTML = ""; // Clear previous data
-
-        data.data.forEach(row => {
-            let { haltDate, haltTime, symbol, issueName, market, reasonCode, haltPrice, resumptionDate, resumptionTime } = row;
-            
-            let reasonDefinition = haltReasons[reasonCode] || "Definition not available";
-            
-            let rowHTML = `
-                <tr>
-                    <td>${haltDate || ""}</td>
-                    <td>${haltTime || ""}</td>
-                    <td>${symbol || ""}</td>
-                    <td>${issueName || ""}</td>
-                    <td>${market || ""}</td>
-                    <td>${reasonCode || ""}</td>
-                    <td>${reasonDefinition}</td>
-                    <td>${haltPrice || ""}</td>
-                    <td>${resumptionDate || ""}</td>
-                    <td>${resumptionTime || ""}</td>
-                </tr>`;
-            
-            tableBody.innerHTML += rowHTML;
-        });
-
-    } catch (error) {
-        console.error("Error fetching halted stocks:", error);
-        document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load halted stocks. Check console for details.</td></tr>";
-    }
-}
-
-// Fetch every 60 seconds
-fetchHaltedStocks();
-setInterval(fetchHaltedStocks, 60000);
-</script>
 
 
    <style>
