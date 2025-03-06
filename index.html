@@ -182,39 +182,56 @@ th {
     </div>
 
     <script>
-        async function fetchHaltedStocks() {
-            try {
-                const response = await fetch('https://data.nasdaq.com/api/v3/datatables/your_endpoint?api_key="an7CsBq5zkurz3n9fz92');
-                const data = await response.json();
-                const haltedStocks = data.datatable.data;
-                let tableBody = document.getElementById("halted-stocks");
-                tableBody.innerHTML = "";
-                haltedStocks.forEach(row => {
-                    let [haltDate, haltTime, symbol, name, market, reasonCode, thresholdPrice, resumptionDate, quoteTime, tradeTime] = row;
-                    let reasonDefinition = haltReasons[reasonCode] || "Definition not available";
-                    let rowHTML = `<tr>
-                        <td>${haltDate || ""}</td>
-                        <td>${haltTime || ""}</td>
-                        <td>${symbol || ""}</td>
-                        <td>${name || ""}</td>
-                        <td>${market || ""}</td>
-                        <td>${reasonCode || ""}</td>
-                        <td>${reasonDefinition}</td>
-                        <td>${thresholdPrice || ""}</td>
-                        <td>${resumptionDate || ""}</td>
-                        <td>${quoteTime || ""}</td>
-                        <td>${tradeTime || ""}</td>
-                    </tr>`;
-                    tableBody.innerHTML += rowHTML;
-                });
-            } catch (error) {
-                console.error("Error fetching halted stocks:", error);
-                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='11'>Failed to load data.</td></tr>";
-            }
+async function fetchHaltedStocks() {
+    try {
+        const apiKey = "an7CsBq5zkurz3n9fz92"; // Replace with your actual API key
+        const endpoint = "https://api.nasdaq.com/api/trade-halts"; // Example endpoint, replace if incorrect
+
+        const response = await fetch(`${endpoint}?apiKey=${apiKey}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        fetchHaltedStocks();
-        setInterval(fetchHaltedStocks, 60000);
+        const data = await response.json();
+        if (!data || !data.data || data.data.length === 0) {
+            throw new Error("No halted stocks data available.");
+        }
+
+        let tableBody = document.getElementById("halted-stocks");
+        tableBody.innerHTML = ""; // Clear previous data
+
+        data.data.forEach(row => {
+            let { haltDate, haltTime, symbol, issueName, market, reasonCode, haltPrice, resumptionDate, resumptionTime } = row;
+            
+            let reasonDefinition = haltReasons[reasonCode] || "Definition not available";
+            
+            let rowHTML = `
+                <tr>
+                    <td>${haltDate || ""}</td>
+                    <td>${haltTime || ""}</td>
+                    <td>${symbol || ""}</td>
+                    <td>${issueName || ""}</td>
+                    <td>${market || ""}</td>
+                    <td>${reasonCode || ""}</td>
+                    <td>${reasonDefinition}</td>
+                    <td>${haltPrice || ""}</td>
+                    <td>${resumptionDate || ""}</td>
+                    <td>${resumptionTime || ""}</td>
+                </tr>`;
+            
+            tableBody.innerHTML += rowHTML;
+        });
+
+    } catch (error) {
+        console.error("Error fetching halted stocks:", error);
+        document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load halted stocks.</td></tr>";
+    }
+}
+
+// Fetch every 60 seconds
+fetchHaltedStocks();
+setInterval(fetchHaltedStocks, 60000);
+
     </script>
 
    <style>
