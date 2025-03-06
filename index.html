@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -82,7 +82,7 @@
     </div>
 
     <script>
-        const NASDAQ_API_KEY = "YOUR_NASDAQ_API_KEY";
+        const NASDAQ_API_KEY = "1p8f1Jzx8f3qZfnnbeJA";
         const HALTED_STOCKS_URL = `https://corsproxy.io/?https://api.nasdaq.com/api/marketmovers/halted`;
 
         async function fetchHaltedStocks() {
@@ -133,7 +133,7 @@
         async function fetchStockData(ticker) {
             if (!ticker) return; // Prevent invalid fetch requests
             
-            const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+            const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=$ "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
             
             try {
                 const response = await fetch(STOCK_API_URL);
@@ -168,7 +168,7 @@
         async function fetchStockNews(ticker) {
             if (!ticker) return; // Prevent fetching if no ticker is provided
             
-            const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=2024-03-01&to=2024-03-06&token=${FINNHUB_API_KEY}`;
+            const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=2024-03-01&to=2024-03-06&token=$ "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
             
             try {
                 const response = await fetch(NEWS_API_URL);
