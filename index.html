@@ -37,42 +37,62 @@
             text-align: center;
             color: #ddd;
         }
-        .market-status {
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 5px 15px;
-            border-radius: 5px;
-            color: white;
-            text-align: center;
-            width: auto;
-            display: inline-block;
-        }
-        .market-open { background-color: green; }
-        .market-closed { background-color: red; }
-        .table-container {
-            padding: 15px;
-            background: white;
-            border: 1px solid #ddd;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 6px;
-            text-align: left;
-            font-size: 12px;
-        }
-        th {
-            background: #333;
-            color: white;
-        }
+.market-status {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    width: fit-content;
+    display: inline-block;
+}
+
+/* Default Hidden Status */
+#market-status {
+    display: none;
+}
+
+/* When Market is Open */
+.market-open {
+    background-color: green;
+    display: inline-block;
+}
+
+/* When Market is Closed */
+.market-closed {
+    background-color: red;
+    display: inline-block;
+}
+
+.table-container {
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: left;
+    font-size: 12px;
+}
+
+th {
+    background: #333;
+    color: white;
+}
+
         .holiday-schedule {
             width: 90%;
             margin-top: 20px;
@@ -84,38 +104,58 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>
-            <img src="image.png" alt="ChartFly Logo">
-            ChartFly
-        </h1>
+   <header class="header">
+    <h1>
+        <img src="image.png" alt="ChartFly">
+    </h1>
+</header>
+
         <p class="tagline">Educational tools and information for active day traders</p>
     </header>
     
     <section id="market-status">
         <h2>Market Status</h2>
         <div class="market-status">Checking market status...</div>
-        <h3>Upcoming Market Holidays</h3>
-        <table class="holiday-schedule">
-            <thead>
-                <tr>
-                    <th>Holiday</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>New Year's Day</td><td>January 1, 2024</td><td>Closed</td></tr>
-                <tr><td>Martin Luther King Jr. Day</td><td>January 15, 2024</td><td>Closed</td></tr>
-                <tr><td>Presidents' Day</td><td>February 19, 2024</td><td>Closed</td></tr>
-                <tr><td>Good Friday</td><td>March 29, 2024</td><td>Closed</td></tr>
-                <tr><td>Memorial Day</td><td>May 27, 2024</td><td>Closed</td></tr>
-                <tr><td>Independence Day</td><td>July 4, 2024</td><td>Closed</td></tr>
-                <tr><td>Labor Day</td><td>September 2, 2024</td><td>Closed</td></tr>
-                <tr><td>Thanksgiving</td><td>November 28, 2024</td><td>Closed</td></tr>
-                <tr><td>Christmas</td><td>December 25, 2024</td><td>Closed</td></tr>
-            </tbody>
-        </table>
+     <h3>Upcoming Market Holidays</h3>
+<table class="holiday-schedule">
+    <thead>
+        <tr>
+            <th>January</th>
+            <th>February</th>
+            <th>March</th>
+            <th>April</th>
+            <th>May</th>
+            <th>June</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>New Year's Day<br>Jan 1 (Closed)</td>
+            <td>Presidents' Day<br>Feb 19 (Closed)</td>
+            <td>No Holiday</td>
+            <td>Good Friday<br>Mar 29 (Closed)</td>
+            <td>Memorial Day<br>May 27 (Closed)</td>
+            <td>No Holiday</td>
+        </tr>
+        <tr>
+            <th>July</th>
+            <th>August</th>
+            <th>September</th>
+            <th>October</th>
+            <th>November</th>
+            <th>December</th>
+        </tr>
+        <tr>
+            <td>Independence Day<br>Jul 4 (Closed)</td>
+            <td>No Holiday</td>
+            <td>Labor Day<br>Sep 2 (Closed)</td>
+            <td>No Holiday</td>
+            <td>Thanksgiving<br>Nov 28 (Closed)</td>
+            <td>Christmas<br>Dec 25 (Closed)</td>
+        </tr>
+    </tbody>
+</table>
+
     </section>
     
     <div class="table-container">
@@ -177,59 +217,155 @@
         setInterval(fetchHaltedStocks, 60000);
     </script>
 
-    <div class="watchlist-container">
-        <h2>📈 Stock Watchlist & Live Lookup</h2>
-        <p>Enter up to 10 tickers to track their metrics and real-time price updates.</p>
-        <div class="watchlist-input">
-            <input type="text" id="ticker-input" placeholder="Enter a ticker (e.g., AAPL)">
-            <button onclick="addTicker()">Add</button>
-        </div>
-        <div class="watchlist-tickers" id="watchlist"></div>
-        <h3>Stock Details</h3>
-        <div id="stock-details">Select a ticker to view details.</div>
+   <style>
+    .watchlist-container {
+        width: 100%;
+        max-width: 800px;
+        text-align: left;
+        margin-left: 0;
+        padding: 15px;
+    }
+    .watchlist-input {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .watchlist-tickers {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 5px;
+        margin-top: 10px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        background: white;
+    }
+    .watchlist-ticker {
+        background: #eee;
+        padding: 5px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 5px;
+    }
+    .active-ticker {
+        background: #007bff;
+        color: white;
+    }
+    .metrics-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+    }
+    .metric {
+        padding: 5px;
+        background: #f8f8f8;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+    .news-container {
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+    }
+    .news-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="watchlist-container">
+    <h2>📈 Stock Watchlist & Live Lookup</h2>
+    <p>Enter up to 10 tickers to track their metrics and real-time price updates.</p>
+    <div class="watchlist-input">
+        <input type="text" id="ticker-input" placeholder="Enter a ticker (e.g., AAPL)">
+        <button onclick="addTicker()">Add</button>
     </div>
 
-    <script>
-        let watchlist = [];
-        function addTicker() {
-            let input = document.getElementById("ticker-input").value.toUpperCase();
-            if (input && watchlist.length < 10 && !watchlist.includes(input)) {
-                watchlist.push(input);
-                updateWatchlist();
-            }
-            document.getElementById("ticker-input").value = "";
+    <h3>Watchlist - Click on a ticker to display information</h3>
+    <div class="watchlist-tickers" id="watchlist"></div>
+
+    <h3>Stock Metrics</h3>
+    <div class="metrics-container" id="metrics"></div>
+
+    <h3 class="news-title">News</h3>
+    <div class="news-container" id="news"></div>
+</div>
+
+<script>
+    let watchlist = [];
+
+    function addTicker() {
+        let input = document.getElementById("ticker-input").value.toUpperCase();
+        if (input && watchlist.length < 10 && !watchlist.includes(input)) {
+            watchlist.push(input);
+            updateWatchlist();
         }
-        function updateWatchlist() {
-            let watchlistDiv = document.getElementById("watchlist");
-            watchlistDiv.innerHTML = "";
-            watchlist.forEach(ticker => {
-                let tickerDiv = document.createElement("div");
-                tickerDiv.classList.add("watchlist-ticker");
-                tickerDiv.textContent = ticker;
-                tickerDiv.onclick = () => fetchStockData(ticker);
-                watchlistDiv.appendChild(tickerDiv);
+        document.getElementById("ticker-input").value = "";
+    }
+
+    function updateWatchlist() {
+        let watchlistDiv = document.getElementById("watchlist");
+        watchlistDiv.innerHTML = "";
+        watchlist.forEach(ticker => {
+            let tickerDiv = document.createElement("div");
+            tickerDiv.classList.add("watchlist-ticker");
+            tickerDiv.textContent = ticker;
+            tickerDiv.onclick = () => fetchStockData(ticker);
+            watchlistDiv.appendChild(tickerDiv);
+        });
+    }
+
+    function fetchStockData(ticker) {
+        document.getElementById("metrics").innerHTML = `<div class="metric">Fetching data for ${ticker}...</div>`;
+        let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
+
+        fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("metrics").innerHTML = `
+                    <div class="metric">Ticker: ${ticker}</div>
+                    <div class="metric">Current Price: $${data.c}</div>
+                    <div class="metric">Open: $${data.o}</div>
+                    <div class="metric">High: $${data.h}</div>
+                    <div class="metric">Low: $${data.l}</div>
+                    <div class="metric">Previous Close: $${data.pc}</div>
+                    <div class="metric">Change: ${data.dp}%</div>
+                    <div class="metric">Volume: ${data.v}</div>
+                    <div class="metric">52W High: --</div>
+                    <div class="metric">52W Low: --</div>
+                    <div class="metric">Market Cap: --</div>
+                    <div class="metric">PE Ratio: --</div>
+                    <div class="metric">Dividend Yield: --</div>
+                    <div class="metric">Earnings Date: --</div>
+                `;
+                fetchStockNews(ticker);
+            })
+            .catch(error => {
+                document.getElementById("metrics").innerHTML = `<div class="metric">Failed to fetch data.</div>`;
             });
-        }
-		        function fetchStockData(ticker) {
-            document.getElementById("stock-details").innerHTML = `Fetching data for ${ticker}...`;
-            let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
-            fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("stock-details").innerHTML = `
-                        <strong>${ticker}</strong><br>
-                        Current Price: $${data.c}<br>
-                        Open: $${data.o}<br>
-                        High: $${data.h}<br>
-                        Low: $${data.l}<br>
-                        Previous Close: $${data.pc}<br>
-                        Change: ${data.dp}%
-                    `;
-                })
-                .catch(error => {
-                    document.getElementById("stock-details").innerHTML = "Failed to fetch data.";
+    }
+
+    function fetchStockNews(ticker) {
+        document.getElementById("news").innerHTML = `<div>Loading news for ${ticker}...</div>`;
+        let apiKey = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
+
+        fetch(`https://finnhub.io/api/v1/news?category=general&token=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                let newsHTML = "";
+                data.slice(0, 5).forEach(newsItem => {
+                    newsHTML += `<div>- ${newsItem.headline}</div>`;
                 });
-        }
-    </script>
-</body>
-</html>
+                document.getElementById("news").innerHTML = newsHTML || "<div>No news available.</div>";
+            })
+            .catch(error => {
+                document.getElementById("news").innerHTML = "<div>Failed to fetch news.</div>";
+            });
+    }
+</script>
