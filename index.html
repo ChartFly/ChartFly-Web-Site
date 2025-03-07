@@ -152,43 +152,78 @@
         </table>
     </div>
 
-    <script>
-        const NASDAQ_API_KEY = "1p8f1Jzx8f3qZfnnbeJA";
-        const FINNHUB_API_KEY = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
+<script>
+const haltReasons = {
+    "T1": "News Pending",
+    "T2": "News Released",
+    "H10": "Volatility Trading Pause",
+    "H4": "Non-compliance",
+    "H9": "SEC Suspension",
+    "D": "Other"
+};
 
-        async function fetchHaltedStocks() {
-            try {
-                const response = await fetch(`https://corsproxy.io/?https://api.nasdaq.com/api/marketmovers/halted`);
-                const data = await response.json();
-                const haltedStocks = data.data.halts;
-                let tableBody = document.getElementById("halted-stocks");
-                tableBody.innerHTML = "";
+const NASDAQ_API_KEY = "1p8f1Jzx8f3qZfnnbeJA"; // Replace with your actual Nasdaq API key
 
-                haltedStocks.forEach(stock => {
-                    let reasonDefinition = haltReasons[stock.reasonCode] || "Definition not available";
-                    let row = `<tr>
-                        <td>${stock.haltDate || ""}</td>
-                        <td>${stock.haltTime || ""}</td>
-                        <td>${stock.symbol || ""}</td>
-                        <td>${stock.issueName || ""}</td>
-                        <td>${stock.market || ""}</td>
-                        <td>${stock.reasonCode || ""}</td>
-                        <td>${reasonDefinition}</td>
-                        <td>${stock.haltPrice || "N/A"}</td>
-                        <td>${stock.resDate || "N/A"}</td>
-                        <td>${stock.resTime || "N/A"}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
-            } catch (error) {
-                console.error("Error fetching halted stocks:", error);
-                document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load data.</td></tr>";
+async function fetchHaltedStocks() {
+    try {
+        const response = await fetch(`https://corsproxy.io/?https://api.nasdaq.com/api/marketmovers/halted`, {
+            headers: {
+                "Authorization": `Bearer ${NASDAQ_API_KEY}`
             }
+        });
+
+        const data = await response.json();
+        
+        if (!data || !data.data || !data.data.halts) {
+            throw new Error("Unexpected API response structure");
         }
 
-        fetchHaltedStocks();
+        const haltedStocks = data.data.halts;
+        let tableBody = document.getElementById("halted-stocks");
+        tableBody.innerHTML = "";
 
-      <!-- ✅ Make sure these sections are OUTSIDE of <script> -->
+        haltedStocks.forEach(stock => {
+            let reasonDefinition = haltReasons[stock.reasonCode] || "Definition not available";
+
+            let row = `<tr>
+                <td>${stock.haltDate || ""}</td>
+                <td>${stock.haltTime || ""}</td>
+                <td>${stock.symbol || ""}</td>
+                <td>${stock.issueName || ""}</td>
+                <td>${stock.market || ""}</td>
+                <td>${stock.reasonCode || ""}</td>
+                <td>${reasonDefinition}</td>
+                <td>${stock.haltPrice || "N/A"}</td>
+                <td>${stock.resDate || "N/A"}</td>
+                <td>${stock.resTime || "N/A"}</td>
+            </tr>`;
+
+            tableBody.innerHTML += row;
+        });
+
+    } catch (error) {
+        console.error("Error fetching halted stocks:", error);
+        document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load data.</td></tr>";
+    }
+}
+
+
+fetchHaltedStocks();
+
+    // ✅ Helper functions for date formatting
+    function getTodayDate() {
+        const today = new Date();
+        return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+    }
+
+    function getPastDate(days) {
+        const pastDate = new Date();
+        pastDate.setDate(pastDate.getDate() - days);
+        return pastDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+    }
+</script>
+
+<!-- ✅ Make sure these sections are OUTSIDE of <script> -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2>Stock Watchlist</h2>
     <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px;">
@@ -261,59 +296,85 @@
         }
     });
 
-    async function fetchStockData(ticker) {
-        const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
-        const PROFILE_API_URL = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
-        const METRIC_API_URL = `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${FINNHUB_API_KEY}`;
-        const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${getPastDate(30)}&to=${getTodayDate()}&token=${FINNHUB_API_KEY}`;
-        
-        try {
-            const [quoteRes, profileRes, metricRes, newsRes] = await Promise.all([
-                fetch(STOCK_API_URL),
-                fetch(PROFILE_API_URL),
-                fetch(METRIC_API_URL),
-                fetch(NEWS_API_URL)
-            ]);
-            
-            if (!quoteRes.ok || !profileRes.ok || !metricRes.ok || !newsRes.ok) {
-                throw new Error("One or more API requests failed");
-            }
-            
-            const [quoteData, profileData, metricData, newsData] = await Promise.all([
-                quoteRes.json(),
-                profileRes.json(),
-                metricRes.json(),
-                newsRes.json()
-            ]);
+const FINNHUB_API_KEY = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0"; // Replace with actual key
+if (!FINNHUB_API_KEY || FINNHUB_API_KEY === "your_api_key_here") {
+    console.error("Error: FINNHUB_API_KEY is missing or not set.");
+}
 
-            updateMetrics(ticker, quoteData, profileData, metricData, newsData);
-        } catch (error) {
-            console.error("Error fetching stock data:", error);
+
+async function fetchStockData(ticker) {
+    const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+    const PROFILE_API_URL = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+    const METRIC_API_URL = `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${FINNHUB_API_KEY}`;
+    const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${getPastDate(30)}&to=${getTodayDate()}&token=${FINNHUB_API_KEY}`;
+
+    try {
+        const [quoteRes, profileRes, metricRes, newsRes] = await Promise.all([
+            fetch(STOCK_API_URL),
+            fetch(PROFILE_API_URL),
+            fetch(METRIC_API_URL),
+            fetch(NEWS_API_URL)
+        ]);
+
+        if (!quoteRes.ok || !profileRes.ok || !metricRes.ok || !newsRes.ok) {
+            throw new Error("One or more API requests failed");
         }
-    }
 
-    function updateMetrics(ticker, quote, profile, metric, news) {
-        const tableBody = document.querySelector("#stock-metrics tbody");
-        const row = `<tr style="font-size: 12px;">
-            <td>${ticker}</td>
-            <td>${quote.c ? `$${quote.c.toFixed(2)}` : "N/A"}</td>
-            <td>${quote.o ? `$${quote.o.toFixed(2)}` : "N/A"}</td>
-            <td>${quote.h ? `$${quote.h.toFixed(2)}` : "N/A"}</td>
-            <td>${quote.l ? `$${quote.l.toFixed(2)}` : "N/A"}</td>
-            <td>${quote.pc ? `$${quote.pc.toFixed(2)}` : "N/A"}</td>
-            <td>${metric.metric.marketCapitalization ? `$${metric.metric.marketCapitalization.toFixed(2)}B` : "N/A"}</td>
-            <td>${metric.metric.shareOutstanding ? `${metric.metric.shareOutstanding.toFixed(2)}M` : "N/A"}</td>
-            <td>${metric.metric.peRatio ? metric.metric.peRatio.toFixed(2) : "N/A"}</td>
-            <td>${metric.metric.eps ? `$${metric.metric.eps.toFixed(2)}` : "N/A"}</td>
-            <td>${metric.metric.52WeekHigh ? `$${metric.metric["52WeekHigh"].toFixed(2)}` : "N/A"}</td>
-            <td>${metric.metric.52WeekLow ? `$${metric.metric["52WeekLow"].toFixed(2)}` : "N/A"}</td>
-            <td>${metric.metric.dividendYield ? `${(metric.metric.dividendYield * 100).toFixed(2)}%` : "N/A"}</td>
-            <td>${metric.metric.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
-            <td>${getLatestNews(news)}</td>
-        </tr>`;
-        tableBody.innerHTML += row;
+        // ✅ Safely parse JSON responses to avoid crashes
+        let quoteData, profileData, metricData, newsData;
+        try { quoteData = await quoteRes.json(); } catch { quoteData = {}; }
+        try { profileData = await profileRes.json(); } catch { profileData = {}; }
+        try { metricData = await metricRes.json(); } catch { metricData = {}; }
+        try { newsData = await newsRes.json(); } catch { newsData = []; }
+
+        updateMetrics(ticker, quoteData, profileData, metricData, newsData);
+    } catch (error) {
+        console.error("Error fetching stock data:", error);
     }
+}
+
+function updateMetrics(ticker, quote, profile, metric, news) {
+    const tableBody = document.querySelector("#stock-metrics tbody");
+    const row = `<tr style="font-size: 12px;">
+        <td>${ticker}</td>
+        <td>${quote?.c ? `$${quote.c.toFixed(2)}` : "N/A"}</td>
+        <td>${quote?.o ? `$${quote.o.toFixed(2)}` : "N/A"}</td>
+        <td>${quote?.h ? `$${quote.h.toFixed(2)}` : "N/A"}</td>
+        <td>${quote?.l ? `$${quote.l.toFixed(2)}` : "N/A"}</td>
+        <td>${quote?.pc ? `$${quote.pc.toFixed(2)}` : "N/A"}</td>
+        <td>${metric?.metric?.marketCapitalization ? `$${metric.metric.marketCapitalization.toFixed(2)}B` : "N/A"}</td>
+        <td>${metric?.metric?.shareOutstanding ? `${metric.metric.shareOutstanding.toFixed(2)}M` : "N/A"}</td>
+        <td>${metric?.metric?.peRatio ? metric.metric.peRatio.toFixed(2) : "N/A"}</td>
+        <td>${metric?.metric?.eps ? `$${metric.metric.eps.toFixed(2)}` : "N/A"}</td>
+        <td>${metric?.metric?.["52WeekHigh"] ? `$${metric.metric["52WeekHigh"].toFixed(2)}` : "N/A"}</td>
+        <td>${metric?.metric?.["52WeekLow"] ? `$${metric.metric["52WeekLow"].toFixed(2)}` : "N/A"}</td>
+        <td>${metric?.metric?.dividendYield ? `${(metric.metric.dividendYield * 100).toFixed(2)}%` : "N/A"}</td>
+        <td>${metric?.metric?.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
+        <td>${getLatestNews(news)}</td>
+    </tr>`;
+
+    tableBody.innerHTML += row;
+}
+
+function getLatestNews(news) {
+    if (!Array.isArray(news) || news.length === 0) {
+        return "No recent news";
+    }
+    return news[0]?.headline || "No recent news";
+}
+
+
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+}
+
+function getPastDate(days) {
+    const pastDate = new Date();
+    pastDate.setDate(pastDate.getDate() - days);
+    return pastDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+}
+
 </script>
 </body>
 </html>
-
