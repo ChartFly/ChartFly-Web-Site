@@ -188,12 +188,12 @@
 
         fetchHaltedStocks();
 
-         <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
+      <!-- ✅ Make sure these sections are OUTSIDE of <script> -->
+<div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2>Stock Watchlist</h2>
     <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px;">
     <button onclick="addTicker()" style="font-size: 12px; padding: 5px;">Add</button>
     
-    <!-- Watchlist Table: 1 row high, 10 columns wide -->
     <table id="watchlist" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
         <thead>
             <tr>
@@ -209,16 +209,12 @@
                 <th>52W High</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Watchlist tickers will be added here dynamically -->
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
 
-<!-- 1-inch gap between tables -->
 <div style="height: 50px;"></div>
 
-<!-- Metrics Table: At least 13-20 columns, matches Halted Stocks Tracker width -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2>Stock Metrics</h2>
     <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px;">
@@ -241,14 +237,12 @@
                 <th>Recent News</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Stock Metrics data will be added here dynamically -->
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
 
+<!-- ✅ Now JavaScript starts BELOW the content -->
 <script>
-    // ✅ Stock Watchlist Logic is Now Included Below
     const watchlist = [];
 
     function addTicker() {
@@ -322,4 +316,4 @@
 </script>
 </body>
 </html>
-  
+
