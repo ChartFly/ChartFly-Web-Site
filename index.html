@@ -188,87 +188,138 @@
 
         fetchHaltedStocks();
 
-            // ✅ Stock Watchlist Logic is Now Included Below
-        const watchlist = [];
+         <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
+    <h2>Stock Watchlist</h2>
+    <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px;">
+    <button onclick="addTicker()" style="font-size: 12px; padding: 5px;">Add</button>
+    
+    <!-- Watchlist Table: 1 row high, 10 columns wide -->
+    <table id="watchlist" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Current</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Prev Close</th>
+                <th>Market Cap</th>
+                <th>P/E Ratio</th>
+                <th>EPS</th>
+                <th>52W High</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Watchlist tickers will be added here dynamically -->
+        </tbody>
+    </table>
+</div>
 
-        function addTicker() {
-            const tickerInput = document.getElementById("tickerInput");
-            const ticker = tickerInput.value.trim().toUpperCase();
-            if (ticker && !watchlist.includes(ticker)) {
-                watchlist.push(ticker);
-                fetchStockData(ticker);
-            }
-            tickerInput.value = "";
+<!-- 1-inch gap between tables -->
+<div style="height: 50px;"></div>
+
+<!-- Metrics Table: At least 13-20 columns, matches Halted Stocks Tracker width -->
+<div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
+    <h2>Stock Metrics</h2>
+    <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Current Price</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Prev Close</th>
+                <th>Market Cap</th>
+                <th>Shares Out</th>
+                <th>P/E Ratio</th>
+                <th>EPS</th>
+                <th>52W High</th>
+                <th>52W Low</th>
+                <th>Dividend Yield</th>
+                <th>Short Interest</th>
+                <th>Recent News</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Stock Metrics data will be added here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // ✅ Stock Watchlist Logic is Now Included Below
+    const watchlist = [];
+
+    function addTicker() {
+        const tickerInput = document.getElementById("tickerInput");
+        const ticker = tickerInput.value.trim().toUpperCase();
+        if (ticker && !watchlist.includes(ticker)) {
+            watchlist.push(ticker);
+            fetchStockData(ticker);
         }
+        tickerInput.value = "";
+    }
 
-        async function fetchStockData(ticker) {
-            const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
-            const PROFILE_API_URL = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
-            const METRIC_API_URL = `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${FINNHUB_API_KEY}`;
-            const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${getPastDate(30)}&to=${getTodayDate()}&token=${FINNHUB_API_KEY}`;
-            
-            try {
-                const [quoteRes, profileRes, metricRes, newsRes] = await Promise.all([
-                    fetch(STOCK_API_URL),
-                    fetch(PROFILE_API_URL),
-                    fetch(METRIC_API_URL),
-                    fetch(NEWS_API_URL)
-                ]);
-                
-                if (!quoteRes.ok || !profileRes.ok || !metricRes.ok || !newsRes.ok) {
-                    throw new Error("One or more API requests failed");
-                }
-                
-                const [quoteData, profileData, metricData, newsData] = await Promise.all([
-                    quoteRes.json(),
-                    profileRes.json(),
-                    metricRes.json(),
-                    newsRes.json()
-                ]);
-
-                updateWatchlist(ticker, quoteData, profileData, metricData, newsData);
-            } catch (error) {
-                console.error("Error fetching stock data:", error);
-            }
+    document.getElementById("tickerInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            addTicker();
         }
+    });
 
-        function updateWatchlist(ticker, quote, profile, metric, news) {
-            const tableBody = document.querySelector("#watchlist tbody");
-            const row = `<tr style="font-size: 12px;">
-                <td>${ticker}</td>
-                <td>${quote.c ? `$${quote.c.toFixed(2)}` : "N/A"}</td>
-                <td>${quote.o ? `$${quote.o.toFixed(2)}` : "N/A"}</td>
-                <td>${quote.h ? `$${quote.h.toFixed(2)}` : "N/A"}</td>
-                <td>${quote.l ? `$${quote.l.toFixed(2)}` : "N/A"}</td>
-                <td>${quote.pc ? `$${quote.pc.toFixed(2)}` : "N/A"}</td>
-                <td>${metric.metric.marketCapitalization ? `$${metric.metric.marketCapitalization.toFixed(2)}B` : "N/A"}</td>
-                <td>${metric.metric.shareOutstanding ? `${metric.metric.shareOutstanding.toFixed(2)}M` : "N/A"}</td>
-                <td>${metric.metric.peRatio ? metric.metric.peRatio.toFixed(2) : "N/A"}</td>
-                <td>${metric.metric.eps ? `$${metric.metric.eps.toFixed(2)}` : "N/A"}</td>
-                <td>${metric.metric.52WeekHigh ? `$${metric.metric["52WeekHigh"].toFixed(2)}` : "N/A"}</td>
-                <td>${metric.metric.52WeekLow ? `$${metric.metric["52WeekLow"].toFixed(2)}` : "N/A"}</td>
-                <td>${metric.metric.dividendYield ? `${(metric.metric.dividendYield * 100).toFixed(2)}%` : "N/A"}</td>
-                <td>${metric.metric.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
-                <td>${getLatestNews(news)}</td>
-            </tr>`;
-            tableBody.innerHTML += row;
-        }
-
-        function getLatestNews(newsData) {
-            if (!newsData || newsData.length === 0) return "No recent news";
-            const latestNews = newsData.slice(0, 3).map(news => `<a href="${news.url}" target="_blank">${news.headline}</a>`).join("<br>");
-            return latestNews;
-        }
-
-        function getTodayDate() {
-            return new Date().toISOString().split('T')[0];
-        }
+    async function fetchStockData(ticker) {
+        const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+        const PROFILE_API_URL = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+        const METRIC_API_URL = `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${FINNHUB_API_KEY}`;
+        const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${getPastDate(30)}&to=${getTodayDate()}&token=${FINNHUB_API_KEY}`;
         
-        function getPastDate(days) {
-            const pastDate = new Date();
-            pastDate.setDate(pastDate.getDate() - days);
-            return pastDate.toISOString().split('T')[0];
+        try {
+            const [quoteRes, profileRes, metricRes, newsRes] = await Promise.all([
+                fetch(STOCK_API_URL),
+                fetch(PROFILE_API_URL),
+                fetch(METRIC_API_URL),
+                fetch(NEWS_API_URL)
+            ]);
+            
+            if (!quoteRes.ok || !profileRes.ok || !metricRes.ok || !newsRes.ok) {
+                throw new Error("One or more API requests failed");
+            }
+            
+            const [quoteData, profileData, metricData, newsData] = await Promise.all([
+                quoteRes.json(),
+                profileRes.json(),
+                metricRes.json(),
+                newsRes.json()
+            ]);
+
+            updateMetrics(ticker, quoteData, profileData, metricData, newsData);
+        } catch (error) {
+            console.error("Error fetching stock data:", error);
         }
-    </script>
+    }
+
+    function updateMetrics(ticker, quote, profile, metric, news) {
+        const tableBody = document.querySelector("#stock-metrics tbody");
+        const row = `<tr style="font-size: 12px;">
+            <td>${ticker}</td>
+            <td>${quote.c ? `$${quote.c.toFixed(2)}` : "N/A"}</td>
+            <td>${quote.o ? `$${quote.o.toFixed(2)}` : "N/A"}</td>
+            <td>${quote.h ? `$${quote.h.toFixed(2)}` : "N/A"}</td>
+            <td>${quote.l ? `$${quote.l.toFixed(2)}` : "N/A"}</td>
+            <td>${quote.pc ? `$${quote.pc.toFixed(2)}` : "N/A"}</td>
+            <td>${metric.metric.marketCapitalization ? `$${metric.metric.marketCapitalization.toFixed(2)}B` : "N/A"}</td>
+            <td>${metric.metric.shareOutstanding ? `${metric.metric.shareOutstanding.toFixed(2)}M` : "N/A"}</td>
+            <td>${metric.metric.peRatio ? metric.metric.peRatio.toFixed(2) : "N/A"}</td>
+            <td>${metric.metric.eps ? `$${metric.metric.eps.toFixed(2)}` : "N/A"}</td>
+            <td>${metric.metric.52WeekHigh ? `$${metric.metric["52WeekHigh"].toFixed(2)}` : "N/A"}</td>
+            <td>${metric.metric.52WeekLow ? `$${metric.metric["52WeekLow"].toFixed(2)}` : "N/A"}</td>
+            <td>${metric.metric.dividendYield ? `${(metric.metric.dividendYield * 100).toFixed(2)}%` : "N/A"}</td>
+            <td>${metric.metric.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
+            <td>${getLatestNews(news)}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    }
+</script>
 </body>
 </html>
+  
