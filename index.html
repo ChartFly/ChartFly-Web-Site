@@ -26,8 +26,9 @@
 }
 
 .logo {
-    height: 80px; /* Adjust height to fit well in the header */
-    width: auto; /* Keeps the aspect ratio */
+    height: auto; /* Automatically adjust height */
+    max-height: 100px; /* Ensure it's not too big */
+    width: auto; /* Keep aspect ratio */
     margin-right: 15px;
 }
 
@@ -92,7 +93,7 @@
 </head>
 <body>
    <header class="header">
-    <img src="image.png" alt="ChartFly Logo" class="logo">
+  <img src="image.png" alt="" class="logo">
     <div class="header-text">
         <h1>ChartFly</h1>
         <p>Educational Tools and Scripts for the Active Trader</p>
@@ -227,8 +228,13 @@
         // Determine if today is a holiday
         const isHoliday = marketHolidays.includes(currentDate);
 
+            // Determine if today is a weekend (Saturday or Sunday)
+        const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+        const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+
         // Determine market status
         let marketStatus = isHoliday ? "Market Closed (Holiday)" :
+            isWeekend ? "Market Closed (Weekend)" :
             hours < 4 ? "Market Closed" :
             hours < 9.5 ? "Pre-Market Trading" :
             hours < 16 ? "Market Open" :
@@ -373,17 +379,17 @@ fetchHaltedStocks();
                 <td id="slot10"></td>
             </tr>
             <tr>
-                <!-- Delete buttons under each ticker -->
-                <td><button class="deleteTicker" data-slot="1">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="2">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="3">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="4">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="5">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="6">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="7">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="8">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="9">Delete</button></td>
-                <td><button class="deleteTicker" data-slot="10">Delete</button></td>
+            <td><button class="deleteTicker" data-slot="1">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="2">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="3">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="4">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="5">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="6">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="7">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="8">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="9">Delete Ticker</button></td>
+<td><button class="deleteTicker" data-slot="10">Delete Ticker</button></td>
+
             </tr>
         </tbody>
     </table>
@@ -392,7 +398,7 @@ fetchHaltedStocks();
 <!-- Stock Metrics Section -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2 style="display: inline;">Stock Metrics</h2>
-    <button id="fetchMetrics" style="font-size: 12px; padding: 5px; margin-left: 10px;">Fetch Watchlist Data</button>
+    <button id="fetchMetrics" style="font-size: 12px; padding: 5px; margin-left: 5px;">Fetch Watchlist Data</button>
     
     <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
         <thead>
@@ -606,7 +612,7 @@ function getPastDate(days) {
     return pastDate.toISOString().split("T")[0];
 }
 </script>
-
-
 </body>
 </html>
+
+
