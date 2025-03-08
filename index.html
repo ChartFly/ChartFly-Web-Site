@@ -26,31 +26,32 @@
 }
 
 .logo {
-    height: auto; /* Automatically adjust height */
-    max-height: 100px; /* Ensure it's not too big */
-    width: auto; /* Keep aspect ratio */
+    width: 1.5in;  /* Set width to 1.5 inches */
+    height: 1.5in; /* Set height to 1.5 inches */
+    object-fit: contain; /* Ensures image scales correctly */
     margin-right: 15px;
 }
 
 .header-text {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centers text horizontally */
     justify-content: center;
-    line-height: 1.2;
+    text-align: center; /* Ensures text stays centered */
+    width: 100%;
+    line-height: 1.4;
 }
 
 .header-text h1 {
     margin: 0;
-    font-size: 24px; /* Adjusted for better proportion */
+    font-size: 28px; /* Increased font size */
 }
 
 .header-text p {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px; /* Increased font size */
     color: #ddd;
 }
-
-
         .container {
             max-width: 1200px;
             margin: auto;
@@ -365,7 +366,8 @@ fetchHaltedStocks();
     <h2 style="display: inline;">Build Stock Watchlist</h2>
     <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px; margin-left: 10px;">
     <button id="addToWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Add To Watchlist</button>
-    <button id="clearWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Delete Watchlist</button>
+  <button id="fetchMetrics" style="font-size: 12px; padding: 5px; margin-left: 5px;">Fetch Watchlist Data</button>
+  <button id="clearWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Delete Watchlist</button>
     
     <!-- Watchlist Table -->
     <table id="watchlistTable" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
@@ -409,8 +411,7 @@ fetchHaltedStocks();
 <!-- Stock Metrics Section -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2 style="display: inline;">Stock Metrics</h2>
-    <button id="fetchMetrics" style="font-size: 12px; padding: 5px; margin-left: 5px;">Fetch Watchlist Data</button>
-    
+      
     <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
         <thead>
             <tr>
@@ -625,6 +626,7 @@ function getPastDate(days) {
 </script>
 </body>
 </html>
+
 
 
 
