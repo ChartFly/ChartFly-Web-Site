@@ -161,6 +161,16 @@
     padding: 10px;
 }
 
+.deleteTicker {
+    white-space: nowrap; /* Prevents text from wrapping */
+    font-size: 10px; /* Adjust font size for better fit */
+    padding: 4px 6px; /* Adjusts padding for better fit */
+    min-width: 80px; /* Ensures button is wide enough */
+    max-width: 100px; /* Prevents unnecessary stretching */
+    text-align: center; /* Keeps text centered */
+    display: inline-block; /* Ensures proper button formatting */
+}
+
 </style>
 
 <div class="market-status-container">
@@ -379,7 +389,7 @@ fetchHaltedStocks();
                 <td id="slot10"></td>
             </tr>
             <tr>
-            <td><button class="deleteTicker" data-slot="1">Delete Ticker</button></td>
+    <td><button class="deleteTicker" data-slot="1">Delete Ticker</button></td>
 <td><button class="deleteTicker" data-slot="2">Delete Ticker</button></td>
 <td><button class="deleteTicker" data-slot="3">Delete Ticker</button></td>
 <td><button class="deleteTicker" data-slot="4">Delete Ticker</button></td>
@@ -389,6 +399,7 @@ fetchHaltedStocks();
 <td><button class="deleteTicker" data-slot="8">Delete Ticker</button></td>
 <td><button class="deleteTicker" data-slot="9">Delete Ticker</button></td>
 <td><button class="deleteTicker" data-slot="10">Delete Ticker</button></td>
+
 
             </tr>
         </tbody>
@@ -614,5 +625,7 @@ function getPastDate(days) {
 </script>
 </body>
 </html>
+
+
 
 
