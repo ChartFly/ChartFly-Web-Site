@@ -224,35 +224,59 @@ fetchHaltedStocks();
 </script>
 
 <!-- ✅ Make sure these sections are OUTSIDE of <script> -->
+<!-- START: New Watchlist, Stock Metrics, and News Sections -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
-    <h2>Stock Watchlist</h2>
-    <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px;">
-    <button onclick="addTicker()" style="font-size: 12px; padding: 5px;">Add</button>
     
-    <table id="watchlist" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
+    <!-- Build Stock Watchlist Section -->
+    <h2 style="display: inline;">Build Stock Watchlist</h2>
+    <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px; margin-left: 10px;">
+    <button id="addToWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Add To Watchlist</button>
+    <button id="clearWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Delete Watchlist</button>
+    
+    <!-- Watchlist Table -->
+    <table id="watchlistTable" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
         <thead>
             <tr>
-                <th>Symbol</th>
-                <th>Current</th>
-                <th>Open</th>
-                <th>High</th>
-                <th>Low</th>
-                <th>Prev Close</th>
-                <th>Market Cap</th>
-                <th>P/E Ratio</th>
-                <th>EPS</th>
-                <th>52W High</th>
+                <th colspan="10">Watchlist</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            <tr>
+                <!-- Watchlist Slots (Max 10) -->
+                <td id="slot1"></td>
+                <td id="slot2"></td>
+                <td id="slot3"></td>
+                <td id="slot4"></td>
+                <td id="slot5"></td>
+                <td id="slot6"></td>
+                <td id="slot7"></td>
+                <td id="slot8"></td>
+                <td id="slot9"></td>
+                <td id="slot10"></td>
+            </tr>
+            <tr>
+                <!-- Delete buttons under each ticker -->
+                <td><button class="deleteTicker" data-slot="1">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="2">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="3">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="4">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="5">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="6">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="7">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="8">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="9">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="10">Delete</button></td>
+            </tr>
+        </tbody>
     </table>
 </div>
 
-<div style="height: 50px;"></div>
-
+<!-- Stock Metrics Section -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
-    <h2>Stock Metrics</h2>
-    <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+    <h2 style="display: inline;">Stock Metrics</h2>
+    <button id="fetchMetrics" style="font-size: 12px; padding: 5px; margin-left: 10px;">Fetch Watchlist Data</button>
+    
+    <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
         <thead>
             <tr>
                 <th>Symbol</th>
@@ -269,73 +293,125 @@ fetchHaltedStocks();
                 <th>52W Low</th>
                 <th>Dividend Yield</th>
                 <th>Short Interest</th>
-                <th>Recent News</th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
 </div>
 
+<!-- News Section -->
+<div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
+    <h2>Latest News</h2>
+    <table id="newsTable" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
+        <thead>
+            <tr>
+                <th style="width: 10%;">Symbol</th>
+                <th style="width: 90%;">News Headlines</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!-- END: New Watchlist, Stock Metrics, and News Sections -->
+
+
 <!-- ✅ Now JavaScript starts BELOW the content -->
 <script>
-    const watchlist = [];
+const watchlist = [];
+const maxTickers = 10;
 
-    function addTicker() {
-        const tickerInput = document.getElementById("tickerInput");
-        const ticker = tickerInput.value.trim().toUpperCase();
-        if (ticker && !watchlist.includes(ticker)) {
-            watchlist.push(ticker);
-            fetchStockData(ticker);
-        }
+// Function to add a ticker to the watchlist
+function addTicker() {
+    const tickerInput = document.getElementById("tickerInput");
+    const ticker = tickerInput.value.trim().toUpperCase();
+    if (ticker && !watchlist.includes(ticker) && watchlist.length < maxTickers) {
+        watchlist.push(ticker);
+        updateWatchlistDisplay();
         tickerInput.value = "";
     }
-
-    document.getElementById("tickerInput").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            addTicker();
-        }
-    });
-
-const FINNHUB_API_KEY = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0"; // Replace with actual key
-if (!FINNHUB_API_KEY || FINNHUB_API_KEY === "your_api_key_here") {
-    console.error("Error: FINNHUB_API_KEY is missing or not set.");
+    if (watchlist.length >= maxTickers) {
+        document.getElementById("addToWatchlist").innerText = "Watchlist Full";
+        document.getElementById("addToWatchlist").disabled = true;
+    }
 }
 
+// Function to update watchlist display
+function updateWatchlistDisplay() {
+    for (let i = 0; i < maxTickers; i++) {
+        document.getElementById(`slot${i + 1}`).innerText = watchlist[i] || "";
+    }
+}
 
+// Function to delete a specific ticker
+function deleteTicker(slot) {
+    watchlist.splice(slot, 1);
+    updateWatchlistDisplay();
+    document.getElementById("addToWatchlist").innerText = "Add To Watchlist";
+    document.getElementById("addToWatchlist").disabled = false;
+}
+
+// Function to clear entire watchlist
+function clearWatchlist() {
+    watchlist.length = 0;
+    updateWatchlistDisplay();
+    document.getElementById("addToWatchlist").innerText = "Add To Watchlist";
+    document.getElementById("addToWatchlist").disabled = false;
+}
+
+// Event listeners for buttons
+
+document.getElementById("addToWatchlist").addEventListener("click", addTicker);
+document.getElementById("clearWatchlist").addEventListener("click", clearWatchlist);
+
+const deleteButtons = document.querySelectorAll(".deleteTicker");
+deleteButtons.forEach((button, index) => {
+    button.addEventListener("click", () => deleteTicker(index));
+});
+
+// Function to fetch metrics for watchlist with 1-second delay per call
+async function fetchBatchStockData() {
+    let delay = 1000; // 1-second delay per ticker
+    watchlist.forEach((ticker, index) => {
+        setTimeout(() => {
+            fetchStockData(ticker);
+        }, index * delay);
+    });
+}
+
+document.getElementById("fetchMetrics").addEventListener("click", fetchBatchStockData);
+
+// Function to fetch stock data
 async function fetchStockData(ticker) {
+    const FINNHUB_API_KEY = "cv4gk8pr01qn2gaa2bfgcv4gk8pr01qn2gaa2bg0";
     const STOCK_API_URL = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
-    const PROFILE_API_URL = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
     const METRIC_API_URL = `https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${FINNHUB_API_KEY}`;
     const NEWS_API_URL = `https://finnhub.io/api/v1/company-news?symbol=${ticker}&from=${getPastDate(30)}&to=${getTodayDate()}&token=${FINNHUB_API_KEY}`;
 
     try {
-        const [quoteRes, profileRes, metricRes, newsRes] = await Promise.all([
+        const [quoteRes, metricRes, newsRes] = await Promise.all([
             fetch(STOCK_API_URL),
-            fetch(PROFILE_API_URL),
             fetch(METRIC_API_URL),
             fetch(NEWS_API_URL)
         ]);
 
-        if (!quoteRes.ok || !profileRes.ok || !metricRes.ok || !newsRes.ok) {
+        if (!quoteRes.ok || !metricRes.ok || !newsRes.ok) {
             throw new Error("One or more API requests failed");
         }
 
-        // ✅ Safely parse JSON responses to avoid crashes
-        let quoteData, profileData, metricData, newsData;
-        try { quoteData = await quoteRes.json(); } catch { quoteData = {}; }
-        try { profileData = await profileRes.json(); } catch { profileData = {}; }
-        try { metricData = await metricRes.json(); } catch { metricData = {}; }
-        try { newsData = await newsRes.json(); } catch { newsData = []; }
+        let quoteData = await quoteRes.json();
+        let metricData = await metricRes.json();
+        let newsData = await newsRes.json();
 
-        updateMetrics(ticker, quoteData, profileData, metricData, newsData);
+        updateMetrics(ticker, quoteData, metricData, newsData);
     } catch (error) {
         console.error("Error fetching stock data:", error);
     }
 }
 
-function updateMetrics(ticker, quote, profile, metric, news) {
+// Function to update metrics table
+function updateMetrics(ticker, quote, metric, news) {
     const tableBody = document.querySelector("#stock-metrics tbody");
-    const row = `<tr style="font-size: 12px;">
+    const row = `<tr>
         <td>${ticker}</td>
         <td>${quote?.c ? `$${quote.c.toFixed(2)}` : "N/A"}</td>
         <td>${quote?.o ? `$${quote.o.toFixed(2)}` : "N/A"}</td>
@@ -350,31 +426,33 @@ function updateMetrics(ticker, quote, profile, metric, news) {
         <td>${metric?.metric?.["52WeekLow"] ? `$${metric.metric["52WeekLow"].toFixed(2)}` : "N/A"}</td>
         <td>${metric?.metric?.dividendYield ? `${(metric.metric.dividendYield * 100).toFixed(2)}%` : "N/A"}</td>
         <td>${metric?.metric?.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
-        <td>${getLatestNews(news)}</td>
     </tr>`;
+    tableBody.innerHTML += row;
+    updateNewsTable(ticker, news);
+}
 
+// Function to update news table
+function updateNewsTable(ticker, news) {
+    const tableBody = document.querySelector("#newsTable tbody");
+    const newsHeadlines = news.slice(0, 4).map(item => `<li>${item.headline}</li>`).join(" ");
+    const row = `<tr>
+        <td>${ticker}</td>
+        <td><ul>${newsHeadlines || "No recent news"}</ul></td>
+    </tr>`;
     tableBody.innerHTML += row;
 }
 
-function getLatestNews(news) {
-    if (!Array.isArray(news) || news.length === 0) {
-        return "No recent news";
-    }
-    return news[0]?.headline || "No recent news";
-}
-
-
 function getTodayDate() {
-    const today = new Date();
-    return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+    return new Date().toISOString().split("T")[0];
 }
 
 function getPastDate(days) {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - days);
-    return pastDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+    return pastDate.toISOString().split("T")[0];
 }
-
 </script>
+
+
 </body>
 </html>
