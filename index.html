@@ -12,31 +12,44 @@
             flex-direction: column;
             align-items: center;
         }
-        .header {
-            width: 100%;
-            background: #333;
-            color: white;
-            padding: 15px 0;
-            font-size: 22px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header h1 {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .header img {
-            width: 108px;
-            height: 108px;
-        }
-        .tagline {
-            font-size: 14px;
-            text-align: center;
-            color: #ddd;
-        }
+    .header {
+    width: 100%;
+    background: #333;
+    color: white;
+    padding: 15px 0;
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 20px;
+}
+
+.logo {
+    height: 80px; /* Adjust height to fit well in the header */
+    width: auto; /* Keeps the aspect ratio */
+    margin-right: 15px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 24px; /* Adjusted for better proportion */
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #ddd;
+}
+
+
         .container {
             max-width: 1200px;
             margin: auto;
@@ -78,86 +91,126 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>
-            <img src="image.png" alt="ChartFly"> ChartFly
-        </h1>
-    </header>
-    <p class="tagline">Educational tools and information for active day traders</p>
+   <header class="header">
+    <img src="image.png" alt="ChartFly Logo" class="logo">
+    <div class="header-text">
+        <h1>ChartFly</h1>
+        <p>Educational Tools and Scripts for the Active Trader</p>
+    </div>
+</header>
+
     
 <style>
     /* Updated holiday table styling */
-    .holiday-schedule {
-        width: 100%; /* Matches the other tables */
-        margin-top: 20px;
-        background: white;
-        padding: 15px;
-        border: 1px solid #ddd;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        font-size: 12px;
-        margin-bottom: 50px;
-        text-align: center; /* Centers the text */
-    }
+   .market-status-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
 
-    .holiday-schedule th,
-    .holiday-schedule td {
-        text-align: center; /* Centers headers and data */
-    }
+.market-status-title {
+    font-size: 18px;
+    font-weight: bold;
+}
 
-    .market-status {
-        font-size: 16px;
-        font-weight: bold;
-        padding: 10px;
-        text-align: center;
-    }
+.market-status-text {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+/* Market status color styles */
+.market-open {
+    background-color: green;
+}
+
+.market-closed {
+    background-color: red;
+}
+
+.market-prepost {
+    background-color: gold;
+    color: black;
+}
+
+/* Make the holidays table the same width as the Halted Stocks Tracker */
+.holiday-schedule {
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.holiday-schedule th,
+.holiday-schedule td {
+    text-align: center;
+    padding: 10px;
+}
+
 </style>
 
-<section id="market-status">
-    <h2>Market Status</h2>
-    <div id="market-status-text" class="market-status">Checking market status...</div>
-    <h3>Upcoming Market Holidays</h3>
-    <table class="holiday-schedule">
-        <thead>
-            <tr>
-                <th>January</th>
-                <th>February</th>
-                <th>March</th>
-                <th>April</th>
-                <th>May</th>
-                <th>June</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>New Year's Day<br>Jan 1 (Closed)</td>
-                <td>Presidents' Day<br>Feb 19 (Closed)</td>
-                <td>No Holiday</td>
-                <td>Good Friday<br>Mar 29 (Closed)</td>
-                <td>Memorial Day<br>May 27 (Closed)</td>
-                <td>No Holiday</td>
-            </tr>
-        </tbody>
-        <thead>
-            <tr>
-                <th>July</th>
-                <th>August</th>
-                <th>September</th>
-                <th>October</th>
-                <th>November</th>
-                <th>December</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Independence Day<br>Jul 4 (Closed)</td>
-                <td>No Holiday</td>
-                <td>Labor Day<br>Sep 2 (Closed)</td>
-                <td>No Holiday</td>
-                <td>Thanksgiving<br>Nov 28 (Closed)</td>
-                <td>Christmas<br>Dec 25 (Closed)</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="market-status-container">
+    <span class="market-status-title">Market Status</span>
+    <span id="market-status-text" class="market-status-text">Checking market status...</span>
+</div>
+
+<h3 style="text-align: left; max-width: 1200px;">Upcoming Market Holidays</h3>
+<table class="holiday-schedule">
+    <thead>
+        <tr>
+            <th>January</th>
+            <th>February</th>
+            <th>March</th>
+            <th>April</th>
+            <th>May</th>
+            <th>June</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>New Year's Day<br>Jan 1 (Closed)</td>
+            <td>Presidents' Day<br>Feb 19 (Closed)</td>
+            <td>No Holiday</td>
+            <td>Good Friday<br>Mar 29 (Closed)</td>
+            <td>Memorial Day<br>May 27 (Closed)</td>
+            <td>No Holiday</td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th>July</th>
+            <th>August</th>
+            <th>September</th>
+            <th>October</th>
+            <th>November</th>
+            <th>December</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Independence Day<br>Jul 4 (Closed)</td>
+            <td>No Holiday</td>
+            <td>Labor Day<br>Sep 2 (Closed)</td>
+            <td>No Holiday</td>
+            <td>Thanksgiving<br>Nov 28 (Closed)</td>
+            <td>Christmas<br>Dec 25 (Closed)</td>
+        </tr>
+    </tbody>
+</table>
+
 </section>
 
 <script>
@@ -166,51 +219,32 @@
         const hours = now.getHours();
         const minutes = now.getMinutes();
         const currentDate = now.toISOString().split("T")[0];
-
         const marketStatusElement = document.getElementById("market-status-text");
+
+        // List of official market holidays
+        const marketHolidays = ["2025-01-01", "2025-02-19", "2025-03-29", "2025-05-27", "2025-07-04", "2025-09-02", "2025-11-28", "2025-12-25"];
         
-        // Market hours in Eastern Time (ET)
-        const preMarketStart = 4;  // 4:00 AM ET
-        const marketOpen = 9.5;     // 9:30 AM ET
-        const marketClose = 16;     // 4:00 PM ET
-        const afterHoursEnd = 20;   // 8:00 PM ET
-
-        // List of market holidays
-        const marketHolidays = [
-            "2025-01-01", // New Year's Day
-            "2025-02-19", // Presidents' Day
-            "2025-03-29", // Good Friday
-            "2025-05-27", // Memorial Day
-            "2025-07-04", // Independence Day
-            "2025-09-02", // Labor Day
-            "2025-11-28", // Thanksgiving
-            "2025-12-25"  // Christmas
-        ];
-
+        // Determine if today is a holiday
         const isHoliday = marketHolidays.includes(currentDate);
 
-        let marketStatus;
+        // Determine market status
+        let marketStatus = isHoliday ? "Market Closed (Holiday)" :
+            hours < 4 ? "Market Closed" :
+            hours < 9.5 ? "Pre-Market Trading" :
+            hours < 16 ? "Market Open" :
+            hours < 20 ? "After-Market Trading" :
+            "Market Closed";
 
-        if (isHoliday) {
-            marketStatus = "Market Closed (Holiday)";
-        } else if (hours + minutes / 60 < preMarketStart) {
-            marketStatus = "Market Closed";
-        } else if (hours + minutes / 60 < marketOpen) {
-            marketStatus = "Pre-Market Trading";
-        } else if (hours + minutes / 60 < marketClose) {
-            marketStatus = "Market Open";
-        } else if (hours + minutes / 60 < afterHoursEnd) {
-            marketStatus = "After-Market Trading";
-        } else {
-            marketStatus = "Market Closed";
-        }
-
+        // Apply correct class for color styling
         marketStatusElement.textContent = marketStatus;
+        marketStatusElement.className = `market-status-text ${isHoliday || marketStatus.includes("Closed") ? "market-closed" : marketStatus.includes("Open") ? "market-open" : "market-prepost"}`;
     }
 
     // Run update when the page loads
     updateMarketStatus();
 </script>
+
+
 
 
   <div class="container" style="font-size: 12px;">
