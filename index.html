@@ -22,36 +22,40 @@
     font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: space-between;  /* Fixes centering issue */
+    justify-content: center; /* Centers all elements in the header */
     padding-left: 20px;
 }
 
 .logo {
-    width: 1.5in;
-    height: 1.5in;
-    object-fit: contain;
+    width: 1.5in;  /* Set width to 1.5 inches */
+    height: 1.5in; /* Set height to 1.5 inches */
+    object-fit: contain; /* Ensures image scales correctly */
     margin-right: 15px;
+    flex-shrink: 0; /* Prevents logo from shrinking */
 }
 
 .header-text {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centers text horizontally */
     justify-content: center;
-    text-align: center;
-    flex-grow: 1; /* Allows text to be properly centered */
+    text-align: center; /* Ensures text stays centered */
+    flex-grow: 1; /* Allows text to fill remaining space */
+    line-height: 1.4;
 }
 
 .header-text h1 {
     margin: 0;
-    font-size: 36px; /* Increased font size */
+    font-size: 32px; /* Increase font size for "ChartFly" */
 }
 
 .header-text p {
     margin: 0;
-    font-size: 20px; /* Increased font size */
+    font-size: 18px; /* Increase font size for tagline */
     color: #ddd;
 }
+
+
         .container {
             max-width: 1200px;
             margin: auto;
