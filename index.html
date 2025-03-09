@@ -16,10 +16,11 @@
 .header {
     width: 100%;
     background: #007a8a; /* Dark Turquoise */
-    padding: 15px 0;
+    padding: 15px 0 35px; /* Increased bottom padding for scrolling text */
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Allows stacking */
     align-items: center;
+    position: relative;
 }
 
 .header-container {
@@ -32,6 +33,34 @@
     padding: 0 20px;
 }
 
+.market-status-text {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Scrolling Holiday Marquee */
+.holiday-marquee {
+    width: 100%;
+    font-size: 10px;
+    text-align: center;
+    color: black;
+    overflow: hidden;
+    background: #007a8a; /* Same as header */
+    padding: 5px 0; /* Padding for spacing */
+}
+
+.holiday-title {
+    font-weight: bold;
+    margin-right: 10px;
+}
+      
 .logo {
     width: 1.5in;
     height: auto;
@@ -56,7 +85,6 @@
     font-size: 24px;
     color: #ddd;
 }
-
 
         .container {
             max-width: 1200px;
@@ -111,37 +139,21 @@
         </div>
         <span id="market-status-text" class="market-status-text">Checking market status...</span>
     </div>
+    <div class="holiday-marquee">
+        <span class="holiday-title">2025 Market Holidays:</span>
+        <marquee behavior="scroll" direction="left" scrollamount="5">
+            Jan 1 - New Year's Day      |      Feb 19 - Presidents' Day      |      Mar 29 - Good Friday      |      
+            May 27 - Memorial Day      |      Jul 4 - Independence Day      |      Sep 2 - Labor Day      |      
+            Nov 28 - Thanksgiving      |      Dec 25 - Christmas
+        </marquee>
+    </div>
 </header>
     
 <style>
-    /* Updated holiday table styling */
-   .market-status-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
-
+ 
 .market-status-title {
     font-size: 18px;
     font-weight: bold;
-}
-
-.market-status-text {
-    font-size: 16px;
-    font-weight: bold;
-    padding: 5px 15px;
-    border-radius: 5px;
-    color: white;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 /* Market status color styles */
@@ -196,8 +208,6 @@
     color: black;
 }
 
-
-
 .deleteTicker {
     white-space: nowrap; /* Prevents text from wrapping */
     font-size: 10px; /* Adjust font size for better fit */
@@ -209,51 +219,6 @@
 }
 
 </style>
-
-
-<h3 style="text-align: left; max-width: 1200px;">Upcoming Market Holidays</h3>
-<table class="holiday-schedule">
-    <thead>
-        <tr>
-            <th>January</th>
-            <th>February</th>
-            <th>March</th>
-            <th>April</th>
-            <th>May</th>
-            <th>June</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>New Year's Day<br>Jan 1 (Closed)</td>
-            <td>Presidents' Day<br>Feb 19 (Closed)</td>
-            <td>No Holiday</td>
-            <td>Good Friday<br>Mar 29 (Closed)</td>
-            <td>Memorial Day<br>May 27 (Closed)</td>
-            <td>No Holiday</td>
-        </tr>
-    </tbody>
-    <thead>
-        <tr>
-            <th>July</th>
-            <th>August</th>
-            <th>September</th>
-            <th>October</th>
-            <th>November</th>
-            <th>December</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Independence Day<br>Jul 4 (Closed)</td>
-            <td>No Holiday</td>
-            <td>Labor Day<br>Sep 2 (Closed)</td>
-            <td>No Holiday</td>
-            <td>Thanksgiving<br>Nov 28 (Closed)</td>
-            <td>Christmas<br>Dec 25 (Closed)</td>
-        </tr>
-    </tbody>
-</table>
 
 </section>
 
@@ -292,9 +257,6 @@
     // Run update when the page loads
     updateMarketStatus();
 </script>
-
-
-
 
   <div class="container" style="font-size: 12px;">
         <h2 style="font-size: 12px;">Halted Stocks Tracker</h2>
@@ -374,7 +336,6 @@ async function fetchHaltedStocks() {
     }
 }
 
-
 fetchHaltedStocks();
 
     // ✅ Helper functions for date formatting
@@ -434,7 +395,6 @@ fetchHaltedStocks();
 <td><button class="deleteTicker" data-slot="9">Delete Ticker</button></td>
 <td><button class="deleteTicker" data-slot="10">Delete Ticker</button></td>
 
-
             </tr>
         </tbody>
     </table>
@@ -481,7 +441,6 @@ fetchHaltedStocks();
     </table>
 </div>
 <!-- END: New Watchlist, Stock Metrics, and News Sections -->
-
 
 <!-- ✅ Now JavaScript starts BELOW the content -->
 <script>
@@ -555,7 +514,6 @@ function clearWatchlist() {
     document.getElementById("addToWatchlist").disabled = false;
 }
 
-
 // Event listeners for buttons
 document.getElementById("addToWatchlist").addEventListener("click", addTicker);
 document.getElementById("tickerInput").addEventListener("keypress", function(event) {
@@ -563,7 +521,6 @@ document.getElementById("tickerInput").addEventListener("keypress", function(eve
         addTicker();
     }
 });
-
 
 document.getElementById("clearWatchlist").addEventListener("click", clearWatchlist);
 
@@ -658,13 +615,3 @@ function getPastDate(days) {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
