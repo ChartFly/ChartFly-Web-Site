@@ -12,7 +12,8 @@
             flex-direction: column;
             align-items: center;
         }
-    .header {
+   
+   .header {
     width: 100%;
     background: #333;
     color: white;
@@ -21,34 +22,34 @@
     font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;  /* Fixes centering issue */
     padding-left: 20px;
 }
 
 .logo {
-    width: 1.5in;  /* Set width to 1.5 inches */
-    height: 1.5in; /* Set height to 1.5 inches */
-    object-fit: contain; /* Ensures image scales correctly */
+    width: 1.5in;
+    height: 1.5in;
+    object-fit: contain;
+    margin-right: 15px;
 }
 
 .header-text {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers text horizontally */
+    align-items: center;
     justify-content: center;
-    text-align: center; /* Ensures text stays centered */
-    width: 100%;
-    line-height: 1.4;
+    text-align: center;
+    flex-grow: 1; /* Allows text to be properly centered */
 }
 
 .header-text h1 {
     margin: 0;
-    font-size: 28px; /* Increased font size */
+    font-size: 36px; /* Increased font size */
 }
 
 .header-text p {
     margin: 0;
-    font-size: 16px; /* Increased font size */
+    font-size: 20px; /* Increased font size */
     color: #ddd;
 }
         .container {
