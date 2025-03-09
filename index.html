@@ -22,14 +22,14 @@
     align-items: center;
 }
 
-
 .header-container {
     width: 100%;
     max-width: 1200px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Keeps logo left, centers text */
+    justify-content: space-between;
     position: relative;
+    padding: 0 20px;
 }
 
 .logo {
@@ -100,7 +100,8 @@
     </style>
 </head>
 <body>
-  <header class="header">
+  
+<header class="header">
     <div class="header-container">
         <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"  
              alt="ChartFly Logo" class="logo">
@@ -108,11 +109,9 @@
             <h1>ChartFly</h1>
             <p>Trading Tools and Scripts for My Personal Use Only</p>
         </div>
+        <span id="market-status-text" class="market-status-text">Checking market status...</span>
     </div>
 </header>
-
-
-
     
 <style>
     /* Updated holiday table styling */
@@ -136,9 +135,13 @@
 .market-status-text {
     font-size: 16px;
     font-weight: bold;
-    padding: 5px 10px;
+    padding: 5px 15px;
     border-radius: 5px;
     color: white;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* Market status color styles */
@@ -207,10 +210,6 @@
 
 </style>
 
-<div class="market-status-container">
-    <span class="market-status-title">Market Status</span>
-    <span id="market-status-text" class="market-status-text">Checking market status...</span>
-</div>
 
 <h3 style="text-align: left; max-width: 1200px;">Upcoming Market Holidays</h3>
 <table class="holiday-schedule">
@@ -659,6 +658,11 @@ function getPastDate(days) {
 </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
