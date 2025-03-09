@@ -15,13 +15,13 @@
    
 .header {
     width: 100%;
-    background: #333;
-    color: white;
+    background: #007a8a; /* Dark Turquoise */
     padding: 15px 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 
 .header-container {
     width: 100%;
@@ -77,9 +77,10 @@
             text-align: left;
         }
         th {
-            background-color: #333;
-            color: white;
-        }
+			background-color: #005662; /* Market Closed Blue-Gray */
+			color: White;
+		}
+
         .stock-input {
             margin-bottom: 10px;
             padding: 5px;
@@ -105,7 +106,7 @@
              alt="ChartFly Logo" class="logo">
         <div class="header-text">
             <h1>ChartFly</h1>
-            <p>Educational Tools and Scripts for the Active Trader</p>
+            <p>Trading Tools and Scripts for My Personal Use Only</p>
         </div>
     </div>
 </header>
@@ -167,11 +168,32 @@
     text-align: center;
 }
 
-.holiday-schedule th,
+.holiday-schedule th {
+    background-color: #B2DFDB; /* Light Turquoise */
+    color: #004D40; /* Dark Greenish-Blue for contrast */
+}
+
 .holiday-schedule td {
     text-align: center;
     padding: 10px;
 }
+
+#watchlistTable th {
+    background-color: #0097A7; /* Market Pre/Post Turquoise */
+    color: black;
+}
+
+#stock-metrics th {
+    background-color: #80CBC4; /* Medium Turquoise */
+    color: black;
+}
+
+#newsTable th {
+    background-color: #E0F2F1; /* Soft Blue Tint */
+    color: black;
+}
+
+
 
 .deleteTicker {
     white-space: nowrap; /* Prevents text from wrapping */
