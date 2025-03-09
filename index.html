@@ -13,44 +13,46 @@
             align-items: center;
         }
    
-   .header {
+.header {
     width: 100%;
     background: #333;
     color: white;
     padding: 15px 0;
-    font-size: 22px;
-    font-weight: bold;
+    display: flex;
+    justify-content: center; /* Keeps everything centered */
+    align-items: center;
+}
+
+.header-container {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centers the entire content (logo + text) */
-    gap: 15px; /* Adds spacing between logo and text */
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .logo {
     width: 1.5in;
     height: 1.5in;
     object-fit: contain;
+    margin-right: 15px; /* Ensures space between logo and text */
 }
 
 .header-text {
     display: flex;
     flex-direction: column;
-    align-items: center;
     text-align: center;
-    flex-grow: 1; /* Allows text to center properly */
 }
-
 .header-text h1 {
     margin: 0;
-    font-size: 38px; /* Increase font size for "ChartFly" */
+    font-size: 38px;
 }
-
 .header-text p {
     margin: 0;
-    font-size: 24px; /* Increase font size for tagline "Educational Tools and Scripts for the Active Trader" */
+    font-size: 24px;
     color: #ddd;
 }
-
 
         .container {
             max-width: 1200px;
@@ -93,14 +95,17 @@
     </style>
 </head>
 <body>
-   <header class="header">
-  <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"  
-     alt="" class="logo"> 
-    <div class="header-text">
-        <h1>ChartFly</h1>
-        <p>Educational Tools and Scripts for the Active Trader</p>
+  <header class="header">
+    <div class="header-container">
+        <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"  
+             alt="ChartFly Logo" class="logo">
+        <div class="header-text">
+            <h1>ChartFly</h1>
+            <p>Educational Tools and Scripts for the Active Trader</p>
+        </div>
     </div>
 </header>
+
 
     
 <style>
