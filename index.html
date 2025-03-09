@@ -45,20 +45,13 @@
     transform: translateY(-50%);
 }
 
-/* Scrolling Holiday Marquee */
-.holiday-marquee {
-    width: 100%;
-    font-size: 10px;
-    text-align: center;
-    color: black;
-    overflow: hidden;
-    background: #007a8a; /* Same as header */
-    padding: 5px 0; /* Padding for spacing */
-}
-
 .holiday-title {
     font-weight: bold;
     margin-right: 10px;
+}
+
+.holiday-container {
+    text-align: center;
 }
       
 .logo {
@@ -134,19 +127,21 @@
         <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"  
              alt="ChartFly Logo" class="logo">
         <div class="header-text">
-            <h1>ChartFly</h1>
-            <p>Trading Tools and Scripts for My Personal Use Only</p>
+            <h1 style="margin-bottom: 5px;">ChartFly</h1> 
+            <p style="margin-top: 5px;">Trading Tools and Scripts for My Personal Use Only</p> 
         </div>
         <span id="market-status-text" class="market-status-text">Checking market status...</span>
     </div>
-    <div class="holiday-marquee">
-        <span class="holiday-title">2025 Market Holidays:</span>
-        <marquee behavior="scroll" direction="left" scrollamount="5">
-            Jan 1 - New Year's Day      |      Feb 19 - Presidents' Day      |      Mar 29 - Good Friday      |      
-            May 27 - Memorial Day      |      Jul 4 - Independence Day      |      Sep 2 - Labor Day      |      
-            Nov 28 - Thanksgiving      |      Dec 25 - Christmas
-        </marquee>
-    </div>
+   <div class="holiday-container">
+    <span class="holiday-title">2025 Market Holidays:</span>
+    <br> <!-- Adds the vertical space -->
+    <span class="holiday-text">
+        Jan 1 - New Year's Day &nbsp;&nbsp;|&nbsp;&nbsp; Feb 19 - Presidents' Day &nbsp;&nbsp;|&nbsp;&nbsp;
+        Mar 29 - Good Friday &nbsp;&nbsp;|&nbsp;&nbsp; May 27 - Memorial Day &nbsp;&nbsp;|&nbsp;&nbsp;
+        Jul 4 - Independence Day &nbsp;&nbsp;|&nbsp;&nbsp; Sep 2 - Labor Day &nbsp;&nbsp;|&nbsp;&nbsp;
+        Nov 28 - Thanksgiving &nbsp;&nbsp;|&nbsp;&nbsp; Dec 25 - Christmas
+    </span>
+</div>
 </header>
     
 <style>
@@ -615,3 +610,4 @@ function getPastDate(days) {
 </script>
 </body>
 </html>
+
