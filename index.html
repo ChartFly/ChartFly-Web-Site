@@ -464,7 +464,7 @@ function updateWatchlistDisplay() {
     }
 }
 
-// Function to delete a specific ticker and its corresponding data
+/// Function to delete a specific ticker and its corresponding data
 function deleteTicker(slot) {
     if (slot < watchlist.length) {
         const ticker = watchlist[slot];
@@ -473,25 +473,30 @@ function deleteTicker(slot) {
         watchlist.splice(slot, 1);
         updateWatchlistDisplay();
 
-        // Remove from Stock Metrics table
+        // Remove all occurrences of the ticker from Stock Metrics table
         document.querySelectorAll("#stock-metrics tbody tr").forEach(row => {
-            if (row.firstChild.textContent === ticker) {
+            if (row.cells[0].textContent.trim().toUpperCase() === ticker.toUpperCase()) {
                 row.remove();
             }
         });
 
-        // Remove from News table
+        // Remove all occurrences of the ticker from News table
         document.querySelectorAll("#newsTable tbody tr").forEach(row => {
-            if (row.firstChild.textContent === ticker) {
+            if (row.cells[0].textContent.trim().toUpperCase() === ticker.toUpperCase()) {
                 row.remove();
             }
         });
+
+        // Remove ticker's data from memory (optional if stored elsewhere)
+        delete stockData[ticker];
+        delete newsData[ticker];
 
         // Re-enable "Add To Watchlist" button if space is available
         document.getElementById("addToWatchlist").innerText = "Add To Watchlist";
         document.getElementById("addToWatchlist").disabled = false;
     }
 }
+
 
 // Function to clear entire watchlist and its corresponding data
 function clearWatchlist() {
