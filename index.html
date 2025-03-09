@@ -414,7 +414,7 @@ fetchHaltedStocks();
                 <th>EPS</th>
                 <th>52W High</th>
                 <th>52W Low</th>
-                <th>Dividend Yield</th>
+                <th>Shares Outstanding</th>
                 <th>Short Interest</th>
             </tr>
         </thead>
@@ -585,8 +585,8 @@ function updateMetrics(ticker, quote, metric, news) {
         <td>${metric?.metric?.eps ? `$${metric.metric.eps.toFixed(2)}` : "N/A"}</td>
         <td>${metric?.metric?.["52WeekHigh"] ? `$${metric.metric["52WeekHigh"].toFixed(2)}` : "N/A"}</td>
         <td>${metric?.metric?.["52WeekLow"] ? `$${metric.metric["52WeekLow"].toFixed(2)}` : "N/A"}</td>
-        <td>${metric?.metric?.dividendYield ? `${(metric.metric.dividendYield * 100).toFixed(2)}%` : "N/A"}</td>
-        <td>${metric?.metric?.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
+      	<td>${metric?.metric?.shareOutstanding ? `${metric.metric.shareOutstanding.toFixed(2)}M` : "N/A"}</td>
+     	<td>${metric?.metric?.shortInterest ? `${metric.metric.shortInterest.toFixed(2)}M` : "N/A"}</td>
     </tr>`;
     tableBody.innerHTML += row;
     updateNewsTable(ticker, news);
