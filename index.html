@@ -22,36 +22,32 @@
     font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centers all elements in the header */
-    padding-left: 20px;
+    justify-content: center; /* Centers the entire content (logo + text) */
+    gap: 15px; /* Adds spacing between logo and text */
 }
 
 .logo {
-    width: 1.5in;  /* Set width to 1.5 inches */
-    height: 1.5in; /* Set height to 1.5 inches */
-    object-fit: contain; /* Ensures image scales correctly */
-    margin-right: 15px;
-    flex-shrink: 0; /* Prevents logo from shrinking */
+    width: 1.5in;
+    height: 1.5in;
+    object-fit: contain;
 }
 
 .header-text {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers text horizontally */
-    justify-content: center;
-    text-align: center; /* Ensures text stays centered */
-    flex-grow: 1; /* Allows text to fill remaining space */
-    line-height: 1.4;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1; /* Allows text to center properly */
 }
 
 .header-text h1 {
     margin: 0;
-    font-size: 32px; /* Increase font size for "ChartFly" */
+    font-size: 38px; /* Increase font size for "ChartFly" */
 }
 
 .header-text p {
     margin: 0;
-    font-size: 18px; /* Increase font size for tagline */
+    font-size: 24px; /* Increase font size for tagline "Educational Tools and Scripts for the Active Trader" */
     color: #ddd;
 }
 
