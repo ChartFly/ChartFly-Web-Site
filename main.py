@@ -1,7 +1,8 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, ChartFly Backend is live!"}
+# Tell FastAPI to serve the files in the 'static' folder
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
+
