@@ -132,16 +132,14 @@
         </div>
         <span id="market-status-text" class="market-status-text">Checking market status...</span>
     </div>
-   <div class="holiday-container">
+ <div class="holiday-container">
     <span class="holiday-title">2025 Market Holidays:</span>
-    <br> <!-- Adds the vertical space -->
-   <span class="holiday-text" style="font-size: 10px;">
-        Jan 1 - New Year's Day &nbsp;&nbsp;|&nbsp;&nbsp; Feb 19 - Presidents' Day &nbsp;&nbsp;|&nbsp;&nbsp;
-        Mar 29 - Good Friday &nbsp;&nbsp;|&nbsp;&nbsp; May 27 - Memorial Day &nbsp;&nbsp;|&nbsp;&nbsp;
-        Jul 4 - Independence Day &nbsp;&nbsp;|&nbsp;&nbsp; Sep 2 - Labor Day &nbsp;&nbsp;|&nbsp;&nbsp;
-        Nov 28 - Thanksgiving &nbsp;&nbsp;|&nbsp;&nbsp; Dec 25 - Christmas
+    <br>
+    <span class="holiday-text" style="font-size: 10px;">
+        <!-- Holiday data will populate here dynamically -->
     </span>
 </div>
+
 </header>
     
 <style>
@@ -612,7 +610,29 @@ function getPastDate(days) {
     pastDate.setDate(pastDate.getDate() - days);
     return pastDate.toISOString().split("T")[0];
 }
+
+async function fetchMarketHolidays(year) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/holidays/${year}`);
+        const holidays = await response.json();
+
+        let holidaysDisplay = holidays.map(h => {
+            const dateFormatted = new Date(h.holiday_date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
+            return `${dateFormatted} - ${h.holiday_name}`;
+        }).join('&nbsp;&nbsp;|&nbsp;&nbsp;');
+
+        document.querySelector(".holiday-text").innerHTML = holidaysDisplay || "No holidays available.";
+    } catch (error) {
+        console.error("Error fetching holidays:", error);
+        document.querySelector(".holiday-text").innerHTML = "Failed to load holidays.";
+    }
+}
+
+// Load holidays automatically on page load
+document.addEventListener("DOMContentLoaded", () => {
+    fetchHolidays(2025); // <-- Adjust year as needed
+});
+
 </script>
 </body>
 </html>
-
