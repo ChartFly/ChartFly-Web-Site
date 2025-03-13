@@ -613,9 +613,8 @@ function getPastDate(days) {
 
 async function fetchMarketHolidays(year) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/holidays/${year}`);
+        const response = await fetch(`https://chartflybackend.onrender.com/api/holidays/${year}`);
         const holidays = await response.json();
-
         let holidaysDisplay = holidays.map(h => {
             const dateFormatted = new Date(h.holiday_date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
             return `${dateFormatted} - ${h.holiday_name}`;
