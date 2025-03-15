@@ -12,7 +12,7 @@
             flex-direction: column;
             align-items: center;
         }
-   
+
 .header {
     width: 100%;
     background: #007a8a; /* Dark Turquoise */
@@ -53,7 +53,7 @@
 .holiday-container {
     text-align: center;
 }
-      
+
 .logo {
     width: 1.5in;
     height: auto;
@@ -121,13 +121,13 @@
     </style>
 </head>
 <body>
-  
+
 <header class="header">
     <div class="header-container">
-        <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"  
+        <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"
              alt="ChartFly Logo" class="logo">
         <div class="header-text">
-            <h1 style="margin-bottom: 10px;">ChartFly</h1> 
+            <h1 style="margin-bottom: 10px;">ChartFly</h1>
             <p style="margin-top: 12px; margin-bottom: 10px;">Trading Tools and Scripts for My Personal Use Only</p>
         </div>
         <span id="market-status-text" class="market-status-text">Checking market status...</span>
@@ -141,9 +141,9 @@
 </div>
 
 </header>
-    
+
 <style>
- 
+
 .market-status-title {
     font-size: 18px;
     font-weight: bold;
@@ -225,7 +225,7 @@
 
         // List of official market holidays
         const marketHolidays = ["2025-01-01", "2025-02-19", "2025-03-29", "2025-05-27", "2025-07-04", "2025-09-02", "2025-11-28", "2025-12-25"];
-        
+
         // Determine if today is a holiday
         const isHoliday = marketHolidays.includes(currentDate);
 
@@ -295,7 +295,7 @@ async function fetchHaltedStocks() {
         });
 
         const data = await response.json();
-        
+
         if (!data || !data.data || !data.data.halts) {
             throw new Error("Unexpected API response structure");
         }
@@ -347,14 +347,14 @@ fetchHaltedStocks();
 <!-- ✅ Make sure these sections are OUTSIDE of <script> -->
 <!-- START: New Watchlist, Stock Metrics, and News Sections -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
-    
+
     <!-- Build Stock Watchlist Section -->
     <h2 style="display: inline;">Build Stock Watchlist</h2>
     <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol" style="font-size: 12px; padding: 5px; margin-left: 10px;">
     <button id="addToWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Add To Watchlist</button>
   <button id="fetchMetrics" style="font-size: 12px; padding: 5px; margin-left: 5px;">Fetch Watchlist Data</button>
   <button id="clearWatchlist" style="font-size: 12px; padding: 5px; margin-left: 5px;">Delete Watchlist</button>
-    
+
     <!-- Watchlist Table -->
     <table id="watchlistTable" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
         <thead>
@@ -396,7 +396,7 @@ fetchHaltedStocks();
 <!-- Stock Metrics Section -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2 style="display: inline;">Stock Metrics</h2>
-      
+
     <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
         <thead>
             <tr>
@@ -613,7 +613,7 @@ function getPastDate(days) {
 
 async function fetchMarketHolidays(year) {
     try {
-        const response = await fetch(`https://chartflybackend.onrender.com/api/holidays/${year}`);
+        const response = await fetch(`https://chartflybackend.onrender.com/api/holidays/year/${year}`);
         const holidays = await response.json();
         let holidaysDisplay = holidays.map(h => {
             const dateFormatted = new Date(h.holiday_date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
