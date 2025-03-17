@@ -165,3 +165,32 @@ function updateStockMetrics(ticker, data) {
 document.getElementById("fetchMetrics").addEventListener("click", function () {
     watchlist.forEach(ticker => fetchStockMetrics(ticker));
 });
+
+async function fetchHaltedStocks() {
+    try {
+        let response = await fetch("https://chartflybackend.onrender.com/api/haltdetails");
+        let data = await response.json();
+
+        if (data.status === "disabled") {
+            console.warn("🚨 Halted stocks API is disabled. Skipping.");
+            return;  // ⛔ Stop execution
+        }
+
+        console.log("✅ Halted Stocks:", data);
+    } catch (error) {
+        console.error("Error fetching halted stocks:", error);
+    }
+}
+
+async function fetchHolidays() {
+    try {
+        let response = await fetch("https://chartflybackend.onrender.com/api/holidays/year/2025");
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        let data = await response.json();
+        console.log("✅ Market Holidays:", data);
+    } catch (error) {
+        console.error("Error fetching holidays:", error);
+    }
+}
