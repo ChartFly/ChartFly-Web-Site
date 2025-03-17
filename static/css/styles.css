@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    width: 100%;
+    background: #007a8a;
+    padding: 15px 0 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.logo {
+    width: 1.5in;
+    height: auto;
+    object-fit: contain;
+    margin-left: 20px;
+}
+
+.market-status-text {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Halted Stocks Tracker Styles */
+.halted-stocks {
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.halted-stocks h2 {
+    font-size: 18px;
+    color: #005662;
+}
+
+.halted-stocks table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.halted-stocks th, .halted-stocks td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.halted-stocks th {
+    background-color: #005662;
+    color: white;
+}
+
+.watchlist, .stock-metrics, .news {
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#watchlistTable th, #stock-metrics th, #newsTable th {
+    background-color: #0097A7;
+    color: white;
+}
+
+.deleteTicker {
+    font-size: 10px;
+    padding: 4px 6px;
+    min-width: 80px;
+    text-align: center;
+    display: inline-block;
+}
+/* ✅ Add more styles as needed */

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halted Stocks Tracker</title>
+<<<<<<< HEAD
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,17 +23,13 @@
     align-items: center;
     position: relative;
 }
+=======
+>>>>>>> e5a457b (Refactored frontend: moved CSS to styles.css, JS to main.js, cleaned up index.html)
 
-.header-container {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    padding: 0 20px;
-}
+    <!-- ✅ Link to external CSS file -->
+    <link rel="stylesheet" href="static/css/styles.css">
 
+<<<<<<< HEAD
 .market-status-text {
     font-size: 14px;
     font-weight: bold;
@@ -119,11 +116,16 @@
             margin-bottom: 50px; /* Adds about 1 inch of space below the holidays table */
         }
     </style>
+=======
+    <!-- ✅ Link to external JavaScript file (defer for faster loading) -->
+    <script src="static/js/main.js" defer></script>
+>>>>>>> e5a457b (Refactored frontend: moved CSS to styles.css, JS to main.js, cleaned up index.html)
 </head>
 <body>
 
 <header class="header">
     <div class="header-container">
+<<<<<<< HEAD
         <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"
              alt="ChartFly Logo" class="logo">
         <div class="header-text">
@@ -272,8 +274,23 @@
                 <tr><td colspan="10">Loading halted stocks...</td></tr>
             </tbody>
         </table>
+=======
+        <img src="static/img/chartfly-logo.png" alt="ChartFly Logo" class="logo">
+        <div class="header-text">
+            <h1>ChartFly</h1>
+            <p>Trading Tools and Scripts for My Personal Use Only</p>
+        </div>
+        <span id="market-status-text" class="market-status-text">Checking market status...</span>
     </div>
+    <div class="holiday-container">
+        <span class="holiday-title">2025 Market Holidays:</span>
+        <br>
+        <span class="holiday-text">Loading holidays...</span>
+>>>>>>> e5a457b (Refactored frontend: moved CSS to styles.css, JS to main.js, cleaned up index.html)
+    </div>
+</header>
 
+<<<<<<< HEAD
 <script>
 const haltReasons = {
     "T1": "News Pending",
@@ -357,84 +374,101 @@ fetchHaltedStocks();
 
     <!-- Watchlist Table -->
     <table id="watchlistTable" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
+=======
+<!-- Halted Stocks Tracker -->
+<div class="container halted-stocks">
+    <h2>Halted Stocks Tracker</h2>
+    <table>
+>>>>>>> e5a457b (Refactored frontend: moved CSS to styles.css, JS to main.js, cleaned up index.html)
         <thead>
             <tr>
-                <th colspan="10">Watchlist</th>
+                <th>Halt Date</th>
+                <th>Halt Time</th>
+                <th>Issue Symbol</th>
+                <th>Issue Name</th>
+                <th>Market</th>
+                <th>Reason Code</th>
+                <th>Definition</th>
+                <th>Halt Price</th>
+                <th>Res Date</th>
+                <th>Res Time</th>
             </tr>
+        </thead>
+        <tbody id="halted-stocks">
+            <tr><td colspan="10">Loading halted stocks...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ✅ Stock Watchlist Section -->
+<div class="container watchlist">
+    <h2>Build Stock Watchlist</h2>
+    <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol">
+    <button id="addToWatchlist">Add To Watchlist</button>
+    <button id="fetchMetrics">Fetch Watchlist Data</button>
+    <button id="clearWatchlist">Delete Watchlist</button>
+
+    <table id="watchlistTable">
+        <thead>
+            <tr><th colspan="10">Watchlist</th></tr>
         </thead>
         <tbody>
             <tr>
-                <!-- Watchlist Slots (Max 10) -->
-                <td id="slot1"></td>
-                <td id="slot2"></td>
-                <td id="slot3"></td>
-                <td id="slot4"></td>
-                <td id="slot5"></td>
-                <td id="slot6"></td>
-                <td id="slot7"></td>
-                <td id="slot8"></td>
-                <td id="slot9"></td>
-                <td id="slot10"></td>
+                <td id="slot1"></td> <td id="slot2"></td> <td id="slot3"></td>
+                <td id="slot4"></td> <td id="slot5"></td> <td id="slot6"></td>
+                <td id="slot7"></td> <td id="slot8"></td> <td id="slot9"></td> <td id="slot10"></td>
             </tr>
             <tr>
-    <td><button class="deleteTicker" data-slot="1">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="2">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="3">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="4">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="5">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="6">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="7">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="8">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="9">Delete Ticker</button></td>
-<td><button class="deleteTicker" data-slot="10">Delete Ticker</button></td>
-
+                <td><button class="deleteTicker" data-slot="1">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="2">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="3">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="4">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="5">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="6">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="7">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="8">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="9">Delete</button></td>
+                <td><button class="deleteTicker" data-slot="10">Delete</button></td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<<<<<<< HEAD
 <!-- Stock Metrics Section -->
 <div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
     <h2 style="display: inline;">Stock Metrics</h2>
 
     <table id="stock-metrics" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
+=======
+<!-- ✅ Stock Metrics Section -->
+<div class="container stock-metrics">
+    <h2>Stock Metrics</h2>
+    <table id="stock-metrics">
+>>>>>>> e5a457b (Refactored frontend: moved CSS to styles.css, JS to main.js, cleaned up index.html)
         <thead>
             <tr>
-                <th>Symbol</th>
-                <th>Current Price</th>
-                <th>Open</th>
-                <th>High</th>
-                <th>Low</th>
-                <th>Prev Close</th>
-                <th>Market Cap</th>
-                <th>Shares Out</th>
-                <th>P/E Ratio</th>
-                <th>EPS</th>
-                <th>52W High</th>
-                <th>52W Low</th>
-                <th>Shares Outstanding</th>
-                <th>Short Interest</th>
+                <th>Symbol</th> <th>Current Price</th> <th>Open</th> <th>High</th> <th>Low</th>
+                <th>Prev Close</th> <th>Market Cap</th> <th>Shares Out</th> <th>P/E Ratio</th>
+                <th>EPS</th> <th>52W High</th> <th>52W Low</th> <th>Short Interest</th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
 </div>
 
-<!-- News Section -->
-<div class="container" style="width: 100%; max-width: 1200px; font-size: 12px;">
+<!-- ✅ News Section -->
+<div class="container news">
     <h2>Latest News</h2>
-    <table id="newsTable" style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">
+    <table id="newsTable">
         <thead>
-            <tr>
-                <th style="width: 10%;">Symbol</th>
-                <th style="width: 90%;">News Headlines</th>
-            </tr>
+            <tr><th>Symbol</th><th>News Headlines</th></tr>
         </thead>
         <tbody></tbody>
     </table>
 </div>
-<!-- END: New Watchlist, Stock Metrics, and News Sections -->
 
+<<<<<<< HEAD
 <!-- ✅ Now JavaScript starts BELOW the content -->
 <script>
 const watchlist = [];
@@ -633,5 +667,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
+=======
+<!-- 🚀 Other HTML Sections (Tables, Buttons, etc.) Remain Here -->
+>>>>>>> e5a457b (Refactored frontend: moved CSS to styles.css, JS to main.js, cleaned up index.html)
 </body>
 </html>
