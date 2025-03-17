@@ -1,24 +1,33 @@
-document.addEventListener("DOMContentLoaded", function () {
-    updateMarketStatus();
-    fetchHolidays(2025);
-});
-
-// ✅ Function to update market status
+// ✅ Update Market Status
 function updateMarketStatus() {
     const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const currentDate = now.toISOString().split("T")[0];
     const marketStatusElement = document.getElementById("market-status-text");
 
-    let marketStatus = "Market Closed"; // Default
-    if (now.getHours() >= 9.5 && now.getHours() < 16) {
-        marketStatus = "Market Open";
-    } else if (now.getHours() >= 4 && now.getHours() < 9.5) {
-        marketStatus = "Pre-Market Trading";
-    } else if (now.getHours() >= 16 && now.getHours() < 20) {
-        marketStatus = "After-Market Trading";
-    }
+    // List of official market holidays
+    const marketHolidays = ["2025-01-01", "2025-02-19", "2025-03-29", "2025-05-27", "2025-07-04", "2025-09-02", "2025-11-28", "2025-12-25"];
 
+    // Determine if today is a holiday
+    const isHoliday = marketHolidays.includes(currentDate);
+
+    // Determine if today is a weekend (Saturday or Sunday)
+    const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+
+    // Determine market status
+    let marketStatus = isHoliday ? "Market Closed (Holiday)" :
+        isWeekend ? "Market Closed (Weekend)" :
+        hours < 4 ? "Market Closed" :
+        hours < 9.5 ? "Pre-Market Trading" :
+        hours < 16 ? "Market Open" :
+        hours < 20 ? "After-Market Trading" :
+        "Market Closed";
+
+    // Apply correct class for color styling
     marketStatusElement.textContent = marketStatus;
-    marketStatusElement.className = `market-status-text ${marketStatus.replace(/\s/g, "-").toLowerCase()}`;
+    marketStatusElement.className = `market-status-text ${isHoliday || marketStatus.includes("Closed") ? "market-closed" : marketStatus.includes("Open") ? "market-open" : "market-prepost"}`;
 }
 
 // ✅ Fetch holidays from backend
@@ -75,8 +84,10 @@ async function fetchHaltedStocks() {
     }
 }
 
-// ✅ Run function on page load
+// ✅ Run functions on page load
 document.addEventListener("DOMContentLoaded", function () {
+    updateMarketStatus();
+    fetchHolidays(2025);
     fetchHaltedStocks();
 });
 
@@ -89,12 +100,6 @@ const haltReasons = {
     "H9": "SEC Suspension",
     "D": "Other"
 };
-
-document.addEventListener("DOMContentLoaded", function () {
-    updateMarketStatus();
-    fetchHolidays(2025);
-    fetchHaltedStocks();
-});
 
 // ✅ Stock Watchlist Logic
 const watchlist = [];
@@ -128,38 +133,35 @@ function clearWatchlist() {
 document.getElementById("addToWatchlist").addEventListener("click", addTicker);
 document.getElementById("clearWatchlist").addEventListener("click", clearWatchlist);
 
-// ✅ Fetch Halted Stocks from Backend
-async function fetchHaltedStocks() {
+// ✅ Fetch Metrics from Finnhub API
+async function fetchStockMetrics(ticker) {
+    const FINNHUB_API_KEY = "your_finnhub_api_key";
+    const url = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_API_KEY}`;
+
     try {
-        const response = await fetch(`https://chartflybackend.onrender.com/api/haltdetails`);
-        if (!response.ok) throw new Error("Network response was not ok");
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch stock data.");
 
-        const haltedStocks = await response.json();
-        let tableBody = document.getElementById("halted-stocks");
-        tableBody.innerHTML = "";
-
-        if (!haltedStocks || haltedStocks.length === 0) {
-            tableBody.innerHTML = "<tr><td colspan='10'>No halted stocks found.</td></tr>";
-            return;
-        }
-
-        haltedStocks.forEach(stock => {
-            let row = `<tr>
-                <td>${stock.haltDate || ""}</td>
-                <td>${stock.haltTime || ""}</td>
-                <td>${stock.symbol || ""}</td>
-                <td>${stock.issueName || ""}</td>
-                <td>${stock.market || ""}</td>
-                <td>${stock.reasonCode || ""}</td>
-                <td>${stock.haltPrice || "N/A"}</td>
-                <td>${stock.resDate || "N/A"}</td>
-                <td>${stock.resTime || "N/A"}</td>
-            </tr>`;
-            tableBody.innerHTML += row;
-        });
-
+        const data = await response.json();
+        updateStockMetrics(ticker, data);
     } catch (error) {
-        console.error("Error fetching halted stocks:", error);
-        document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load data.</td></tr>";
+        console.error("Error fetching stock metrics:", error);
     }
 }
+
+function updateStockMetrics(ticker, data) {
+    const tableBody = document.querySelector("#stock-metrics tbody");
+    let row = `<tr>
+        <td>${ticker}</td>
+        <td>${data.c || "N/A"}</td>
+        <td>${data.o || "N/A"}</td>
+        <td>${data.h || "N/A"}</td>
+        <td>${data.l || "N/A"}</td>
+        <td>${data.pc || "N/A"}</td>
+    </tr>`;
+    tableBody.innerHTML += row;
+}
+
+document.getElementById("fetchMetrics").addEventListener("click", function () {
+    watchlist.forEach(ticker => fetchStockMetrics(ticker));
+});

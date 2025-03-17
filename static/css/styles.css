@@ -35,6 +35,14 @@ body {
     transform: translateY(-50%);
 }
 
+/* ✅ New Fix: Holiday Text Formatting */
+.holiday-text {
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
 /* Halted Stocks Tracker Styles */
 .halted-stocks {
     width: 100%;
@@ -69,6 +77,19 @@ body {
     color: white;
 }
 
+/* ✅ New Fix: Watchlist Table Formatting */
+#watchlistTable th, #watchlistTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* ✅ New Fix: Ensure consistent table styles for stock-metrics & news */
+#stock-metrics th, #newsTable th {
+    background-color: #0097A7;
+    color: white;
+}
+
 .watchlist, .stock-metrics, .news {
     width: 100%;
     max-width: 1200px;
@@ -81,11 +102,6 @@ body {
     text-align: center;
 }
 
-#watchlistTable th, #stock-metrics th, #newsTable th {
-    background-color: #0097A7;
-    color: white;
-}
-
 .deleteTicker {
     font-size: 10px;
     padding: 4px 6px;
@@ -93,4 +109,5 @@ body {
     text-align: center;
     display: inline-block;
 }
+
 /* ✅ Add more styles as needed */
