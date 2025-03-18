@@ -12,7 +12,7 @@ async function fetchMarketHolidays() {
         if (!response.ok) throw new Error("Failed to fetch");
         const holidays = await response.json();
         document.getElementById("market-holidays").innerText =
-            holidays.map(h => `${h.date}: ${h.name}`).join(" | ");
+            holidays.map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`).join("    |    ");
     } catch (error) {
         console.error("Error fetching holidays:", error);
         document.getElementById("market-holidays").innerText = "Failed to load holidays.";
