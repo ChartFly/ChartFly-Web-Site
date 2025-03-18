@@ -1,11 +1,14 @@
+/* General Page Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
 }
 
+/* Header */
 .header {
     width: 100%;
     background: #007a8a;
@@ -16,11 +19,25 @@ body {
     position: relative;
 }
 
+.header-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 .logo {
-    width: 1.5in;
+    width: 70px;
     height: auto;
-    object-fit: contain;
     margin-left: 20px;
+    position: absolute;
+    left: 20px;
+}
+
+.header-text {
+    text-align: center;
 }
 
 .market-status-text {
@@ -35,79 +52,72 @@ body {
     transform: translateY(-50%);
 }
 
-/* ✅ New Fix: Holiday Text Formatting */
-.holiday-text {
-    font-size: 12px;
-    color: #333;
-    font-weight: bold;
-    text-align: center;
+.market-open {
+    background-color: green;
 }
 
-/* Halted Stocks Tracker Styles */
-.halted-stocks {
-    width: 100%;
+.market-closed {
+    background-color: red;
+}
+
+.market-prepost {
+    background-color: gold;
+    color: black;
+}
+
+.holiday-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Containers */
+.container {
     max-width: 1200px;
+    width: 100%;
     background: white;
     padding: 20px;
-    margin-top: 20px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
-.halted-stocks h2 {
-    font-size: 18px;
-    color: #005662;
-}
-
-.halted-stocks table {
+/* Tables */
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    font-size: 12px;
 }
 
-.halted-stocks th, .halted-stocks td {
+th, td {
     padding: 10px;
     border: 1px solid #ddd;
-    text-align: center;
+    text-align: left;
 }
 
-.halted-stocks th {
+th {
     background-color: #005662;
     color: white;
 }
 
-/* ✅ New Fix: Watchlist Table Formatting */
-#watchlistTable th, #watchlistTable td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-/* ✅ New Fix: Ensure consistent table styles for stock-metrics & news */
-#stock-metrics th, #newsTable th {
+/* Watchlist */
+#watchlistTable th {
     background-color: #0097A7;
-    color: white;
-}
-
-.watchlist, .stock-metrics, .news {
-    width: 100%;
-    max-width: 1200px;
-    background: white;
-    padding: 15px;
-    border: 1px solid #ddd;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    font-size: 12px;
-    margin-bottom: 50px;
-    text-align: center;
+    color: black;
 }
 
 .deleteTicker {
+    white-space: nowrap;
     font-size: 10px;
     padding: 4px 6px;
     min-width: 80px;
+    max-width: 100px;
     text-align: center;
     display: inline-block;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-/* ✅ Add more styles as needed */
+.deleteTicker:hover {
+    background-color: darkred;
+}
