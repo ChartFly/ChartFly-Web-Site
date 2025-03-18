@@ -24,6 +24,14 @@ async function fetchHaltedStocks() {
     try {
         const response = await fetch("https://chartflybackend.onrender.com/api/haltdetails");
         const data = await response.json();
+        console.log("Fetched Halted Stocks Data:", data); // Debugging
+
+        // ✅ Handle case where backend returns an empty list
+        if (!Array.isArray(data) || data.length === 0) {
+            document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>No halted stocks available.</td></tr>";
+            return;
+        }
+
         let tableBody = document.getElementById("halted-stocks");
         tableBody.innerHTML = "";
 
@@ -47,6 +55,11 @@ async function fetchHaltedStocks() {
         document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load data.</td></tr>";
     }
 }
+
+function setupWatchlistControls() {
+    console.log("Watchlist controls initialized.");
+}
+
 
 /* ✅ Fix Fetch Watchlist Data Button */
 document.getElementById("fetchMetrics").addEventListener("click", function () {
