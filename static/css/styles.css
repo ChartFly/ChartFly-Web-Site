@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ✅ Restore Blue Header */
 .header {
     width: 100%;
-    background: #007a8a !important; /* ✅ Forces background color */
+    background: #007a8a !important; /* 🔹 Forces background color */
     padding: 20px;
     display: flex;
     align-items: center;
@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     font-family: Arial, sans-serif;
     min-height: 160px; /* ✅ Ensures header expands for logo */
     position: relative;
+    border: 3px solid red; /* 🔹 TEMPORARY BORDER TO SEE IF IT LOADS */
 }
+
 
 /* ✅ Left section with ChartFly logo */
 .logo-container {
