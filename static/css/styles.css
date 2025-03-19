@@ -41,7 +41,8 @@ async function fetchMarketHolidays() {
 
 /* ✅ ChartFly Logo */
 .logo {
-    height: 50px;
+    height: 144px;
+    width: auto;  /* Keeps aspect ratio */
     margin-left: 20px;
 }
 
