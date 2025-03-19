@@ -1,3 +1,7 @@
+/* ============================== */
+/* ✅ FRONTEND STYLES (styles.css) */
+/* ============================== */
+
 /* ✅ Ensure scripts run when DOM is loaded */
 document.addEventListener("DOMContentLoaded", function () {
     updateMarketStatus();
@@ -5,20 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchMarketHolidays();
     setupWatchlistControls();
 });
-
-/* ✅ Fetch Market Holidays from Backend */
-async function fetchMarketHolidays() {
-    try {
-        const response = await fetch("https://chartflybackend.onrender.com/api/holidays/year/2025");
-        if (!response.ok) throw new Error("Failed to fetch");
-        const holidays = await response.json();
-        document.getElementById("market-holidays").innerText =
-            holidays.map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`).join("    |    ");
-    } catch (error) {
-        console.error("Error fetching holidays:", error);
-        document.getElementById("market-holidays").innerText = "Failed to load holidays.";
-    }
-}
 
 /* ✅ Restore Blue Header */
 .header {
@@ -30,46 +20,49 @@ async function fetchMarketHolidays() {
     justify-content: space-between;
     color: white;
     font-family: Arial, sans-serif;
+    min-height: 160px; /* ✅ Ensures header expands for logo */
+    position: relative;
 }
 
 /* ✅ Left section with ChartFly logo */
-.header-left {
-    flex: 1;
-    display: flex;
-    align-items: center;
+.logo-container {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* ✅ ChartFly Logo */
 .logo {
     height: 144px;
-    width: auto;  /* Keeps aspect ratio */
-    margin-left: 20px;
+    width: auto;
+    object-fit: contain;
 }
 
 /* ✅ Center section for title */
 .header-center {
-    flex: 2;
+    flex: 1;
     text-align: center;
 }
 
 .header-center h1 {
     margin: 0;
-    font-size: 34px;  /* Change this for "ChartFly" */
+    font-size: 34px;
 }
 
 .header-center p {
     margin: 0;
-    font-size: 24px;  /* Change this for "Trading Tools and Scripts for My Personal Use Only" */
+    font-size: 24px;
+    color: #ddd;
 }
 
+/* ✅ Market Status Positioning */
 .market-status-container {
-    display: flex;
-    align-items: center;  /* ✅ Keeps text and colored box aligned */
-    justify-content: flex-end;  /* ✅ Ensures right alignment */
-    white-space: nowrap;  /* ✅ Prevents text from wrapping */
-    overflow: hidden;  /* ✅ Ensures no overflow outside header */
-    max-width: 25%;  /* ✅ Restricts the width to stay inside the header */
-    padding-right: 40px;  /* ✅ Adds spacing from the right edge */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
 }
 
 /* ✅ Market Status Colors */
