@@ -69,7 +69,7 @@ async function fetchMarketHolidays() {
     white-space: nowrap;  /* ✅ Prevents text from wrapping */
     overflow: hidden;  /* ✅ Ensures no overflow outside header */
     max-width: 25%;  /* ✅ Restricts the width to stay inside the header */
-    padding-right: 20px;  /* ✅ Adds spacing from the right edge */
+    padding-right: 40px;  /* ✅ Adds spacing from the right edge */
 }
 
 /* ✅ Market Status Colors */
