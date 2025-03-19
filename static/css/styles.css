@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ✅ Restore Blue Header */
 .header {
     width: 100%;
-    background: #007a8a;
+    background: #007a8a !important; /* ✅ Forces background color */
     padding: 20px;
     display: flex;
     align-items: center;
