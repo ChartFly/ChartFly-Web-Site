@@ -54,12 +54,12 @@ async function fetchMarketHolidays() {
 
 .header-center h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 34px;  /* Change this for "ChartFly" */
 }
 
 .header-center p {
     margin: 0;
-    font-size: 14px;
+    font-size: 24px;  /* Change this for "Trading Tools and Scripts for My Personal Use Only" */
 }
 
 /* ✅ Right section for Market Status */
