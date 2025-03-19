@@ -62,11 +62,35 @@ async function fetchMarketHolidays() {
     font-size: 24px;  /* Change this for "Trading Tools and Scripts for My Personal Use Only" */
 }
 
-/* ✅ Right section for Market Status */
-.header-right {
-    flex: 1;
-    text-align: right;
+.market-status-container {
+    display: flex;
+    align-items: center;  /* ✅ Keeps text and colored box aligned */
+    justify-content: flex-end;  /* ✅ Ensures right alignment */
+    white-space: nowrap;  /* ✅ Prevents text from wrapping */
+    overflow: hidden;  /* ✅ Ensures no overflow outside header */
+    max-width: 25%;  /* ✅ Restricts the width to stay inside the header */
+    padding-right: 20px;  /* ✅ Adds spacing from the right edge */
+}
+
+/* ✅ Market Status Colors */
+.market-status-text {
+    font-size: 14px;
     font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.market-open {
+    background-color: green;
+}
+
+.market-closed {
+    background-color: red;
+}
+
+.market-prepost {
+    background-color: gold;
+    color: black;
 }
 
 /* ✅ Market Holidays Section */
