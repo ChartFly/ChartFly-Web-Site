@@ -1,3 +1,4 @@
+/* ✅ Ensure scripts run when DOM is loaded */
 document.addEventListener("DOMContentLoaded", function () {
     updateMarketStatus();
     fetchHaltedStocks();
@@ -19,44 +20,116 @@ async function fetchMarketHolidays() {
     }
 }
 
-/* ✅ Adjust ChartFly Logo Size & Position */
+/* ✅ Restore Blue Header */
+.header {
+    width: 100%;
+    background: #007a8a;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* ✅ Left section with ChartFly logo */
+.header-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* ✅ ChartFly Logo */
 .logo {
-    width: 200px; /* Increased size */
-    height: auto;
-    margin-left: -30px; /* Shift left */
+    height: 50px;
+    margin-left: 20px;
 }
 
-/* ✅ Increase Font Size & Bold Text for Titles */
-.header-text h1,
-.header-text p,
-.holiday-title {
+/* ✅ Center section for title */
+.header-center {
+    flex: 2;
+    text-align: center;
+}
+
+.header-center h1 {
+    margin: 0;
     font-size: 24px;
+}
+
+.header-center p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ✅ Right section for Market Status */
+.header-right {
+    flex: 1;
+    text-align: right;
     font-weight: bold;
 }
 
-/* ✅ Reduce Font Size for Holidays & Increase Spacing */
-.holiday-text {
-    font-size: 14px; /* Reduced by 2X points */
-    letter-spacing: 2px; /* More spacing before/after '|' */
+/* ✅ Market Holidays Section */
+.holiday-container {
+    text-align: center;
+    padding: 10px;
+    background: #f4f4f4;
+    font-weight: bold;
+    font-size: 16px;
 }
 
-/* ✅ Reduce Font Size for Table Headers */
+/* ✅ White Containers for Sections */
+.container {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    border-radius: 8px;
+}
+
+/* ✅ Fix Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
 th {
-    font-size: 12px; /* Reduced 2X points */
-    font-weight: bold;
+    background-color: #005662;
+    color: white;
+    font-size: 12px;
 }
 
-/* ✅ Fix Fetch Watchlist Data Button */
-document.getElementById("fetchMetrics").addEventListener("click", function () {
-    watchlist.forEach(ticker => fetchStockData(ticker));
-});
+/* ✅ Fix Watchlist Buttons */
+button {
+    background: #007a8a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #0097A7;
+}
 
 /* ✅ Fix Delete Button Styles */
-document.querySelectorAll(".deleteTicker").forEach(button => {
-    button.style.backgroundColor = "white";
-    button.style.color = "black";
-    button.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.2)";
-});
+.deleteTicker {
+    background-color: white;
+    color: black;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px 8px;
+}
 
 /* ✅ Fix Market Status Update */
 function updateMarketStatus() {
