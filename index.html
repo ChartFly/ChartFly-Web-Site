@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- ✅ Fixed Header with Blue Background -->
+<!-- ✅ Fixed Header with Market Holidays Inside -->
 <header class="header">
     <div class="header-left">
         <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"
@@ -17,18 +17,15 @@
     <div class="header-center">
         <h1>ChartFly</h1>
         <p>Trading Tools and Scripts for My Personal Use Only</p>
+        <div class="header-holidays">
+            <span class="holiday-title">2025 Market Holidays:</span>
+            <span id="market-holidays">Loading holidays...</span>
+        </div>
     </div>
     <div class="header-right">
         <p class="market-status">Market Status: <span id="market-status-text">Checking market status...</span></p>
     </div>
 </header>
-
-<!-- ✅ Market Holidays Section -->
-<div class="holiday-container">
-    <span class="holiday-title">2025 Market Holidays:</span>
-    <br>
-    <span id="market-holidays" class="holiday-text">Loading holidays...</span>
-</div>
 
 <!-- ✅ Halted Stocks Tracker -->
 <div class="container">

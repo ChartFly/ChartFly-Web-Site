@@ -14,8 +14,12 @@ async function fetchMarketHolidays() {
         const response = await fetch("https://chartflybackend.onrender.com/api/holidays/year/2025");
         if (!response.ok) throw new Error("Failed to fetch");
         const holidays = await response.json();
-        document.getElementById("market-holidays").innerText =
-            holidays.map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`).join("    |    ");
+
+        const holidayText = holidays.map(h =>
+            `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`
+        ).join(" | ");
+
+        document.getElementById("market-holidays").innerText = holidayText;
     } catch (error) {
         console.error("Error fetching holidays:", error);
         document.getElementById("market-holidays").innerText = "Failed to load holidays.";
@@ -66,6 +70,9 @@ async function fetchHaltedStocks() {
 function setupWatchlistControls() {
     console.log("Watchlist controls initialized.");
 }
+
+/* ✅ Prevent Errors if Watchlist is Empty */
+let watchlist = [];
 
 /* ✅ Fix Fetch Watchlist Data Button */
 document.getElementById("fetchMetrics").addEventListener("click", function () {
