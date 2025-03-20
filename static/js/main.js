@@ -95,3 +95,26 @@ function updateMarketStatus() {
     }
     statusElement.innerText = status;
 }
+
+/* ✅ Fix Market Status Update */
+function updateMarketStatus() {
+    const now = new Date();
+    const hours = now.getHours();
+    const dayOfWeek = now.getDay();
+    let statusElement = document.getElementById("market-status-text");
+    let status = "Market Closed";
+
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        status = "Market Closed (Weekend)";
+    } else if (hours < 9.5) {
+        status = "Pre-Market Trading";
+        statusElement.className = "market-status-text market-prepost";
+    } else if (hours < 16) {
+        status = "Market Open";
+        statusElement.className = "market-status-text market-open";
+    } else {
+        status = "After-Market Trading";
+        statusElement.className = "market-status-text market-prepost";
+    }
+    statusElement.innerText = status;
+}
