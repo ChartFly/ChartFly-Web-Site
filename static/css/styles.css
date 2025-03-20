@@ -12,20 +12,17 @@
     justify-content: space-between;
     color: white;
     font-family: Arial, sans-serif;
-    min-height: 200px; /* ✅ Increased height to fit holidays */
+    min-height: 180px; /* ✅ Increased height to fit holidays */
     position: relative;
-    flex-direction: column; /* 🔹 Allow vertical stacking */
 }
 
-/* ✅ Left section with ChartFly logo */
-.logo-container {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+/* ✅ Fix ChartFly Logo Positioning (Left-Aligned with Padding) */
+.header-left {
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* 🔹 Ensure 20px spacing from left */
 }
 
-/* ✅ ChartFly Logo */
 .logo {
     height: 144px;
     width: auto;
@@ -49,21 +46,21 @@
     color: #ddd;
 }
 
-/* ✅ Market Status Positioning (Shifted Left) */
-.market-status-container {
-    position: absolute;
-    right: 75px; /* 🔹 Moved left ~1.5 inches */
-    top: 50%;
-    transform: translateY(-50%);
-    white-space: nowrap;
+/* ✅ Fix Market Status Positioning (Right-Aligned with Padding) */
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 🔹 Align to right */
+    padding-right: 20px; /* 🔹 Ensure 20px spacing from right */
 }
 
-/* ✅ Market Status Colors */
+/* ✅ Market Status Box Styling */
 .market-status-text {
     font-size: 14px;
     font-weight: bold;
     padding: 5px 10px;
     border-radius: 5px;
+    margin-left: 10px; /* 🔹 Space between text and status box */
 }
 
 .market-open {
@@ -81,25 +78,23 @@
 
 /* ✅ Market Holidays Positioned at Bottom of Header */
 .header-holidays {
-    width: 100%;
-    text-align: center;
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
+    text-align: center;
     font-size: 14px;
     font-weight: bold;
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* ✅ Market Holidays Title */
-.holiday-title {
+/* ✅ Market Holidays Text */
+#market-holidays {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
+    color: white;
 }
+
 
 /* ✅ Market Holidays List (Pulled from Backend) */
 #market-holidays {
