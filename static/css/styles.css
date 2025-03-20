@@ -2,14 +2,6 @@
 /* ✅ FRONTEND STYLES (styles.css) */
 /* ============================== */
 
-/* ✅ Ensure scripts run when DOM is loaded */
-document.addEventListener("DOMContentLoaded", function () {
-    updateMarketStatus();
-    fetchHaltedStocks();
-    fetchMarketHolidays();
-    setupWatchlistControls();
-});
-
 /* ✅ Restore Blue Header */
 .header {
     width: 100%;
@@ -24,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
     position: relative;
     border: 3px solid red; /* 🔹 TEMPORARY BORDER TO SEE IF IT LOADS */
 }
-
 
 /* ✅ Left section with ChartFly logo */
 .logo-container {
@@ -147,6 +138,34 @@ button:hover {
 .deleteTicker {
     background-color: white;
     color: black;
+    border: 1px solid #ccc;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     padding: 5px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+}
+
+.deleteTicker:hover {
+    background-color: #ffdddd;
+    color: #c00;
+    border-color: #c00;
+}
+
+/* ✅ Ensure Proper Spacing in Watchlist Table */
+#watchlistTable {
+    margin-top: 15px;
+    width: 100%;
+}
+
+#watchlistTable th, #watchlistTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* ✅ Ensure Buttons Are Consistently Styled */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 122, 138, 0.5);
 }

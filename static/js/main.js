@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // 🔹 Force correct header background color in case JavaScript is overriding it
+    document.querySelector(".header").style.setProperty("background-color", "#007a8a", "important");
+
     updateMarketStatus();
     fetchHaltedStocks();
     fetchMarketHolidays();
@@ -35,8 +38,10 @@ async function fetchHaltedStocks() {
         let tableBody = document.getElementById("halted-stocks");
         tableBody.innerHTML = "";
 
+        const fragment = document.createDocumentFragment();
         data.forEach(stock => {
-            let row = `<tr>
+            let row = document.createElement("tr");
+            row.innerHTML = `
                 <td style="font-size: 10px; text-align: center;">${stock.haltDate || ""}</td>
                 <td style="font-size: 10px; text-align: center;">${stock.haltTime || ""}</td>
                 <td style="font-size: 10px; text-align: center;">${stock.symbol || ""}</td>
@@ -47,32 +52,26 @@ async function fetchHaltedStocks() {
                 <td style="font-size: 10px; text-align: center;">${stock.haltPrice || "N/A"}</td>
                 <td style="font-size: 10px; text-align: center;">${stock.resDate || "N/A"}</td>
                 <td style="font-size: 10px; text-align: center;">${stock.resTime || "N/A"}</td>
-            </tr>`;
-            tableBody.innerHTML += row;
+            `;
+            fragment.appendChild(row);
         });
+        tableBody.appendChild(fragment);
     } catch (error) {
         console.error("Error fetching halted stocks:", error);
         document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>Failed to load data.</td></tr>";
     }
 }
 
+/* ✅ Watchlist Controls */
 function setupWatchlistControls() {
     console.log("Watchlist controls initialized.");
 }
-
 
 /* ✅ Fix Fetch Watchlist Data Button */
 document.getElementById("fetchMetrics").addEventListener("click", function () {
     watchlist.forEach(ticker => fetchStockData(ticker));
 });
 
-/* ✅ Fix Delete Button Styles */
-document.querySelectorAll(".deleteTicker").forEach(button => {
-    button.style.backgroundColor = "white";
-    button.style.color = "black";
-    button.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.2)";
-});
-
 /* ✅ Fix Market Status Update */
 function updateMarketStatus() {
     const now = new Date();
@@ -96,25 +95,15 @@ function updateMarketStatus() {
     statusElement.innerText = status;
 }
 
-/* ✅ Fix Market Status Update */
-function updateMarketStatus() {
-    const now = new Date();
-    const hours = now.getHours();
-    const dayOfWeek = now.getDay();
-    let statusElement = document.getElementById("market-status-text");
-    let status = "Market Closed";
+/* ✅ Debugging: Detect Unwanted JavaScript Overrides */
+setInterval(() => {
+    const header = document.querySelector(".header");
+    if (!header) return;
 
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-        status = "Market Closed (Weekend)";
-    } else if (hours < 9.5) {
-        status = "Pre-Market Trading";
-        statusElement.className = "market-status-text market-prepost";
-    } else if (hours < 16) {
-        status = "Market Open";
-        statusElement.className = "market-status-text market-open";
-    } else {
-        status = "After-Market Trading";
-        statusElement.className = "market-status-text market-prepost";
+    const computedStyle = window.getComputedStyle(header).backgroundColor;
+    console.log("Header Background Computed:", computedStyle);
+
+    if (computedStyle !== "rgb(0, 122, 138)") {
+        console.warn("🚨 Warning: Header background changed unexpectedly!");
     }
-    statusElement.innerText = status;
-}
+}, 1000);
