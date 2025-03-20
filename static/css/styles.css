@@ -12,9 +12,8 @@
     justify-content: space-between;
     color: white;
     font-family: Arial, sans-serif;
-    min-height: 160px; /* ✅ Ensures header expands for logo */
+    min-height: 180px; /* ✅ Increased height to fit holidays */
     position: relative;
-    border: 3px solid red; /* 🔹 TEMPORARY BORDER TO SEE IF IT LOADS */
 }
 
 /* ✅ Left section with ChartFly logo */
@@ -49,10 +48,10 @@
     color: #ddd;
 }
 
-/* ✅ Market Status Positioning */
+/* ✅ Market Status Positioning (Shifted Left) */
 .market-status-container {
     position: absolute;
-    right: 20px;
+    right: 45px; /* 🔹 Moved left ~1.5 inches */
     top: 50%;
     transform: translateY(-50%);
     white-space: nowrap;
@@ -79,13 +78,23 @@
     color: black;
 }
 
-/* ✅ Market Holidays Section */
-.holiday-container {
+/* ✅ Market Holidays Positioned at Bottom of Header */
+.header-holidays {
+    position: absolute;
+    bottom: 10px; /* ✅ Align to bottom of header */
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
-    padding: 10px;
-    background: #f4f4f4;
+    font-size: 14px;
     font-weight: bold;
-    font-size: 16px;
+    color: white;
+}
+
+/* ✅ Market Holidays Text */
+#market-holidays {
+    font-size: 12px;
+    font-weight: normal;
+    color: white;
 }
 
 /* ✅ White Containers for Sections */
