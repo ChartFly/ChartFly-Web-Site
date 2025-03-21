@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 🔹 Force correct header background color in case JavaScript is overriding it
     document.querySelector(".header").style.setProperty("background-color", "#007a8a", "important");
 
     updateMarketStatus();
@@ -8,36 +7,28 @@ document.addEventListener("DOMContentLoaded", function () {
     setupWatchlistControls();
 });
 
-/* ✅ Fetch Market Holidays from Backend */
+// ✅ Fetch Market Holidays
 async function fetchMarketHolidays() {
     try {
         const response = await fetch("https://chartflybackend.onrender.com/api/holidays/year/2025");
         if (!response.ok) throw new Error("Failed to fetch");
         const holidays = await response.json();
 
-        const holidayText = holidays.map(h =>
-            `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`
-        ).join(" | ");
-
         document.getElementById("market-holidays").innerHTML =
         `<span style="white-space: pre-wrap;">${holidays
-         . map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`)
-         .join("    |    ")}</span>`;
-
+            .map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`)
+            .join("    |    ")}</span>`;
     } catch (error) {
         console.error("Error fetching holidays:", error);
         document.getElementById("market-holidays").innerText = "Failed to load holidays.";
     }
 }
 
-/* ✅ Fetch Halted Stocks from Backend */
+// ✅ Fetch Halted Stocks
 async function fetchHaltedStocks() {
     try {
         const response = await fetch("https://chartflybackend.onrender.com/api/haltdetails");
         const data = await response.json();
-        console.log("Fetched Halted Stocks Data:", data); // Debugging
-
-        // ✅ Handle case where backend returns an empty list
         if (!Array.isArray(data) || data.length === 0) {
             document.getElementById("halted-stocks").innerHTML = "<tr><td colspan='10'>No halted stocks available.</td></tr>";
             return;
@@ -45,8 +36,8 @@ async function fetchHaltedStocks() {
 
         let tableBody = document.getElementById("halted-stocks");
         tableBody.innerHTML = "";
-
         const fragment = document.createDocumentFragment();
+
         data.forEach(stock => {
             let row = document.createElement("tr");
             row.innerHTML = `
@@ -59,10 +50,10 @@ async function fetchHaltedStocks() {
                 <td style="font-size: 10px; text-align: center;">${stock.definition || ""}</td>
                 <td style="font-size: 10px; text-align: center;">${stock.haltPrice || "N/A"}</td>
                 <td style="font-size: 10px; text-align: center;">${stock.resDate || "N/A"}</td>
-                <td style="font-size: 10px; text-align: center;">${stock.resTime || "N/A"}</td>
-            `;
+                <td style="font-size: 10px; text-align: center;">${stock.resTime || "N/A"}</td>`;
             fragment.appendChild(row);
         });
+
         tableBody.appendChild(fragment);
     } catch (error) {
         console.error("Error fetching halted stocks:", error);
@@ -70,7 +61,7 @@ async function fetchHaltedStocks() {
     }
 }
 
-/* ✅ Fix Market Status Update */
+// ✅ Market Status Logic
 function updateMarketStatus() {
     const now = new Date();
     const hours = now.getHours();
@@ -93,34 +84,27 @@ function updateMarketStatus() {
     statusElement.innerText = status;
 }
 
-/* ✅ Debugging: Detect Unwanted JavaScript Overrides */
+// ✅ Header Watchdog
 setInterval(() => {
     const header = document.querySelector(".header");
     if (!header) return;
-
     const computedStyle = window.getComputedStyle(header).backgroundColor;
-    console.log("Header Background Computed:", computedStyle);
-
     if (computedStyle !== "rgb(0, 122, 138)") {
-        console.warn("🚨 Warning: Header background changed unexpectedly!");
+        console.warn("🚨 Header background changed unexpectedly!", computedStyle);
     }
 }, 1000);
 
-/* ✅ Full Watchlist System Logic */
-
-// Initialize watchlist if not already declared
+// ✅ Watchlist Logic
 let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
 updateWatchlistDisplay();
 
-/* ✅ Fix Fetch Watchlist Data Button */
+// ✅ Fetch Metrics Button
 document.getElementById("fetchMetrics").addEventListener("click", function () {
     watchlist.forEach(ticker => fetchStockData(ticker));
 });
 
-// Attach button and keypress events
+// ✅ Setup Controls
 function setupWatchlistControls() {
-    console.log("Watchlist controls initialized.");
-
     const addBtn = document.getElementById("addToWatchlist");
     const clearBtn = document.getElementById("clearWatchlist");
     const input = document.getElementById("tickerInput");
@@ -133,7 +117,6 @@ function setupWatchlistControls() {
         });
     }
 
-    // Bind delete buttons
     document.querySelectorAll(".deleteTicker").forEach(btn => {
         btn.addEventListener("click", function () {
             const slot = parseInt(this.getAttribute("data-slot")) - 1;
@@ -142,41 +125,76 @@ function setupWatchlistControls() {
     });
 }
 
-// Add ticker from input
+// ✅ Add Ticker
 function addTicker() {
     const input = document.getElementById("tickerInput");
-    if (!input) return;
-
     const symbol = input.value.trim().toUpperCase();
     if (!symbol || watchlist.includes(symbol) || watchlist.length >= 10) {
         input.value = "";
         return;
     }
-
     watchlist.push(symbol);
     input.value = "";
     updateWatchlistDisplay();
 }
 
-// Update slots (slot1–slot10)
+// ✅ Update Watchlist UI
 function updateWatchlistDisplay() {
     for (let i = 0; i < 10; i++) {
         const slot = document.getElementById(`slot${i + 1}`);
         if (slot) slot.textContent = watchlist[i] || "";
     }
-    localStorage.setItem("watchlist", JSON.stringify(watchlist)); // ✅ Only once
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
 }
 
-// Delete one ticker
+// ✅ Delete Ticker
 function deleteTicker(index) {
     if (index >= 0 && index < watchlist.length) {
-        watchlist.splice(index, 1);
+        const removed = watchlist.splice(index, 1)[0];
         updateWatchlistDisplay();
+        removeTickerData(removed);
     }
 }
 
-// Clear all
+// ✅ Clear Watchlist
 function clearWatchlist() {
     watchlist = [];
     updateWatchlistDisplay();
+    clearMetricsAndNews();
+}
+
+// 🆕 Append Stock Metrics and News Data for Each Ticker
+function fetchStockData(symbol) {
+    if (!symbol) return;
+
+    // Stock Metrics Row
+    const metricsBody = document.querySelector("#stock-metrics tbody");
+    const metricsRow = document.createElement("tr");
+    metricsRow.setAttribute("data-symbol", symbol);
+    metricsRow.innerHTML = `<td>${symbol}</td>` + "<td></td>".repeat(13);
+    metricsBody.appendChild(metricsRow);
+
+    // News Row
+    const newsBody = document.querySelector("#newsTable tbody");
+    const newsRow = document.createElement("tr");
+    newsRow.setAttribute("data-symbol", symbol);
+    newsRow.innerHTML = `<td>${symbol}</td><td></td>`;
+    newsBody.appendChild(newsRow);
+}
+
+// 🆕 Clear All Metrics and News
+function clearMetricsAndNews() {
+    document.querySelector("#stock-metrics tbody").innerHTML = "";
+    document.querySelector("#newsTable tbody").innerHTML = "";
+}
+
+// 🆕 Remove Specific Metrics and News Row for a Symbol
+function removeTickerData(symbol) {
+    if (!symbol) return;
+
+    const metricsRow = document.querySelector(`#stock-metrics tbody tr[data-symbol='${symbol}']`);
+    const newsRow = document.querySelector(`#newsTable tbody tr[data-symbol='${symbol}']`);
+
+    if (metricsRow) metricsRow.remove();
+    if (newsRow) newsRow.remove();
 }
