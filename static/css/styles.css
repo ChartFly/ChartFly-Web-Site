@@ -206,3 +206,14 @@ button:focus {
     justify-content: center;
     margin-top: 15px;
 }
+
+#watchlistTable {
+    table-layout: fixed;
+}
+
+#watchlistTable td {
+    word-wrap: break-word;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
