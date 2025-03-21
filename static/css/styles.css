@@ -84,7 +84,7 @@
     font-size: 14px;
     font-weight: bold;
     color: white;
-    margin-top: 12px; /* 👈 Pushes it down below "ChartFly" text */
+    margin-top: 60px; /* ⬅️ Increase this to move it further down */
 }
 
 /* ✅ Holiday Title (on its own line) */
