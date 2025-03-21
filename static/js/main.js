@@ -124,47 +124,9 @@ function setupWatchlistControls() {
         });
     });
 }
-
-// ✅ Add Ticker
-function addTicker() {
-    const input = document.getElementById("tickerInput");
-    const symbol = input.value.trim().toUpperCase();
-    if (!symbol || watchlist.includes(symbol) || watchlist.length >= 10) {
-        input.value = "";
-        return;
-    }
-    watchlist.push(symbol);
-    input.value = "";
-    updateWatchlistDisplay();
-}
-
-// ✅ Update Watchlist UI
-function updateWatchlistDisplay() {
-    for (let i = 0; i < 10; i++) {
-        const slot = document.getElementById(`slot${i + 1}`);
-        if (slot) slot.textContent = watchlist[i] || "";
-    }
-    localStorage.setItem("watchlist", JSON.stringify(watchlist));
-}
-
-// ✅ Delete Ticker
-function deleteTicker(index) {
-    if (index >= 0 && index < watchlist.length) {
-        const removed = watchlist.splice(index, 1)[0];
-        updateWatchlistDisplay();
-        removeTickerData(removed);
-    }
-}
-
-// ✅ Clear Watchlist
-function clearWatchlist() {
-    watchlist = [];
-    updateWatchlistDisplay();
-    clearMetricsAndNews();
-}
-
-// 🆕 Append Stock Metrics and News Data for Each Ticker
 function fetchStockData(symbol) {
+    console.log("Fetching data for:", symbol);  // ✅ Confirm it's being triggered
+
     if (!symbol) return;
 
     // Stock Metrics Row
