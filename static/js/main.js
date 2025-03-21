@@ -124,19 +124,58 @@ function setupWatchlistControls() {
         });
     });
 }
-function fetchStockData(symbol) {
-    console.log("Fetching data for:", symbol);  // ✅ Confirm it's being triggered
 
+// ✅ Add Ticker to Watchlist
+function addTicker() {
+    const input = document.getElementById("tickerInput");
+    const symbol = input.value.trim().toUpperCase();
+    if (!symbol || watchlist.includes(symbol) || watchlist.length >= 10) {
+        input.value = "";
+        return;
+    }
+    watchlist.push(symbol);
+    input.value = "";
+    updateWatchlistDisplay();
+}
+
+// ✅ Update Watchlist Display
+function updateWatchlistDisplay() {
+    for (let i = 0; i < 10; i++) {
+        const slot = document.getElementById(`slot${i + 1}`);
+        if (slot) slot.textContent = watchlist[i] || "";
+    }
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+}
+
+// ✅ Delete Individual Ticker
+function deleteTicker(index) {
+    if (index >= 0 && index < watchlist.length) {
+        const removed = watchlist.splice(index, 1)[0];
+        updateWatchlistDisplay();
+        removeTickerData(removed);
+    }
+}
+
+// ✅ Clear Entire Watchlist and Tables
+function clearWatchlist() {
+    watchlist = [];
+    updateWatchlistDisplay();
+    clearMetricsAndNews();
+}
+
+// ✅ Append Stock Data (Symbol only for now)
+function fetchStockData(symbol) {
+    console.log("Fetching data for:", symbol);
     if (!symbol) return;
 
-    // Stock Metrics Row
+    // Stock Metrics Table
     const metricsBody = document.querySelector("#stock-metrics tbody");
     const metricsRow = document.createElement("tr");
     metricsRow.setAttribute("data-symbol", symbol);
     metricsRow.innerHTML = `<td>${symbol}</td>` + "<td></td>".repeat(13);
     metricsBody.appendChild(metricsRow);
 
-    // News Row
+    // News Table
     const newsBody = document.querySelector("#newsTable tbody");
     const newsRow = document.createElement("tr");
     newsRow.setAttribute("data-symbol", symbol);
@@ -144,19 +183,17 @@ function fetchStockData(symbol) {
     newsBody.appendChild(newsRow);
 }
 
-// 🆕 Clear All Metrics and News
+// ✅ Clear All Rows in Stock Metrics and News
 function clearMetricsAndNews() {
     document.querySelector("#stock-metrics tbody").innerHTML = "";
     document.querySelector("#newsTable tbody").innerHTML = "";
 }
 
-// 🆕 Remove Specific Metrics and News Row for a Symbol
+// ✅ Remove One Ticker's Rows
 function removeTickerData(symbol) {
     if (!symbol) return;
-
     const metricsRow = document.querySelector(`#stock-metrics tbody tr[data-symbol='${symbol}']`);
     const newsRow = document.querySelector(`#newsTable tbody tr[data-symbol='${symbol}']`);
-
     if (metricsRow) metricsRow.remove();
     if (newsRow) newsRow.remove();
 }
