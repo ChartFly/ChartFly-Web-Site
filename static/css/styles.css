@@ -196,3 +196,12 @@ button:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 122, 138, 0.5);
 }
+
+/* ✅ New Section: Delete Button Row Layout */
+.delete-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
