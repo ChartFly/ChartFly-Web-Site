@@ -99,13 +99,14 @@
 
 /* ✅ Holiday Text */
 #market-holidays {
-    display: inline-block;
+    display: block;
     font-size: 14px;
     font-weight: normal;
     color: white;
+    white-space: normal;       /* 🔹 Allows wrapping */
+    text-align: center;
+    line-height: 1.6;
     max-width: 100%;
-    white-space: normal;         /* ✅ Allow wrapping */
-    line-height: 1.5;
 }
 
 /* ✅ Holiday Text */
