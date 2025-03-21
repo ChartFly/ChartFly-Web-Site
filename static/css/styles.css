@@ -82,7 +82,7 @@
 /* ✅ Header Holidays Wrapper */
 .header-holidays {
     position: absolute;
-    bottom: 10px;         /* 🔹 Pushes it to the bottom of the header */
+    bottom: 0px;         /* 🔹 Pushes it to the bottom of the header */
     left: 0;
     right: 0;
     padding: 0 40px;
@@ -92,6 +92,7 @@
     text-align: center;
     box-sizing: border-box;
     width: 100%;
+    margin-top: 60px; /* ⬅️ Increase this to move it further down */
 }
 
 
