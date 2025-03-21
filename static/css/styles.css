@@ -33,6 +33,7 @@
 .header-center {
     flex: 1;
     text-align: center;
+    transform: translateY(-20px); /* 🔹 Move the entire block up */
 }
 
 .header-center h1 {
@@ -41,7 +42,8 @@
 }
 
 .header-center p {
-    margin: 0;
+    margin-top: 12px;  /* 🔹 Creates 12px space between title and subtitle */
+    margin-bottom: 0;
     font-size: 24px;
     color: #ddd;
 }
@@ -51,7 +53,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end; /* 🔹 Align to right */
-    padding-right: 20px; /* 🔹 Ensure 20px spacing from right */
+    padding-right: 40px; /* 🔹 Ensure 20px spacing from right */
 }
 
 /* ✅ Market Status Box Styling */
@@ -76,7 +78,7 @@
     color: black;
 }
 
-/* ✅ Market Holidays Positioned at Bottom of Header */
+/* ✅ Header Holidays Wrapper */
 .header-holidays {
     position: absolute;
     bottom: 10px;
@@ -84,17 +86,22 @@
     transform: translateX(-50%);
     text-align: center;
     font-size: 14px;
-    font-weight: bold;
     color: white;
 }
 
-/* ✅ Market Holidays Text */
+/* ✅ Holiday Title (on its own line) */
+.holiday-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+/* ✅ Holiday Text */
 #market-holidays {
     font-size: 16px;
     font-weight: normal;
     color: white;
 }
-
 
 /* ✅ Market Holidays List (Pulled from Backend) */
 #market-holidays {

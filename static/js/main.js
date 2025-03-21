@@ -19,7 +19,11 @@ async function fetchMarketHolidays() {
             `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`
         ).join(" | ");
 
-        document.getElementById("market-holidays").innerText = holidayText;
+        document.getElementById("market-holidays").innerHTML =
+        `<span style="white-space: pre-wrap;">${holidays
+         . map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`)
+         .join("    |    ")}</span>`;
+
     } catch (error) {
         console.error("Error fetching holidays:", error);
         document.getElementById("market-holidays").innerText = "Failed to load holidays.";
