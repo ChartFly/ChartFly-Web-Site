@@ -82,10 +82,10 @@
 /* ✅ Header Holidays Wrapper */
 .header-holidays {
     position: absolute;
-    bottom: 10px;
+    bottom: 2px;         /* 🔹 Pushes it to the bottom of the header */
     left: 0;
     right: 0;
-    padding: 0 40px; /* Adjust spacing near edges */
+    padding: 0 40px;
     font-size: 14px;
     font-weight: bold;
     color: white;
@@ -93,6 +93,7 @@
     box-sizing: border-box;
     width: 100%;
 }
+
 
 /* ✅ Holiday Title (on its own line) */
 .holiday-title {
