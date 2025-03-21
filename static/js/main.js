@@ -70,19 +70,6 @@ async function fetchHaltedStocks() {
     }
 }
 
-/* ✅ Watchlist Controls */
-function setupWatchlistControls() {
-    console.log("Watchlist controls initialized.");
-}
-
-/* ✅ Prevent Errors if Watchlist is Empty */
-let watchlist = [];
-
-/* ✅ Fix Fetch Watchlist Data Button */
-document.getElementById("fetchMetrics").addEventListener("click", function () {
-    watchlist.forEach(ticker => fetchStockData(ticker));
-});
-
 /* ✅ Fix Market Status Update */
 function updateMarketStatus() {
     const now = new Date();
@@ -118,3 +105,78 @@ setInterval(() => {
         console.warn("🚨 Warning: Header background changed unexpectedly!");
     }
 }, 1000);
+
+/* ✅ Full Watchlist System Logic */
+
+// Initialize watchlist if not already declared
+let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+updateWatchlistDisplay();
+
+/* ✅ Fix Fetch Watchlist Data Button */
+document.getElementById("fetchMetrics").addEventListener("click", function () {
+    watchlist.forEach(ticker => fetchStockData(ticker));
+});
+
+// Attach button and keypress events
+function setupWatchlistControls() {
+    console.log("Watchlist controls initialized.");
+
+    const addBtn = document.getElementById("addToWatchlist");
+    const clearBtn = document.getElementById("clearWatchlist");
+    const input = document.getElementById("tickerInput");
+
+    if (addBtn) addBtn.addEventListener("click", addTicker);
+    if (clearBtn) clearBtn.addEventListener("click", clearWatchlist);
+    if (input) {
+        input.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") addTicker();
+        });
+    }
+
+    // Bind delete buttons
+    document.querySelectorAll(".deleteTicker").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const slot = parseInt(this.getAttribute("data-slot")) - 1;
+            deleteTicker(slot);
+        });
+    });
+}
+
+// Add ticker from input
+function addTicker() {
+    const input = document.getElementById("tickerInput");
+    if (!input) return;
+
+    const symbol = input.value.trim().toUpperCase();
+    if (!symbol || watchlist.includes(symbol) || watchlist.length >= 10) {
+        input.value = "";
+        return;
+    }
+
+    watchlist.push(symbol);
+    input.value = "";
+    updateWatchlistDisplay();
+}
+
+// Update slots (slot1–slot10)
+function updateWatchlistDisplay() {
+    for (let i = 0; i < 10; i++) {
+        const slot = document.getElementById(`slot${i + 1}`);
+        if (slot) slot.textContent = watchlist[i] || "";
+    }
+    localStorage.setItem("watchlist", JSON.stringify(watchlist)); // ✅ Only once
+}
+
+// Delete one ticker
+function deleteTicker(index) {
+    if (index >= 0 && index < watchlist.length) {
+        watchlist.splice(index, 1);
+        updateWatchlistDisplay();
+    }
+}
+
+// Clear all
+function clearWatchlist() {
+    watchlist = [];
+    updateWatchlistDisplay();
+}
