@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     padding-left: 20px; /* 🔹 Ensure 20px spacing from left */
+    transform: translateY(-12px); /* 🔺 Moves the logo up */
 }
 
 .logo {
