@@ -12,7 +12,7 @@
     justify-content: space-between;
     color: white;
     font-family: Arial, sans-serif;
-    min-height: 215px; /* ✅ Increased height to fit holidays */
+    min-height: 180px; /* ✅ Increased height to fit holidays */
     position: relative;
 }
 
