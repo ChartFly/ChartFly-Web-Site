@@ -79,18 +79,12 @@
     color: black;
 }
 
-/* ✅ Header Holidays Wrapper */
 .header-holidays {
-    position: absolute;
-    bottom: 10px; /* Push it to the bottom of the header */
-    left: 50%;
-    transform: translateX(-50%);
     text-align: center;
     font-size: 14px;
     font-weight: bold;
     color: white;
-    width: 90%; /* Allow wide display */
-    padding: 0 20px; /* Optional horizontal padding */
+    margin-top: 30px; /* ⬅️ Increase this to move it further down */
 }
 
 /* ✅ Holiday Title (on its own line) */
