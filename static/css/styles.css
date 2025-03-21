@@ -82,19 +82,16 @@
 /* ✅ Header Holidays Wrapper */
 .header-holidays {
     position: absolute;
-    bottom: 0px;         /* 🔹 Pushes it to the bottom of the header */
-    left: 0;
-    right: 0;
-    padding: 0 40px;
+    bottom: 10px; /* Push it to the bottom of the header */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
     font-size: 14px;
     font-weight: bold;
     color: white;
-    text-align: center;
-    box-sizing: border-box;
-    width: 100%;
-    margin-top: 60px; /* ⬅️ Increase this to move it further down */
+    width: 90%; /* Allow wide display */
+    padding: 0 20px; /* Optional horizontal padding */
 }
-
 
 /* ✅ Holiday Title (on its own line) */
 .holiday-title {
