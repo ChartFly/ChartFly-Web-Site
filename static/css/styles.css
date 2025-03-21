@@ -81,11 +81,14 @@
 
 /* ✅ Header Holidays Wrapper */
 .header-holidays {
+    width: 100%;               /* 🔹 Let it span the entire header */
+    padding: 0 20px;           /* 🔹 Optional: gives side margins */
     text-align: center;
     font-size: 14px;
     font-weight: bold;
     color: white;
-    margin-top: 60px; /* ⬅️ Increase this to move it further down */
+    margin-top: 60px;          /* ⬆ Pushes it further down */
+    box-sizing: border-box;    /* ✅ Ensure padding doesn’t shrink width */
 }
 
 /* ✅ Holiday Title (on its own line) */
@@ -97,9 +100,13 @@
 
 /* ✅ Holiday Text */
 #market-holidays {
-    font-size: 16px;
+    display: inline-block;
+    font-size: 14px;
     font-weight: normal;
     color: white;
+    max-width: 100%;
+    white-space: normal;         /* ✅ Allow wrapping */
+    line-height: 1.5;
 }
 
 /* ✅ Market Holidays List (Pulled from Backend) */
