@@ -189,6 +189,7 @@ button:hover {
 #watchlistTable th, #watchlistTable td {
     padding: 8px;
     border: 1px solid #ddd;
+    height: 36px; /* or 40px depending on how tall you want */
 }
 
 /* ✅ Ensure Buttons Are Consistently Styled */
