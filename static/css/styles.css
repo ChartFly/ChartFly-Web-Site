@@ -112,6 +112,7 @@
     white-space: nowrap;        /* 🔹 Prevents wrapping */
     overflow-x: auto;           /* 🔹 Allows horizontal scrolling if needed */
     text-align: center;
+    margin-top: 10px;
 }
 
 /* ✅ White Containers for Sections */
