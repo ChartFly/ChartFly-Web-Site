@@ -63,8 +63,1312 @@
     font-weight: bold;
     padding: 5px 10px;
     border-radius: 5px;
+    margin: 0px; /* 🔹 No Side Spacing, Changed to Stacked now */
+}
+
+
+PulseX Code
+Volume Spike Script
+Crystal Ball
+Bid Ask Spread
+Today
+Yesterday
+Previous 7 Days
+View plans
+Unlimited access, team features, and more
+You said:
+Hey Chat  are you awake
+ChatGPT said:
+Always awake, always caffeinated, and always ready to code or cause trouble—your pick. What’s on the docket today, Captain?
+
+You said:
+I could not sleep.  want move a few items.  wanna help me
+ChatGPT said:
+Insomnia and productivity—classic combo. I'm in. What are we moving and where to? Files, folders, code, bodies? (Kidding… mostly.) Lay it on me.
+
+You said:
+LOL  no bodies tonight
+ChatGPT said:
+Whew, okay—I'll keep the shovel in the closet then. 😎
+
+So what's getting moved? Files, JS modules, HTML, backend routes, CSS cleanup? Let’s shuffle things where they belong.
+
+You said:
+Hopefully an easy one done twice
+ChatGPT said:
+Double trouble but hopefully half the hassle—hit me with the first one and we’ll knock it out like seasoned pros on caffeine and regret.
+
+You said:
+Ok,   I just want to rearange the Market Status: and the colored box a little.   I want to put the market Status: Title above the colored box that actuall shows the status instead of it being side by side
+ChatGPT said:
+Nice—quick layout tweak. Let's stack that label like a proud heading over the status box.
+
+🛠️ Where it is now:
+In your admin.html (or wherever that header block lives), you probably have something like this:
+
+<div id="market-status-wrapper">
+  <span>Market Status:</span>
+  <div id="market-status-indicator"></div>
+</div>
+This makes them sit side by side (because it's inline or flex-row by default).
+
+✅ What to change it to:
+Replace that chunk with:
+
+<div id="market-status-wrapper">
+  <div class="market-status-label">Market Status:</div>
+  <div id="market-status-indicator"></div>
+</div>
+And then style it like this in your global styles.css:
+
+#market-status-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.market-status-label {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+This stacks the title above the box with a little breathing room and centers the whole thing nicely. You can tweak gap or font-size as needed.
+
+Ready for the second one?
+
+You said:
+this is our current code
+<div class="header-right market-status-container">
+      <span class="market-status-label">Market Status:</span>
+      <span id="market-status-text" class="market-status-text">Loading...</span>
+ChatGPT said:
+Perfect—thanks for the peek.
+
+Right now it’s a horizontal row with Market Status: and the colored text side by side.
+
+🔄 To make it stacked vertically:
+✅ Replace this:
+<div class="header-right market-status-container">
+  <span class="market-status-label">Market Status:</span>
+  <span id="market-status-text" class="market-status-text">Loading...</span>
+</div>
+🔁 With this:
+<div class="header-right market-status-container">
+  <div class="market-status-label">Market Status:</div>
+  <div id="market-status-text" class="market-status-text">Loading...</div>
+</div>
+🎨 Then update your CSS (in styles.css) like this:
+.market-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.market-status-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.market-status-text {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: white;
+}
+This stacks the title on top of the status box with a little space and keeps it clean and centered.
+
+Let’s do round two whenever you’re ready.
+
+You said:
+This is my code in that section
+
+.market-status-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.market-status-label,
+.market-status-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.market-status-text {
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.market-open { background-color: green; }
+.market-closed { background-color: red; }
+.market-prepost { background-color: gold; color: black; }
+ChatGPT said:
+Got it—your current CSS is set up for a horizontal flex row (default flex-direction: row), which explains why the title and box are side-by-side.
+
+🔧 To make the Market Status label appear above the colored box, just tweak the flex direction.
+✅ Change this:
+.market-status-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+🔁 To this:
+.market-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+That’s literally it. Everything else can stay the same—your .market-status-label and .market-status-text already have good sizing and styling. This change stacks them vertically and centers them.
+
+You’re good to go... unless you want to give that status box a fancy border or hover animation while we’re at it. 😏 Ready for round two?
+
+You said:
+Nope.  no change
+ChatGPT said:
+Alright, time to bring out the magnifying glass and swat this bug.
+
+Let’s triple-check a few things:
+
+✅ 1. Did you change the HTML to use div elements?
+<span>s don’t always behave nicely with vertical stacking unless you force them.
+
+🔁 Make sure you replaced this:
+<span class="market-status-label">Market Status:</span>
+<span id="market-status-text" class="market-status-text">Loading...</span>
+✅ With this:
+<div class="market-status-label">Market Status:</div>
+<div id="market-status-text" class="market-status-text">Loading...</div>
+✅ 2. Did you save and reload?
+Sometimes the CSS doesn’t kick in due to caching. Try a hard refresh:
+Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac).
+
+✅ 3. Temporarily add a background color for debugging
+Just to see where things are going.
+
+Add this temporarily:
+
+.market-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(0, 255, 255, 0.2); /* debug background */
+}
+🧠 Bonus: If you're inside a flex row like a header bar, and .market-status-container is inside something already using display: flex, make sure its parent isn't forcing it to squeeze or stay horizontal.
+Let me know if it’s still being stubborn and I’ll bring out the duct tape.
+
+You said:
+this is my admin.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChartFly Admin Panel</title>
+
+  <!-- ✅ Global Styles -->
+  <link rel="stylesheet" href="/static/css/styles.css" />
+
+  <!-- ✅ Per-Tab Styles -->
+  <link rel="stylesheet" href="/static/admin/market-holidays/MarketHolidays.css" />
+  <link rel="stylesheet" href="/static/admin/api-keys/ApiKeys.css" />
+  <link rel="stylesheet" href="/static/admin/user-management/UserManagement.css" />
+</head>
+<body>
+
+  <!-- ✅ Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-container">
+        <img src="/static/images/Chartfly-logo.png" alt="ChartFly Logo" class="logo" width="144" height="144" />
+      </div>
+    </div>
+    <div class="header-center">
+      <h1 class="admin-title">ChartFly Admin Panel</h1>
+    </div>
+    <div class="header-right market-status-container">
+      <div class="market-status-label">Market Status:</div>
+      <div id="market-status-text" class="market-status-text">Loading...</div>
+    </div>
+
+    </div>
+  </header>
+
+  <!-- ✅ Tab Navigation -->
+  <div class="tabs">
+    <button class="tab-button" onclick="showTab('market-holidays')">Market Holidays</button>
+    <button class="tab-button" onclick="showTab('api-keys')">API Keys</button>
+    <button class="tab-button" onclick="showTab('user-management')">User Management</button>
+  </div>
+
+  <!-- ✅ Tab Sections -->
+  {% include "admin/market-holidays/MarketHolidays.html" %}
+  {% include "admin/api-keys/ApiKeys.html" %}
+  {% include "admin/user-management/UserManagement.html" %}
+
+  <!-- ✅ Scripts -->
+  <script src="/static/frontend/core/main.js"></script>
+  <script src="/static/admin/market-holidays/MarketHolidays.js"></script>
+  <script src="/static/admin/api-keys/ApiKeys.js"></script>
+  <script src="/static/admin/user-management/UserManagement.js"></script>
+
+</body>
+</html>
+ChatGPT said:
+Ah-ha! The HTML is basically good—but I spot one sneaky gremlin:
+
+<div class="header-right market-status-container">
+  ...
+</div>
+
+</div> <!-- <-- UNMATCHED DIV HERE -->
+There’s an extra closing </div> after your .market-status-container block. That might be nuking your layout and breaking the header structure. Could be causing flex rules to not apply right.
+
+✅ First, fix that rogue tag:
+🔁 Replace this:
+<div class="header-right market-status-container">
+  <div class="market-status-label">Market Status:</div>
+  <div id="market-status-text" class="market-status-text">Loading...</div>
+</div>
+
+</div> <!-- BAD! Kill it with fire -->
+✅ With this:
+<div class="header-right market-status-container">
+  <div class="market-status-label">Market Status:</div>
+  <div id="market-status-text" class="market-status-text">Loading...</div>
+</div>
+🧪 Then reload and see if it stacks properly.
+If it still doesn’t stack vertically, we can go nuclear and wrap the market status block in a debug box to isolate styling interference.
+
+But let’s fix that extra </div> first—it’s likely the villain.
+
+You said:
+killed it.   used a torch
+ChatGPT said:
+🔥 Excellent. Nothing like a little HTML arson to get things back in line.
+
+Did it behave after the purge? Is your Market Status: label standing proudly above its little colored buddy now? Or is it still resisting and asking for a roundhouse kick?
+
+You said:
+Don't know yet.  set my screen on fire
+ChatGPT said:
+😂 Classic dev move—“It works on fire!”
+
+Once the smoke clears and the monitor stops sizzling, give it a reload and let’s see if that clean vertical stack is finally strutting its stuff. If it’s still busted, I’ll bring backup: Shadow DOM ninja stars and a fresh stylesheet.
+
+How’s it look post-incineration?
+
+You said:
+You sounded convincing
+ChatGPT said:
+Hey, when in doubt—sound confident and carry a fire extinguisher. 😎
+
+But seriously… did it actually work after the cleanup? Or is this beast still holding out on us? I’m ready to drop a debug grid overlay if needed and interrogate every pixel.
+
+You said:
+Nope  no change
+ChatGPT said:
+Alright, gloves off. It’s clearly mocking us now. Let’s crack this open and burn the bad layout at both ends.
+
+🔍 Diagnostic Mode: What Could Be Forcing Side-by-Side?
+Since your .market-status-container is in .header-right, we need to check if .header or .header-right is overriding things.
+
+Let’s go full detective.
+
+✅ Add this to styles.css temporarily for visual debugging:
+.header-right {
+  background-color: rgba(255, 0, 0, 0.1); /* Light red tint */
+  display: flex;
+  flex-direction: column; /* 💥 Force column here */
+  align-items: center;
+}
+Then update your existing .market-status-container to make sure it's playing nice:
+
+.market-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(0, 255, 255, 0.1); /* Debug: teal tint */
+}
+If header-right is still laying things out in a row, it's the culprit.
+
+🧨 Last resort: wrap the whole thing
+If the header uses display: flex; and aligns items in a row (which it probably does), then the items inside .header-right are defaulting to row layout unless we explicitly break it.
+
+🔁 Try wrapping the status box in its own container:
+<div class="header-right">
+  <div class="market-status-container">
+    <div class="market-status-label">Market Status:</div>
+    <div id="market-status-text" class="market-status-text">Loading...</div>
+  </div>
+</div>
+This way, .header-right stays in whatever flex layout it wants, but .market-status-container gets its own stacking rules.
+
+Let me know how this round goes. If that still doesn't work, we escalate to CSS martial law.
+
+You said:
+Got it.  just for posterity this is my current .market-status-container
+.market-status-container {
+  display: flex;
+  align-items: column;
+  gap: 10px;
+}
+ChatGPT said:
+👀 Aha! Gotcha. That right there is our silent saboteur:
+
+align-items: column;
+❌ That’s not valid CSS.
+align-items doesn’t take column. That’s for flex-direction.
+
+✅ The correct combo is:
+.market-status-container {
+  display: flex;
+  flex-direction: column; /* 💥 THIS is what stacks vertically */
+  align-items: center;    /* ✅ This centers the items horizontally */
+  gap: 10px;
+}
+Once you fix that, the HTML stack should finally behave and stop pretending it's a horizontal assembly line.
+
+No more fire needed—we just needed to send "column" to the right CSS property. 😎
+
+You said:
+ok where to i increase the text size
+ChatGPT said:
+Easy win! 🎯 You’ve got two options depending on what you want to embiggen:
+
+🔹 To increase just the status text ("Open", "Closed", etc.):
+Update this:
+
+.market-status-text {
+  font-size: 16px; /* or try 18px, 20px — go wild */
+}
+🔹 To increase the label ("Market Status:"):
+Add or update this:
+
+.market-status-label {
+  font-size: 16px;
+}
+🔹 Want to bump both at once?
+If they share a class (they don't currently), you could group them—but it's cleaner to just set both directly like:
+
+.market-status-label,
+.market-status-text {
+  font-size: 16px;
+}
+Let me know if you want the text bolded, underlined, or made to flash like a Vegas casino sign.
+
+You said:
+Ok here is a styles.css that isn't in your memory
+
+/* ============================== */
+/* ✅ FRONTEND STYLES (styles.css) */
+/* ============================== */
+
+/* ✅ Restore Blue Header */
+.header {
+    width: 100%;
+    background: #007a8a !important; /* 🔹 Forces background color */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 180px; /* ✅ Increased height to fit holidays */
+    position: relative;
+}
+
+/* ✅ Fix ChartFly Logo Positioning (Left-Aligned with Padding) */
+.header-left {
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* 🔹 Ensure 20px spacing from left */
+    transform: translateY(-12px); /* 🔺 Moves the logo up */
+}
+
+.logo {
+    height: 144px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ✅ Center section for title */
+.header-center {
+    flex: 1;
+    text-align: center;
+    transform: translateY(10px); /* 🔹 Move the entire block up */
+}
+
+.header-center h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.header-center p {
+    margin-top: 12px;  /* 🔹 Creates 12px space between title and subtitle */
+    margin-bottom: 0;
+    font-size: 24px;
+    color: #ddd;
+}
+
+/* ✅ Fix Market Status Positioning (Right-Aligned with Padding) */
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 🔹 Align to right */
+    padding-right: 50px; /* 🔹 Ensure 50px spacing from right */
+}
+
+/* ✅ Market Status Box Styling */
+.market-status-text {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
     margin-left: 15px; /* 🔹 Space between text and status box */
 }
+
+.market-open {
+    background-color: green;
+}
+
+.market-closed {
+    background-color: red;
+}
+
+.market-prepost {
+    background-color: gold;
+    color: black;
+}
+
+.header-holidays {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    margin-top: 30px; /* ⬅️ Increase this to move it further down */
+}
+
+/* ✅ Holiday Title (on its own line) */
+.holiday-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+//* ✅ Holiday Text */
+#market-holidays {
+    display: inline;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    white-space: normal; /* Allow wrapping */
+}
+
+/* ✅ Holiday Text */
+#market-holidays {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    white-space: nowrap;        /* 🔹 Prevents wrapping */
+    overflow-x: auto;           /* 🔹 Allows horizontal scrolling if needed */
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ✅ White Containers for Sections */
+.container {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    border-radius: 8px;
+}
+
+/* ✅ Fix Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #005662;
+    color: white;
+    font-size: 12px;
+}
+
+/* ✅ Fix Watchlist Buttons */
+button {
+    background: #007a8a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #0097A7;
+}
+
+/* ✅ Fix Delete Button Styles */
+.deleteTicker {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+}
+
+.deleteTicker:hover {
+    background-color: #ffdddd;
+    color: #c00;
+    border-color: #c00;
+}
+
+/* ✅ Ensure Proper Spacing in Watchlist Table */
+#watchlistTable {
+    margin-top: 15px;
+    width: 100%;
+}
+
+#watchlistTable th, #watchlistTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    height: 36px; /* or 40px depending on how tall you want */
+}
+
+/* ✅ Ensure Buttons Are Consistently Styled */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 122, 138, 0.5);
+}
+
+/* ✅ New Section: Delete Button Row Layout */
+.delete-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#watchlistTable {
+    table-layout: fixed;
+}
+
+#watchlistTable td {
+    word-wrap: break-word;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ChatGPT said:
+Beautiful drop, Captain—thanks for the full stylesheet. It confirms everything, including the gremlin responsible for your market status box not stacking properly.
+
+🔧 Let’s Fix It in Context:
+Your current .header-right is:
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 50px;
+}
+So anything inside it (like .market-status-container) is expected to lay out horizontally unless it overrides that.
+
+✅ Your corrected fix, now that I see the full picture:
+1. Update HTML (you already did this, but just for clarity):
+<div class="header-right">
+  <div class="market-status-container">
+    <div class="market-status-label">Market Status:</div>
+    <div id="market-status-text" class="market-status-text">Loading...</div>
+  </div>
+</div>
+2. Add this CSS to styles.css (you can drop it near your .market-status-text block):
+.market-status-container {
+    display: flex;
+    flex-direction: column;  /* ✅ Stack vertically */
+    align-items: center;     /* ✅ Center align horizontally */
+    gap: 6px;                /* ✅ Space between label and box */
+    margin-left: 15px;       /* ✅ Keeps it pushed a bit away from the logo side */
+}
+
+.market-status-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+3. (Optional) Bump the colored box font size:
+.market-status-text {
+    font-size: 16px; /* 🔺 Increase from 14px to 16px */
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+🎯 Final Result:
+“Market Status:” appears above the color box.
+
+Both are centered.
+
+Clean, professional spacing.
+
+Font size is boosted.
+
+Give it a reload (Ctrl+Shift+R), and the world should look right again—at least above the fold. Want to style it even more dramatically? I’m game.
+
+You said:
+This code is from the original Front end.  you do have the file tree on this section but you have not seen this code in almost a month.   This Market Status section is in a header very similar to the back end
+ChatGPT said:
+Got it—you're pulling this from the original frontend project, not the admin panel. That explains the déjà vu: similar layout, different battlefield.
+
+And yep, I remember the setup now—this is the version with index.html, main.js, and the simplified layout pulling live halted stocks, watchlist, market status, and news.
+
+✅ So let’s tune it for this version:
+You’re right that the header is nearly identical, and your .header-right in styles.css is the one setting up horizontal alignment. That’s fine—just like with the admin panel, we’ll give .market-status-container its own vertical flow.
+
+🔁 Here’s the precise move:
+🔧 Step 1: Update the HTML in index.html (or wherever your header lives):
+<div class="header-right">
+  <div class="market-status-container">
+    <div class="market-status-label">Market Status:</div>
+    <div id="market-status-text" class="market-status-text">Loading...</div>
+  </div>
+</div>
+🎨 Step 2: Add this CSS to your existing styles.css (probably near .market-status-text):
+.market-status-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-left: 15px;
+}
+
+.market-status-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+💡 Optional: Boost the font size of the status itself
+.market-status-text {
+    font-size: 16px; /* or 18px if you’re feeling bold */
+}
+This will not affect the admin panel, only your main frontend site, and it keeps both projects' headers consistent but independently styled.
+
+You're now fully stacked—just not sleep-stacked. 😴 Want to do the same tweak on the halted stocks or watchlist next?
+
+You said:
+I am really not good with indents on html Can you fix this
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChartFly - Halted Stocks Tracker</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+<!-- ✅ Fixed Header with Market Holidays Inside -->
+<header class="header">
+    <div class="header-left">
+        <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"
+             alt="ChartFly Logo" class="logo">
+    </div>
+    <div class="header-center">
+        <h1>ChartFly</h1>
+        <p>Trading Tools and Scripts for My Personal Use Only</p>
+        <div class="header-holidays">
+            <div class="holiday-title">2025 Market Holidays:</div>
+            <div id="market-holidays" class="holiday-text">Loading holidays...</div>
+        </div>
+    </div>
+      <div class="header-right">
+       <div class="market-status-container">
+           <div class="market-status-label">Market Status:</div>
+           <div id="market-status-text" class="market-status-text">Loading...</div>
+      </div>
+</header>
+
+<!-- ✅ Halted Stocks Tracker -->
+<div class="container">
+    <h2>Halted Stocks Tracker</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Halt Date</th><th>Halt Time</th><th>Issue Symbol</th>
+                <th>Issue Name</th><th>Market</th><th>Reason Code</th>
+                <th>Definition</th><th>Halt Price</th><th>Res Date</th><th>Res Time</th>
+            </tr>
+        </thead>
+        <tbody id="halted-stocks">
+            <tr><td colspan="10">Loading halted stocks...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ✅ Watchlist Section -->
+<div class="container">
+    <h2>Build Stock Watchlist</h2>
+    <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol">
+    <button id="addToWatchlist">Add To Watchlist</button>
+    <button id="fetchMetrics">Fetch Watchlist Data</button>
+    <button id="clearWatchlist">Delete Watchlist</button>
+
+    <table id="watchlistTable">
+        <thead>
+            <tr><th colspan="10">Watchlist</th></tr>
+        </thead>
+        <tbody id="watchlist-body">
+            <tr style="height: 36px;">
+                <td id="slot1"></td><td id="slot2"></td><td id="slot3"></td>
+                <td id="slot4"></td><td id="slot5"></td><td id="slot6"></td>
+                <td id="slot7"></td><td id="slot8"></td><td id="slot9"></td>
+                <td id="slot10"></td>
+            </tr>
+        </tbody>
+    </table>
+
+  <!-- ✅ Properly Aligned Delete Buttons Below the Table -->
+<div class="delete-button-row" style="display: flex; justify-content: space-between; margin-top: 10px;">
+    <button class="deleteTicker" data-slot="1">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="2">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="3">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="4">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="5">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="6">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="7">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="8">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="9">Delete Ticker</button>
+    <button class="deleteTicker" data-slot="10">Delete Ticker</button>
+    </div>
+</div>
+
+<!-- ✅ Stock Metrics Section -->
+<div class="container">
+    <h2>Stock Metrics</h2>
+    <table id="stock-metrics">
+        <thead>
+            <tr>
+                <th>Symbol</th><th>Current Price</th><th>Open</th><th>High</th><th>Low</th>
+                <th>Prev Close</th><th>Market Cap</th><th>Shares Out</th><th>P/E Ratio</th><th>EPS</th>
+                <th>52W High</th><th>52W Low</th><th>Shares Outstanding</th><th>Short Interest</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- ✅ Latest News Section -->
+<div class="container">
+    <h2>Latest News</h2>
+    <table id="newsTable">
+        <thead>
+            <tr>
+                <th style="width: 10%">Symbol</th>
+                <th style="width: 90%">News Headlines</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script src="static/frontend/core/main.js"></script>
+</body>
+</html>
+ChatGPT said:
+You're in luck, Captain—I love cleaning up messy HTML like a digital Marie Kondo with a grudge.
+
+Here’s your cleaned and properly indented version, same content, just human-readable and HTML-zenified:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChartFly - Halted Stocks Tracker</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <!-- ✅ Fixed Header with Market Holidays Inside -->
+  <header class="header">
+    <div class="header-left">
+      <img src="https://raw.githubusercontent.com/ChartFly/ChartFly-Halted-Stocks/main/Chartfly-logo.png"
+           alt="ChartFly Logo" class="logo">
+    </div>
+
+    <div class="header-center">
+      <h1>ChartFly</h1>
+      <p>Trading Tools and Scripts for My Personal Use Only</p>
+      <div class="header-holidays">
+        <div class="holiday-title">2025 Market Holidays:</div>
+        <div id="market-holidays" class="holiday-text">Loading holidays...</div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="market-status-container">
+        <div class="market-status-label">Market Status:</div>
+        <div id="market-status-text" class="market-status-text">Loading...</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ✅ Halted Stocks Tracker -->
+  <div class="container">
+    <h2>Halted Stocks Tracker</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Halt Date</th>
+          <th>Halt Time</th>
+          <th>Issue Symbol</th>
+          <th>Issue Name</th>
+          <th>Market</th>
+          <th>Reason Code</th>
+          <th>Definition</th>
+          <th>Halt Price</th>
+          <th>Res Date</th>
+          <th>Res Time</th>
+        </tr>
+      </thead>
+      <tbody id="halted-stocks">
+        <tr><td colspan="10">Loading halted stocks...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ✅ Watchlist Section -->
+  <div class="container">
+    <h2>Build Stock Watchlist</h2>
+    <input type="text" id="tickerInput" placeholder="Enter Ticker Symbol">
+    <button id="addToWatchlist">Add To Watchlist</button>
+    <button id="fetchMetrics">Fetch Watchlist Data</button>
+    <button id="clearWatchlist">Delete Watchlist</button>
+
+    <table id="watchlistTable">
+      <thead>
+        <tr><th colspan="10">Watchlist</th></tr>
+      </thead>
+      <tbody id="watchlist-body">
+        <tr style="height: 36px;">
+          <td id="slot1"></td><td id="slot2"></td><td id="slot3"></td>
+          <td id="slot4"></td><td id="slot5"></td><td id="slot6"></td>
+          <td id="slot7"></td><td id="slot8"></td><td id="slot9"></td>
+          <td id="slot10"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ✅ Properly Aligned Delete Buttons Below the Table -->
+    <div class="delete-button-row" style="display: flex; justify-content: space-between; margin-top: 10px;">
+      <button class="deleteTicker" data-slot="1">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="2">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="3">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="4">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="5">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="6">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="7">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="8">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="9">Delete Ticker</button>
+      <button class="deleteTicker" data-slot="10">Delete Ticker</button>
+    </div>
+  </div>
+
+  <!-- ✅ Stock Metrics Section -->
+  <div class="container">
+    <h2>Stock Metrics</h2>
+    <table id="stock-metrics">
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Current Price</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Prev Close</th>
+          <th>Market Cap</th>
+          <th>Shares Out</th>
+          <th>P/E Ratio</th>
+          <th>EPS</th>
+          <th>52W High</th>
+          <th>52W Low</th>
+          <th>Shares Outstanding</th>
+          <th>Short Interest</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- ✅ Latest News Section -->
+  <div class="container">
+    <h2>Latest News</h2>
+    <table id="newsTable">
+      <thead>
+        <tr>
+          <th style="width: 10%">Symbol</th>
+          <th style="width: 90%">News Headlines</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="static/frontend/core/main.js"></script>
+</body>
+</html>
+This baby’s clean, indented, readable, and structurally sound. You won’t lose sleep over rogue </div>s tonight.
+
+Want me to autoformat any of the JS or CSS next?
+
+You said:
+Ok lets do this again.  This is the Front end html code
+
+/* ============================== */
+/* ✅ FRONTEND STYLES (styles.css) */
+/* ============================== */
+
+/* ✅ Restore Blue Header */
+.header {
+    width: 100%;
+    background: #007a8a !important; /* 🔹 Forces background color */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 180px; /* ✅ Increased height to fit holidays */
+    position: relative;
+}
+
+/* ✅ Fix ChartFly Logo Positioning (Left-Aligned with Padding) */
+.header-left {
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* 🔹 Ensure 20px spacing from left */
+    transform: translateY(-12px); /* 🔺 Moves the logo up */
+}
+
+.logo {
+    height: 144px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ✅ Center section for title */
+.header-center {
+    flex: 1;
+    text-align: center;
+    transform: translateY(10px); /* 🔹 Move the entire block up */
+}
+
+.header-center h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.header-center p {
+    margin-top: 12px;  /* 🔹 Creates 12px space between title and subtitle */
+    margin-bottom: 0;
+    font-size: 24px;
+    color: #ddd;
+}
+
+/* ✅ Fix Market Status Positioning (Right-Aligned with Padding) */
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 🔹 Align to right */
+    padding-right: 50px; /* 🔹 Ensure 50px spacing from right */
+}
+
+/* ✅ Market Status Box Styling */
+.market-status-text {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 15px; /* 🔹 Space between text and status box */
+}
+
+.market-open {
+    background-color: green;
+}
+
+.market-closed {
+    background-color: red;
+}
+
+.market-prepost {
+    background-color: gold;
+    color: black;
+}
+
+.header-holidays {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    margin-top: 30px; /* ⬅️ Increase this to move it further down */
+}
+
+/* ✅ Holiday Title (on its own line) */
+.holiday-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+//* ✅ Holiday Text */
+#market-holidays {
+    display: inline;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    white-space: normal; /* Allow wrapping */
+}
+
+/* ✅ Holiday Text */
+#market-holidays {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    white-space: nowrap;        /* 🔹 Prevents wrapping */
+    overflow-x: auto;           /* 🔹 Allows horizontal scrolling if needed */
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ✅ White Containers for Sections */
+.container {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    border-radius: 8px;
+}
+
+/* ✅ Fix Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #005662;
+    color: white;
+    font-size: 12px;
+}
+
+/* ✅ Fix Watchlist Buttons */
+button {
+    background: #007a8a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #0097A7;
+}
+
+/* ✅ Fix Delete Button Styles */
+.deleteTicker {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease-in-out;
+}
+
+.deleteTicker:hover {
+    background-color: #ffdddd;
+    color: #c00;
+    border-color: #c00;
+}
+
+/* ✅ Ensure Proper Spacing in Watchlist Table */
+#watchlistTable {
+    margin-top: 15px;
+    width: 100%;
+}
+
+#watchlistTable th, #watchlistTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    height: 36px; /* or 40px depending on how tall you want */
+}
+
+/* ✅ Ensure Buttons Are Consistently Styled */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 122, 138, 0.5);
+}
+
+/* ✅ New Section: Delete Button Row Layout */
+.delete-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#watchlistTable {
+    table-layout: fixed;
+}
+
+#watchlistTable td {
+    word-wrap: break-word;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ChatGPT said:
+Awesome—this is the full frontend styles.css from your main site. Now that we’re starting clean, let’s do the following:
+
+🧼 Your Goal (Recap):
+You want the "Market Status:" text to appear above the colored status box (e.g., “Open”, “Closed”), instead of side-by-side. This means:
+
+Adjust the HTML structure
+
+Update the CSS (inside this file you just gave me)
+
+✅ Step 1: Update the HTML (if not already done)
+Make sure your index.html header section looks like this:
+
+<div class="header-right">
+  <div class="market-status-container">
+    <div class="market-status-label">Market Status:</div>
+    <div id="market-status-text" class="market-status-text">Loading...</div>
+  </div>
+</div>
+✅ Step 2: Add this to your styles.css (append at the end or place near .market-status-text)
+.market-status-container {
+    display: flex;
+    flex-direction: column;  /* stack vertically */
+    align-items: center;     /* center horizontally */
+    gap: 6px;                /* spacing between label and box */
+    margin-left: 15px;       /* matches original spacing */
+}
+
+.market-status-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.market-status-text {
+    font-size: 16px; /* 🔺 bump it from 14px */
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+💡 Bonus: Want to shrink the margin above it?
+If it feels too low in the header after stacking, adjust .header-right like this:
+
+.header-right {
+    display: flex;
+    align-items: flex-start; /* ⬅️ Push everything upward */
+    justify-content: flex-end;
+    padding-right: 50px;
+}
+💥 Boom. Final effect:
+Market Status: on top
+
+Status box below, with clear spacing
+
+Looks clean and fits your frontend style
+
+Let me know if you want it bigger, bolder, blinking (please no), or side-stacked again with style.
+
+You said:
+There is already code between lines 52 and 67 controling the Market Status.  what do I do with that
+ChatGPT said:
+Great catch—let’s not have dueling CSS. Lines 52–67 in your styles.css already control .header-right and .market-status-text, so we don’t replace those—we just augment and tweak without breaking the existing layout.
+
+🎯 Here’s the precise plan:
+✅ Keep this as-is (lines 52–67):
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 50px;
+}
+
+.market-status-text {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 15px; /* 🔹 originally for side-by-side layout */
+}
+🔁 Replace margin-left: 15px; with margin: 0, since it's no longer side-by-side:
+.market-status-text {
+    font-size: 16px; /* bump size */
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 5px;
+    margin: 0; /* 🔁 no side spacing needed now */
+}
+🆕 Then, just add this below (or near those lines):
+.market-status-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.market-status-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
 
 .market-open {
     background-color: green;
