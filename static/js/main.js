@@ -65,26 +65,30 @@ async function fetchHaltedStocks() {
 function updateMarketStatus() {
     const now = new Date();
     const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const totalTime = hours + minutes / 60;
     const dayOfWeek = now.getDay();
     let statusElement = document.getElementById("market-status-text");
     let status = "Market Closed";
 
     if (dayOfWeek === 0 || dayOfWeek === 6) {
         status = "Market Closed (Weekend)";
-    } else if (hours < 9.5) {
+        statusElement.className = "market-status-text market-closed";
+    } else if (totalTime < 9.5) {
         status = "Pre-Market Trading";
         statusElement.className = "market-status-text market-prepost";
-    } else if (hours < 16) {
+    } else if (totalTime < 16) {
         status = "Market Open";
         statusElement.className = "market-status-text market-open";
     } else {
         status = "After-Market Trading";
         statusElement.className = "market-status-text market-prepost";
     }
+
     statusElement.innerText = status;
 }
 
-// ✅ Header Watchdog
+// ✅ Header Watchdog (style consistency checker)
 setInterval(() => {
     const header = document.querySelector(".header");
     if (!header) return;
