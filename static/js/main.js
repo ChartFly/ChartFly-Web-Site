@@ -16,7 +16,12 @@ async function fetchMarketHolidays() {
 
         document.getElementById("market-holidays").innerHTML =
         `<span style="white-space: pre-wrap;">${holidays
-            .map(h => `${new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${h.name}`)
+            .map(h => {
+                    const date = new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const time = h.close_time ? ` (Closes at ${formatTime(h.close_time)})` : "";
+                    return `${date}, ${h.name}${time}`;
+})
+
             .join("    |    ")}</span>`;
     } catch (error) {
         console.error("Error fetching holidays:", error);
@@ -200,4 +205,12 @@ function removeTickerData(symbol) {
     const newsRow = document.querySelector(`#newsTable tbody tr[data-symbol='${symbol}']`);
     if (metricsRow) metricsRow.remove();
     if (newsRow) newsRow.remove();
+}
+
+function formatTime(rawTime) {
+    const [hour, minute] = rawTime.split(":");
+    const h = parseInt(hour, 10);
+    const suffix = h >= 12 ? "PM" : "AM";
+    const hour12 = ((h + 11) % 12 + 1);
+    return `${hour12}:${minute} ${suffix}`;
 }
