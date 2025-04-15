@@ -4,216 +4,218 @@
 
 /* ✅ Restore Blue Header */
 .header {
-    width: 100%;
-    background: #007a8a !important;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    font-family: Arial, sans-serif;
-    min-height: 180px;
-    position: relative;
+  width: 100%;
+  background: 006373 !important;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  font-family: Arial, sans-serif;
+  min-height: 180px;
+  position: relative;
 }
 
 /* ✅ Logo Left */
 .header-left {
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    transform: translateY(-12px);
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  transform: translateY(-12px);
 }
 
 .logo {
-    height: 144px;
-    width: auto;
-    object-fit: contain;
+  height: 144px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* ✅ Title Center */
 .header-center {
-    flex: 1;
-    text-align: center;
-    transform: translateY(10px);
+  flex: 1;
+  text-align: center;
+  transform: translateY(10px);
 }
 
 .header-center h1 {
-    margin: 0;
-    font-size: 34px;
+  margin: 0;
+  font-size: 34px;
 }
 
 .header-center p {
-    margin-top: 12px;
-    margin-bottom: 0;
-    font-size: 24px;
-    color: #ddd;
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 24px;
+  color: #ddd;
 }
 
 /* ✅ Market Status Right */
 .header-right {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding-right: 50px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-right: 50px;
 }
 
 /* ✅ Stack Label over Box */
 .market-status-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-left: 15px;
 }
 
 .market-status-label {
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
 }
 
 .market-status-text {
-    font-size: 16px;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 5px;
-    margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 5px;
+  margin: 0;
 }
 
 .market-open {
-    background-color: green;
+  background-color: green;
 }
 
 .market-closed {
-    background-color: red;
+  background-color: red;
 }
 
 .market-prepost {
-    background-color: gold;
-    color: black;
+  background-color: gold;
+  color: black;
 }
 
 /* ✅ Holiday Area */
 .header-holidays {
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  margin-top: 30px;
 }
 
 .holiday-title {
-    font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 4px;
 }
 
 #market-holidays {
-    display: block;
-    font-size: 14px;
-    font-weight: normal;
-    color: white;
-    white-space: nowrap;
-    overflow-x: auto;
-    text-align: center;
-    margin-top: 10px;
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+  color: white;
+  white-space: nowrap;
+  overflow-x: auto;
+  text-align: center;
+  margin-top: 10px;
 }
 
 /* ✅ Sections */
 .container {
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    border-radius: 8px;
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  border-radius: 8px;
 }
 
 /* ✅ Tables */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
 th {
-    background-color: #005662;
-    color: white;
-    font-size: 12px;
+  background-color: #005662;
+  color: white;
+  font-size: 12px;
 }
 
 /* ✅ Buttons */
 button {
-    background: #007a8a;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 4px;
-    transition: background 0.2s ease-in-out;
+  background: 006373;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
 }
 
 button:hover {
-    background: #0097A7;
+  background: #0097a7;
 }
 
 button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 122, 138, 0.5);
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 122, 138, 0.5);
 }
 
 /* ✅ Delete Buttons */
 .deleteTicker {
-    background-color: white;
-    color: black;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 5px 8px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s ease-in-out;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 5px 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
 }
 
 .deleteTicker:hover {
-    background-color: #ffdddd;
-    color: #c00;
-    border-color: #c00;
+  background-color: #ffdddd;
+  color: #c00;
+  border-color: #c00;
 }
 
 .delete-button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
 }
 
 /* ✅ Watchlist Table */
 #watchlistTable {
-    margin-top: 15px;
-    width: 100%;
-    table-layout: fixed;
+  margin-top: 15px;
+  width: 100%;
+  table-layout: fixed;
 }
 
-#watchlistTable th, #watchlistTable td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    height: 36px;
+#watchlistTable th,
+#watchlistTable td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  height: 36px;
 }
 
 #watchlistTable td {
-    word-wrap: break-word;
-    max-width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  word-wrap: break-word;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
